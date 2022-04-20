@@ -10,6 +10,9 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Room
 {
+
+    public const TYPE_AC = "AC";
+    public const TYPE_NONAC = "NON-AC";
     /**
      * @ORM\Id
      * @ORM\GeneratedValue

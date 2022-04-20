@@ -52,6 +52,14 @@ class Reservation
      */
     private $payment;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Customer::class, inversedBy="reservations")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $CustomerID;
+
+
+
     public function getId(): ?int
     {
         return $this->id;
@@ -142,6 +150,18 @@ class Reservation
         }
 
         $this->payment = $payment;
+
+        return $this;
+    }
+
+    public function getCustomerID(): ?Customer
+    {
+        return $this->CustomerID;
+    }
+
+    public function setCustomerID(?Customer $CustomerID): self
+    {
+        $this->CustomerID = $CustomerID;
 
         return $this;
     }

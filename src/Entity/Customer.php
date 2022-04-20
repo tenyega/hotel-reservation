@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\CustomerRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -28,7 +30,7 @@ class Customer
     private $LastName;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="string")
      */
     private $Phone;
 
@@ -41,6 +43,16 @@ class Customer
      * @ORM\Column(type="string", length=255)
      */
     private $Address;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Reservation::class, mappedBy="CustomerID")
+     */
+    private $reservations;
+
+    public function __construct()
+    {
+        $this->reservations = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -76,7 +88,7 @@ class Customer
         return $this->Phone;
     }
 
-    public function setPhone(int $Phone): self
+    public function setPhone(string $Phone): self
     {
         $this->Phone = $Phone;
 
@@ -103,6 +115,36 @@ class Customer
     public function setAddress(string $Address): self
     {
         $this->Address = $Address;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Reservation>
+     */
+    public function getReservations(): Collection
+    {
+        return $this->reservations;
+    }
+
+    public function addReservation(Reservation $reservation): self
+    {
+        if (!$this->reservations->contains($reservation)) {
+            $this->reservations[] = $reservation;
+            $reservation->setCustomerID($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReservation(Reservation $reservation): self
+    {
+        if ($this->reservations->removeElement($reservation)) {
+            // set the owning side to null (unless already changed)
+            if ($reservation->getCustomerID() === $this) {
+                $reservation->setCustomerID(null);
+            }
+        }
 
         return $this;
     }

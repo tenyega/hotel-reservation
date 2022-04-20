@@ -10,6 +10,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Payment
 {
+
+    public const Payment_Coupon = '2FNS151';
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
