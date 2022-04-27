@@ -80,8 +80,8 @@
 
 									Personnes
 									{{ room.getMaxCapacity() }},
-																																																																																																																																																																																																																																												
-																																																																																																																																																																																																																																												Prix
+																																																																																																																																																																																																																																																					
+																																																																																																																																																																																																																																																					Prix
 									{{ room.getPrice() }}&euro;
 									<br>
 
@@ -101,7 +101,7 @@
 
 							</div>
 
-							<a href="{{ path ('reservation_reserver', {'roomNo': room.getRoomNo(), 'data' : }) }}">
+							<a href="{{ path ('reservation_reserver', {'roomNo': room.getRoomNo() }) }}">
 								<input class="btn btn-secondary btn-danger mx-2 reservation" type="button" value="RESERVER">
 							</a>
 							{# <button class="btn btn-secondary btn-danger mx-2 reservation" type="submit">RESERVER</button> #}

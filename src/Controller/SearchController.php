@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Form\SearchType;
 use App\Repository\ReservationRepository;
 use App\Repository\RoomRepository;
+use App\Session\SessionService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,13 +18,17 @@ class SearchController extends AbstractController
      * @Route("/", name="front_search", methods={"GET","POST"})
      */
 
-    public function search(Request $request, RoomRepository $roomRepository, ReservationRepository $reservationRepository): Response
+    public function search(Request $request, RoomRepository $roomRepository, ReservationRepository $reservationRepository, SessionService $sessionService): Response
     {
         $form = $this->createForm(SearchType::class);
         $form->handleRequest($request);
         $rooms = [];
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
+            // dd($data);
+            $sessionService->add($data);
+
+
             $arrivalDate = $data['arrivalDate']->format('Y-m-d');
             $departureDate = $data['departureDate']->format('Y-m-d');
 
@@ -41,7 +46,7 @@ class SearchController extends AbstractController
             } else {
                 $rooms = $roomRepository->findBy(['Type' => 'Climatisation'], ['Type' => 'ASC'], 3);
             }
-
+            // dd($sessionService->getSessionDetails());
             return $this->render('front/search/roomsAvailable.html.twig', [
                 'form' => $form->createView(),
                 'rooms' => $rooms

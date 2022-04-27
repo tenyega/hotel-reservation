@@ -2,8 +2,20 @@
 
 namespace App\Controller;
 
+use DateTime;
+use App\Entity\Room;
+use App\Entity\Customer;
+use App\Entity\Payment;
 use App\Form\SearchType;
+use App\Entity\Reservation;
 use App\Form\ReservationType;
+use App\Repository\CustomerRepository;
+use App\Repository\PaymentRepository;
+use App\Session\SessionService;
+use App\Repository\ReservationRepository;
+use App\Repository\RoomRepository;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -34,14 +46,26 @@ class ReservationController extends AbstractController
     /**
      * @Route("/reservation/{roomNo}", name="reservation_reserver")
      */
-    public function reserver($roomNo, Request $request)
+    public function reserver(int $roomNo, Request $request, SessionService $sessionService, EntityManagerInterface $em, CustomerRepository $customerRepository, PaymentRepository $paymentRepository)
     {
-        $form = $this->createForm(SearchType::class);
-        $form->handleRequest($request);
 
+        $reservationDetails = $sessionService->getSessionDetails();
+        //dd($reservationDetails[0]['value']);
+        $reservation = new Reservation;
+        $customer = $customerRepository->find('294');
+        $payment = $paymentRepository->find('236');
 
-        $formData = $form->getData();
-        // dd($formData);
+        $reservation->setBookingDate(new DateTime('now'))
+            ->setCheckInDate($reservationDetails[0]['value']->format('Y-m-d'))
+            ->setCheckOutDate($reservationDetails[1]['value']->format('Y-m-d'))
+            ->setCustomerID($customer)
+            ->setNumberOfBeds($reservationDetails[2]['value'])
+            ->setRoomNo($roomNo)
+            ->setSpecialDemande('nothing as a special demande')
+            ->setPayment($payment);
+
+        $em->persist($reservation);
+        $em->flush();
 
         return $this->render('front/reservation/reserver.html.twig');
     }
