@@ -1,0 +1,16 @@
+body {
+    background-image: url("../Img/noise.png");
+    background-repeat: repeat;
+}
+
+.logo {
+    width: 150px;
+    height: 110px;
+    margin-top: -38px;
+}
+
+.reservation {
+    margin-top: 200px;
+    width: 112px;
+    height: 49px;
+}

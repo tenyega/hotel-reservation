@@ -23,12 +23,12 @@ class Reservation
     private $BookingDate;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="string", length=255)
      */
     private $CheckInDate;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="string", length=255)
      */
     private $CheckOutDate;
 
@@ -77,24 +77,24 @@ class Reservation
         return $this;
     }
 
-    public function getCheckInDate(): ?\DateTimeInterface
+    public function getCheckInDate(): ?string
     {
         return $this->CheckInDate;
     }
 
-    public function setCheckInDate(\DateTimeInterface $CheckInDate): self
+    public function setCheckInDate(string $CheckInDate): self
     {
         $this->CheckInDate = $CheckInDate;
 
         return $this;
     }
 
-    public function getCheckOutDate(): ?\DateTimeInterface
+    public function getCheckOutDate(): ?string
     {
         return $this->CheckOutDate;
     }
 
-    public function setCheckOutDate(\DateTimeInterface $CheckOutDate): self
+    public function setCheckOutDate(string $CheckOutDate): self
     {
         $this->CheckOutDate = $CheckOutDate;
 

@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\RoomRepository;
 use Doctrine\ORM\Mapping as ORM;
+use phpDocumentor\Reflection\Types\Integer;
 
 /**
  * @ORM\Entity(repositoryClass=RoomRepository::class)
@@ -11,8 +12,16 @@ use Doctrine\ORM\Mapping as ORM;
 class Room
 {
 
-    public const TYPE_AC = "AC";
-    public const TYPE_NONAC = "NON-AC";
+    public const TYPE_AC = "Climatisation";
+    public const TYPE_NONAC = "Sans Climatisation";
+
+
+    public const BED_SIMPLE = "1 X LIT SIMPLE";
+    public const BED_DOUBLE = "1 X LIT DOUBLE";
+
+    public const ROOM_IMAGE1 = "Img/first.jpg";
+    public const ROOM_IMAGE2 = "Img/second.jpg";
+    public const ROOM_IMAGE3 = "Img/third.jpg";
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -49,6 +58,38 @@ class Room
      * @ORM\Column(type="string", length=255)
      */
     private $FacilityPossible;
+
+    /**
+     * @ORM\Column(type="float")
+     */
+    private $price;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $bedding = self::BED_SIMPLE;
+
+    /**
+     * @ORM\Column(type="string", length=500)
+     */
+    private $description;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $mainPicture;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $otherPicture;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $anotherpicture;
+
+
 
     public function getId(): ?int
     {
@@ -123,6 +164,78 @@ class Room
     public function setFacilityPossible(string $FacilityPossible): self
     {
         $this->FacilityPossible = $FacilityPossible;
+
+        return $this;
+    }
+
+    public function getPrice(): ?float
+    {
+        return $this->price;
+    }
+
+    public function setPrice(float $price): self
+    {
+        $this->price = $price;
+
+        return $this;
+    }
+
+    public function getBedding(): ?string
+    {
+        return $this->bedding;
+    }
+
+    public function setBedding(string $bedding): self
+    {
+        $this->bedding = $bedding;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    public function getMainPicture(): ?string
+    {
+        return $this->mainPicture;
+    }
+
+    public function setMainPicture(string $mainPicture): self
+    {
+        $this->mainPicture = $mainPicture;
+
+        return $this;
+    }
+
+    public function getOtherPicture(): ?string
+    {
+        return $this->otherPicture;
+    }
+
+    public function setOtherPicture(?string $otherPicture): self
+    {
+        $this->otherPicture = $otherPicture;
+
+        return $this;
+    }
+
+    public function getAnotherpicture(): ?string
+    {
+        return $this->anotherpicture;
+    }
+
+    public function setAnotherpicture(?string $anotherpicture): self
+    {
+        $this->anotherpicture = $anotherpicture;
 
         return $this;
     }

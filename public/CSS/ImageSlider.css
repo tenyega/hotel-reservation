@@ -1,0 +1,329 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap');
+* {
+    box-sizing: border-box;
+    margin: 0px;
+}
+
+:root {
+    --ihm_btn: #ec327d;
+    --fontcolor: #67676778;
+    --headings: #974806;
+    --green: #7A960E;
+}
+
+body {
+    font-family: 'Nunito', sans-serif;
+    font-size: 10px;
+    background-image: url(../img/noise.png);
+    cursor: pointer;
+}
+
+
+/********************************************header */
+
+header.heading {
+    display: flex;
+    padding: 5px;
+    background-color: #ec327d;
+    justify-content: space-between;
+}
+
+header.heading div.gauche {
+    display: inline-flex;
+}
+
+header.heading div.gauche h1.title,
+header.heading div.droite h1 {
+    padding: 10px;
+    font-weight: bold;
+    font-variant: small-caps;
+    letter-spacing: 10px;
+    text-decoration: underline;
+    font-size: 3em;
+}
+
+header.heading div.gauche img {
+    width: 50px;
+    height: 50px;
+}
+
+
+/******************************************************container*/
+
+div.container {
+    display: inline-flex;
+    justify-content: space-between;
+    margin: 20px 100px;
+}
+
+.slider {
+    width: 406px;
+    height: 500px;
+    background-color: yellow;
+    /* margin-left: auto;
+    margin-right: auto; */
+    margin: 10px auto;
+    /* margin-top: 0px; */
+    text-align: center;
+    overflow: hidden;
+}
+
+.image-container {
+    width: 2610px;
+    background-color: pink;
+    height: 500px;
+    clear: both;
+    position: relative;
+    transition: left 2s;
+}
+
+.next-image-container {
+    width: 2610px;
+    background-color: yellow;
+    height: 500px;
+    clear: both;
+    position: relative;
+    transition: left 2s;
+}
+
+.image-container:hover img,
+.image-container:focus img {
+    transform: scale(1.1);
+    width: auto;
+}
+
+.image-container img.slide {
+    width: 507px;
+    height: 500px;
+}
+
+.image-container img.slide.mainPicture {
+    width: 775px;
+    height: 500px;
+}
+
+.image-container img.slide.robe_blanc {
+    width: 492px;
+    height: 500px;
+}
+
+.image-container img.slide.floral {
+    width: 500px;
+    height: 500px;
+}
+
+.slide {
+    float: left;
+    margin: 0px;
+    padding: 0px;
+    position: relative;
+}
+
+#slide-1:target~.image-container {
+    left: 0px;
+}
+
+#slide-2:target~.image-container {
+    left: -556px;
+}
+
+#slide-3:target~.image-container {
+    left: -1112px;
+}
+
+#slide-4:target~.image-container {
+    left: -1600px;
+}
+
+#slide-5:target~.image-container {
+    left: -2100px;
+}
+
+div.divDescription {
+    position: relative;
+    display: block;
+    border: #676767;
+    flex-wrap: wrap;
+    max-width: 500px;
+    /* background-color: var(--green); */
+    text-align: center;
+    margin: 23px auto;
+    font-size: 2em;
+    border-radius: 5px;
+    margin: 10px;
+    padding: 10px;
+}
+
+.facilities {
+    font-size: 25px;
+    color: green;
+    text-align: center;
+}
+
+.buttons {
+    position: relative;
+    top: -26px;
+}
+
+.buttons a {
+    display: inline-block;
+    height: 15px;
+    width: 15px;
+    border-radius: 50px;
+    background-color: red;
+}
+
+
+/************************************** color choice*/
+
+div.choixColeur {
+    margin: 50px;
+    padding: 50px;
+    text-align: center;
+    border: 1px #000 solid;
+    border-radius: 50px;
+}
+
+div.choixColeur div.divCircle {
+    display: grid;
+    margin-top: 36px;
+}
+
+div.choixColeur div.divCircle span.circle1 {
+    border: 18px rgb(207, 228, 21) solid;
+    border-radius: 50%;
+    margin: 10px;
+}
+
+div.choixColeur div.divCircle span.circle2 {
+    border: 18px rgb(238, 21, 21) solid;
+    border-radius: 50%;
+    margin: 10px;
+}
+
+div.choixColeur div.divCircle span.circle3 {
+    border: 18px rgb(15, 221, 12) solid;
+    border-radius: 50%;
+    margin: 10px;
+}
+
+div.choixColeur div.divCircle span.circle4 {
+    border: 18px rgb(19, 12, 221) solid;
+    border-radius: 50%;
+    margin: 10px;
+}
+
+
+/************************************details*/
+
+div.details {
+    position: relative;
+    display: flex;
+}
+
+h2.subHead {
+    background-color: var(--fontcolor);
+    font-size: 3em;
+    text-align: center;
+    padding: 5px;
+    margin: 10px;
+}
+
+div.details div.detailsCol1,
+div.details div.detailsCol2 {
+    display: grid;
+    width: 50%;
+}
+
+div.details div.detailsCol1 img,
+div.details div.detailsCol2 img {
+    width: 200px;
+    height: 200px;
+    float: left;
+    padding: 10px;
+}
+
+div.details div.detailsCol1 .detailRow,
+div.details div.detailsCol2 .detailRow {
+    width: 732px;
+}
+
+
+/* 
+div.detailRow p {
+    width: 0%;
+} */
+
+div.detailRow>span {
+    width: 50%;
+}
+
+div.details span.desImg {
+    font-size: 1.5em;
+    padding: 5px;
+    margin: 5px;
+}
+
+.imgThumb:hover img,
+.imgThumb:hover img+span {
+    filter: grayscale(100%);
+    -webkit-filter: grayscale(100%);
+    transition: filter 0.5s ease-in-out;
+}
+
+div.detailRow {
+    width: 100%;
+}
+
+div.detailRow p.imgThumb span input {
+    background-color: var(--ihm_btn);
+    position: absolute;
+    top: 106px;
+    left: -108px;
+}
+
+
+/******************************************** Media Query*/
+
+@media screen and (max-width: 500px) {
+    div.details div.detailsCol1,
+    div.details div.detailsCol2 {
+        display: flow-root;
+        width: 50%;
+    }
+    div.details div.detailsCol1 .detailRow,
+    div.details div.detailsCol2 .detailRow {
+        width: 147px;
+    }
+}
+
+@media screen and (min-width: 500px) and (max-width: 1100px) {
+    div.details div.detailsCol1,
+    div.details div.detailsCol2 {
+        display: contents;
+        width: 50%;
+    }
+}
+
+@media screen and (min-width:1100px) and (max-width: 1193px) {
+    div.details div.detailsCol1 .detailRow,
+    div.details div.detailsCol2 .detailRow {
+        width: 530px;
+    }
+}
+
+@media screen and (min-width:1193px) and (max-width: 1470px) {
+    div.details div.detailsCol1 .detailRow,
+    div.details div.detailsCol2 .detailRow {
+        width: 581px;
+    }
+}
+
+@media screen and (min-width:1470x) and (max-width: 1590px) {
+    div.details div.detailsCol1 .detailRow,
+    div.details div.detailsCol2 .detailRow {
+        width: 716px;
+    }
+}
+
+@media screen and (min-width:1590) {}

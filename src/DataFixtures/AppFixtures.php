@@ -2,16 +2,17 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Customer;
-use App\Entity\Payment;
-use App\Entity\Reservation;
-use App\Entity\Room;
 use DateTime;
-use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Query\Expr\Math;
-use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
+use App\Entity\Room;
+use App\Entity\Payment;
+use App\Entity\Customer;
+use App\Entity\Reservation;
+use Doctrine\ORM\Query\Expr\Math;
+use Bluemmb\Faker\PicsumPhotosProvider;
+use Doctrine\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Bundle\FixturesBundle\Fixture;
 
 class AppFixtures extends Fixture
 {
@@ -24,6 +25,12 @@ class AppFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
         $faker = Factory::create('fr_FR');
+
+        $faker->addProvider(new \Liior\Faker\Prices($faker));
+        $faker->addProvider(new \Bluemmb\Faker\PicsumPhotosProvider($faker)); //added it for the pictures 
+
+
+
         for ($c = 0; $c < (mt_rand(10, 30)); $c++) {
             $customer = new Customer();
             $customer->setFirstName($faker->firstName())
@@ -34,32 +41,41 @@ class AppFixtures extends Fixture
 
             $this->em->persist($customer);
 
-            $reservation = new Reservation;
-            $reservation->setCustomerID($customer)
-                ->setBookingDate($faker->dateTimeBetween('-6 months'))
-                ->setCheckInDate($faker->dateTimeBetween('-6 months'))
-                ->setCheckOutDate($faker->dateTimeInInterval($reservation->getCheckInDate(), '+4days'))
-                ->setNumberOfBeds(mt_rand(2, 5))
-                ->setRoomNo(mt_rand(1, 15))
-                ->setSpecialDemande("nothing special");
-
-            $this->em->persist($reservation);
 
 
 
             $room = new Room;
-            $room->setFacilityPossible('Iron, TV')
+            $room->setFacilityPossible('fer à repasser, minibar, internet, coffre fort,tele')
                 ->setFloor(mt_rand(2, 10))
                 ->setIsSmoking($faker->boolean(70))
                 ->setMaxCapacity(mt_rand(2, 10))
-                ->setRoomNo(mt_rand(20, 80));
+                ->setPrice($faker->price(3000, 500))
+                ->setRoomNo(mt_rand(20, 80))
+                ->setDescription("Nos chambres Deluxe, raffinées et lumineuses, représentent l’atmosphère du quartier. Spacieuses, vous profiterez d’un espace bureau, d’une salle de bain avec baignoire ou douche, et d’une literie au choix (double ou lits jumeaux). Nos chambres sont insonorisées pour un séjour toute en tranquillité.")
+                ->setMainPicture(Room::ROOM_IMAGE1)
+                ->setOtherPicture(Room::ROOM_IMAGE2)
+                ->setAnotherpicture($faker->imageUrl(400, 400));
             if ($faker->boolean(70)) {
-                $room->setType(Room::TYPE_AC);
+                $room->setType(Room::TYPE_AC)
+                    ->setBedding(Room::BED_DOUBLE);
             } else {
-                $room->setType(Room::TYPE_NONAC);
+                $room->setType(Room::TYPE_NONAC)
+                    ->setBedding(Room::BED_SIMPLE);
             }
 
             $this->em->persist($room);
+
+
+            $reservation = new Reservation;
+            $reservation->setCustomerID($customer)
+                ->setBookingDate($faker->dateTimeBetween('-6 months'))
+                ->setCheckInDate($faker->dateTimeBetween('-7 days', '+2 months')->format('Y-m-d'))
+                ->setCheckOutDate($faker->dateTimeInInterval($reservation->getCheckInDate(), '+4days')->format('Y-m-d'))
+                ->setNumberOfBeds(mt_rand(2, 5))
+                ->setRoomNo($room->getRoomNo())
+                ->setSpecialDemande("nothing special");
+
+            $this->em->persist($reservation);
 
             $payment = new Payment;
             $payment->setReservationID($reservation)

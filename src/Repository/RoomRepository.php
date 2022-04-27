@@ -2,11 +2,13 @@
 
 namespace App\Repository;
 
+use App\Entity\Reservation;
 use App\Entity\Room;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
+use phpDocumentor\Reflection\Types\Integer;
 
 /**
  * @method Room|null find($id, $lockMode = null, $lockVersion = null)
@@ -16,9 +18,12 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class RoomRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    protected $reservationRepository;
+
+    public function __construct(ManagerRegistry $registry, ReservationRepository $reservationRepository)
     {
         parent::__construct($registry, Room::class);
+        $this->reservationRepository = $reservationRepository;
     }
 
     /**
@@ -62,15 +67,17 @@ class RoomRepository extends ServiceEntityRepository
     }
     */
 
-    /*
-    public function findOneBySomeField($value): ?Room
+
+    public function findRoomsDispo($roomNoReserved)
     {
+        $roomNoReserved = (int)$roomNoReserved;
+        //dd($roomNoReserved);
         return $this->createQueryBuilder('r')
-            ->andWhere('r.exampleField = :val')
-            ->setParameter('val', $value)
+            ->andWhere('r.RoomNo != :val')
+            ->setParameter('val', $roomNoReserved)
+            ->orderBy('r.RoomNo', 'ASC')
+            ->setMaxResults(3)
             ->getQuery()
-            ->getOneOrNullResult()
-        ;
+            ->getResult();
     }
-    */
 }

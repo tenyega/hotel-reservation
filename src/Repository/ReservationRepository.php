@@ -62,15 +62,16 @@ class ReservationRepository extends ServiceEntityRepository
     }
     */
 
-    /*
-    public function findOneBySomeField($value): ?Reservation
+
+    public function findReservation($arrivalDate, $departureDate)
     {
+        // dd('inside reservationReposit');
         return $this->createQueryBuilder('r')
-            ->andWhere('r.exampleField = :val')
-            ->setParameter('val', $value)
+            ->andWhere('r.CheckInDate =  :val')
+            ->andWhere('r.CheckOutDate = :val2')
+            ->setParameter('val', $arrivalDate)
+            ->setParameter('val2', $departureDate)
             ->getQuery()
-            ->getOneOrNullResult()
-        ;
+            ->getResult();
     }
-    */
 }
