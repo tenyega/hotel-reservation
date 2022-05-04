@@ -1,0 +1,117 @@
+{% extends "front/base.html.twig" %}
+{% block title %}
+	Rooms Available
+
+
+{% endblock %}
+{% block stylesheets %}
+	{{ parent() }}
+	<link href="CSS/ImageSlider.css" rel="stylesheet" type="text/css"/>
+{% endblock %}
+
+{% block body %}
+	<div style="display: flex;">
+		<div class="form-control me-sm-2">
+
+			{{ form_start(form)}}
+			{{form_errors(form)}}
+
+			{{ form_row(form.arrivalDate)}}
+		</div>
+
+		<div class="form-control me-sm-2">{{ form_row(form.departureDate)}}</div>
+
+		<div class="form-control me-sm-2">{{ form_row(form.rooms)}}</div>
+
+		<div class="form-control me-sm-2">
+			{{ form_row(form.adults)}}
+
+		</div>
+
+		<div class="form-control me-sm-2">
+			{{ form_row(form.enfants)}}
+
+		</div>
+
+
+		<div class="form-control me-sm-2">{{ form_row(form.codePromo)}}</div>
+
+		<button class="btn btn-secondary btn-danger mx-2">RESERVER</button>
+		{{ form_end(form)}}
+	</div>
+
+	<div>
+		{% if rooms %}
+			{% set turn = 0 %}
+			{% for room in rooms %}
+				<div>
+					<section>
+
+						<div class='container'>
+							{% if turn == 0 %}
+								<div class="slider">
+									<span id="slide-1"></span>
+									<span id="slide-2"></span>
+									<span id="slide-3"></span>
+
+									<div class="image-container">
+										<img src="{{ room.getMainPicture() }}" class="slide" alt='mainPicture'/>
+										<img src="{{ room.getOtherPicture() }}" class="slide" alt='otherPicture'/>
+										<img src="{{ room.getAnotherpicture() }}" class="slide" alt='anotherPicture'/>
+									</div>
+
+									<div class="buttons">
+										<a href="#slide-1"></a>
+										<a href="#slide-2"></a>
+										<a href="#slide-3"></a>
+
+									</div>
+								</div>
+								{% set turn = 1 %}
+							{% else %}
+								<div class="image-container">
+									<img src="{{ room.getMainPicture() }}" class="slide mainPicture" alt='mainPicture'/>
+								</div>
+							{% endif %}
+
+							<div class="divDescription">
+								<span class='description'>{{ room.getDescription() }}</span>
+								<div class='facilities'>
+
+									Personnes
+									{{ room.getMaxCapacity() }},
+																																																																																																																																																																																																																																																					
+																																																																																																																																																																																																																																																					Prix
+									{{ room.getPrice() }}&euro;
+									<br>
+
+									{{ room.getType() }},<br>
+									{% if room.getIsSmoking() %}
+										Fumeuse,<br>
+									{% else %}
+										Non Fumeuse,<br>
+									{% endif %}
+									Etage
+									{{ room.getFloor()  }},<br>
+
+									{{ room.getBedding() }},<br>
+									{{ room.getFacilityPossible() }}
+
+								</div>
+
+							</div>
+
+							<a href="{{ path ('reservation_reserver', {'roomNo': room.getRoomNo() }) }}">
+								<input class="btn btn-secondary btn-danger mx-2 reservation" type="button" value="RESERVER">
+							</a>
+							{# <button class="btn btn-secondary btn-danger mx-2 reservation" type="submit">RESERVER</button> #}
+						</div>
+
+					</section>
+
+
+				</div>
+			{% endfor %}
+		{% endif %}
+	</div>
+{% endblock %}

@@ -46,22 +46,26 @@ class ReservationController extends AbstractController
     /**
      * @Route("/reservation/{roomNo}", name="reservation_reserver")
      */
-    public function reserver(int $roomNo, Request $request, SessionService $sessionService, EntityManagerInterface $em, CustomerRepository $customerRepository, PaymentRepository $paymentRepository)
+    public function reserver(int $roomNo, RoomRepository $roomRepository, SessionService $sessionService, EntityManagerInterface $em, CustomerRepository $customerRepository, PaymentRepository $paymentRepository)
     {
 
+        $room = [];
         $reservationDetails = $sessionService->getSessionDetails();
-        //dd($reservationDetails[0]['value']);
+
         $reservation = new Reservation;
         $customer = $customerRepository->find('294');
-        $payment = $paymentRepository->find('236');
-
+        $payment = $paymentRepository->find('237');
+        // $room = $roomRepository->find($roomNo);
+        // dd($room);
+        //dd($reservationDetails);
+        // dd($reservationDetails[0]['value']['arrivalDate']);
         $reservation->setBookingDate(new DateTime('now'))
-            ->setCheckInDate($reservationDetails[0]['value']->format('Y-m-d'))
-            ->setCheckOutDate($reservationDetails[1]['value']->format('Y-m-d'))
+            ->setCheckInDate($reservationDetails[0]['value']['arrivalDate']->format('Y-m-d'))
+            ->setCheckOutDate($reservationDetails[0]['value']['departureDate']->format('Y-m-d'))
             ->setCustomerID($customer)
-            ->setNumberOfBeds($reservationDetails[2]['value'])
+            ->setNumberOfBeds($reservationDetails[0]['value']['rooms'])
             ->setRoomNo($roomNo)
-            ->setSpecialDemande('nothing as a special demande')
+            ->setSpecialDemande("nothing")
             ->setPayment($payment);
 
         $em->persist($reservation);

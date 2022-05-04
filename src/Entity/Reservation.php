@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\ReservationRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=ReservationRepository::class)
@@ -24,11 +25,13 @@ class Reservation
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\GreaterThanOrEqual("today")     
      */
     private $CheckInDate;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\GreaterThan(value = "parent.all[arrivalDate].data", message="Date de depart doit etre apres date d'arrivée")
      */
     private $CheckOutDate;
 

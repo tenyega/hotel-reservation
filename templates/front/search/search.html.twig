@@ -1,80 +1,88 @@
-{% extends 'base.html.twig' %}
+{% extends 'front/base.html.twig' %}
 
 {% block title %}SEARCH
 {% endblock %}
 
 {% block body %}
-	<h1>Welcome To My Hotel Reservation System
+	<h1 class='title'>Welcome To My Hotel Reservation System
 	</h1>
-	<div style="display: flex;">
-		<div class="form-control me-sm-2">
+	<div class='search-form'>
+		<div>
+
 
 			{{ form_start(form)}}
-			{{form_errors(form)}}
 
 			{{ form_row(form.arrivalDate)}}
-		</div>
-		<div class="form-control me-sm-2">{{ form_row(form.departureDate)}}</div>
-		<div class="form-control me-sm-2">{{ form_row(form.rooms)}}</div>
 
-		<div class="form-control me-sm-2">
+		</div>
+		<div>{{ form_row(form.departureDate)}}</div>
+
+		<div>{{ form_row(form.rooms)}}</div>
+
+
+		<div>
 			{{ form_row(form.adults)}}
 
 		</div>
-		<div class="form-control me-sm-2">
+		<div>
 			{{ form_row(form.enfants)}}
 
 		</div>
 
 
-		<div class="form-control me-sm-2">{{ form_row(form.codePromo)}}</div>
+		<div>{{ form_row(form.codePromo)}}</div>
+		{{form_errors(form)}}
+		{{form_errors(form.arrivalDate)}}
+		{{form_errors(form.departureDate)}}
+		{{form_errors(form.rooms)}}
+		{{form_errors(form.adults)}}
 
-		<button class="btn btn-secondary btn-danger mx-2">RESERVER</button>
+
+		<button class='btn-reserver'>RESERVER</button>
 		{{ form_end(form)}}
 	</div>
-</div></div></div>{% if rooms %}<table class="table">
-<tbody>
+</div></div></div>{% if rooms %}<table>
 
-	<table class="table table-hover">
-		<thead>
+
+<table>
+	<thead>
+		<tr>
+			<th>Room No</th>
+			<th>Floor</th>
+			<th>Capacité Maximal</th>
+			<th>Type</th>
+			<th>Is Smoking</th>
+			<th>Facilité possible</th>
+		</tr>
+	</thead>
+	{% for room in rooms %}
+
+		<tbody>
+			<tr></tr>
 			<tr>
-				<th>Room No</th>
-				<th>Floor</th>
-				<th>Capacité Maximal</th>
-				<th>Type</th>
-				<th>Is Smoking</th>
-				<th>Facilité possible</th>
+
+				<td>{{ room.getRoomNo() }}</td>
+
+
+				<td>{{ room.getFloor()  }}</td>
+
+
+				<td>{{ room.getMaxCapacity }}</td>
+
+
+				<td>{{ room.getType() }}</td>
+
+
+				<td>
+					{% if room.getIsSmoking() %}
+						yes
+					{% else %}
+						No
+					{% endif %}
+				</td>
+				<td>
+					{{ room.getFacilityPossible() }}</td>
 			</tr>
-		</thead>
-		{% for room in rooms %}
-
-			<tbody>
-				<tr class="table-active"></tr>
-				<tr>
-
-					<td>{{ room.getRoomNo() }}</td>
-
-
-					<td>{{ room.getFloor()  }}</td>
-
-
-					<td>{{ room.getMaxCapacity }}</td>
-
-
-					<td>{{ room.getType() }}</td>
-
-
-					<td>
-						{% if room.getIsSmoking() %}
-							yes
-						{% else %}
-							No
-						{% endif %}
-					</td>
-					<td>
-						{{ room.getFacilityPossible() }}</td>
-				</tr>
-			</tbody>
-		{% endfor %}
-	{% endif %}
-{% endblock %}
+		</tbody>
+	{% endfor %}
+{% endif %}{% endblock %}

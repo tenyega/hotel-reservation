@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap');
-* {
+
+/* * {
     box-sizing: border-box;
     margin: 0px;
 }
@@ -16,7 +17,7 @@ body {
     font-size: 10px;
     background-image: url(../img/noise.png);
     cursor: pointer;
-}
+} */
 
 
 /********************************************header */
@@ -52,6 +53,7 @@ header.heading div.gauche img {
 
 div.container {
     display: inline-flex;
+    align-items: center;
     justify-content: space-between;
     margin: 20px 100px;
 }
@@ -69,7 +71,7 @@ div.container {
 }
 
 .image-container {
-    width: 2610px;
+    width: 1014px;
     background-color: pink;
     height: 500px;
     clear: both;
@@ -98,7 +100,7 @@ div.container {
 }
 
 .image-container img.slide.mainPicture {
-    width: 775px;
+    width: 798px;
     height: 500px;
 }
 
@@ -148,10 +150,10 @@ div.divDescription {
     /* background-color: var(--green); */
     text-align: center;
     margin: 23px auto;
-    font-size: 2em;
+    font-size: 1.1em;
     border-radius: 5px;
-    margin: 10px;
-    padding: 10px;
+    margin: 30px;
+    padding: 20px;
 }
 
 .facilities {

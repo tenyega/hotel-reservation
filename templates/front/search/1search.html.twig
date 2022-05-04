@@ -1,0 +1,80 @@
+{% extends 'front/base.html.twig' %}
+
+{% block title %}SEARCH
+{% endblock %}
+
+{% block body %}
+	<h1>Welcome To My Hotel Reservation System
+	</h1>
+	<div style="display: flex;">
+		<div class="form-control me-sm-2">
+
+			{{ form_start(form)}}
+			{{form_errors(form)}}
+
+			{{ form_row(form.arrivalDate)}}
+		</div>
+		<div class="form-control me-sm-2">{{ form_row(form.departureDate)}}</div>
+		<div class="form-control me-sm-2">{{ form_row(form.rooms)}}</div>
+
+		<div class="form-control me-sm-2">
+			{{ form_row(form.adults)}}
+
+		</div>
+		<div class="form-control me-sm-2">
+			{{ form_row(form.enfants)}}
+
+		</div>
+
+
+		<div class="form-control me-sm-2">{{ form_row(form.codePromo)}}</div>
+
+		<button class="btn btn-secondary btn-danger mx-2">RESERVER</button>
+		{{ form_end(form)}}
+	</div>
+</div></div></div>{% if rooms %}<table class="table">
+<tbody>
+
+	<table class="table table-hover">
+		<thead>
+			<tr>
+				<th>Room No</th>
+				<th>Floor</th>
+				<th>Capacité Maximal</th>
+				<th>Type</th>
+				<th>Is Smoking</th>
+				<th>Facilité possible</th>
+			</tr>
+		</thead>
+		{% for room in rooms %}
+
+			<tbody>
+				<tr class="table-active"></tr>
+				<tr>
+
+					<td>{{ room.getRoomNo() }}</td>
+
+
+					<td>{{ room.getFloor()  }}</td>
+
+
+					<td>{{ room.getMaxCapacity }}</td>
+
+
+					<td>{{ room.getType() }}</td>
+
+
+					<td>
+						{% if room.getIsSmoking() %}
+							yes
+						{% else %}
+							No
+						{% endif %}
+					</td>
+					<td>
+						{{ room.getFacilityPossible() }}</td>
+				</tr>
+			</tbody>
+		{% endfor %}
+	{% endif %}
+{% endblock %}

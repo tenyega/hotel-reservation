@@ -1,0 +1,26 @@
+.title {
+    text-align: center;
+}
+
+.search-form {
+    display: flex;
+    padding: 32px;
+    border: 1px solid;
+    justify-content: space-evenly;
+    border-radius: 70px;
+}
+
+.btn-reserver {
+    background-color: red;
+    padding: 5px;
+    border-radius: 10px;
+}
+
+.hideError {
+    display: none;
+    list-style: none;
+}
+
+.search-form ul:first-child {
+    display: none;
+}
