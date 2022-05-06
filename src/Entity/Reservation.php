@@ -3,14 +3,18 @@
 namespace App\Entity;
 
 use App\Repository\ReservationRepository;
+use DateTime;
+use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Constraints\Date;
 
 /**
  * @ORM\Entity(repositoryClass=ReservationRepository::class)
  */
 class Reservation
 {
+    public const CODE_PROMO = 'Dolma123';
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -24,31 +28,29 @@ class Reservation
     private $BookingDate;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     * @Assert\GreaterThanOrEqual("today")     
+     * @ORM\Column(type="date", length=255)
      */
     private $CheckInDate;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     * @Assert\GreaterThan(value = "parent.all[arrivalDate].data", message="Date de depart doit etre apres date d'arrivée")
+     * @ORM\Column(type="date", length=255)
      */
     private $CheckOutDate;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $NumberOfBeds;
+    private $NoAdult;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $SpecialDemande;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=true)
      */
-    private $RoomNo;
+    private $NoEnfant;
 
     /**
      * @ORM\OneToOne(targetEntity=Payment::class, mappedBy="ReservationID", cascade={"persist", "remove"})
@@ -60,6 +62,16 @@ class Reservation
      * @ORM\JoinColumn(nullable=false)
      */
     private $CustomerID;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $CodePromo;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $RoomNo;
 
 
 
@@ -80,38 +92,38 @@ class Reservation
         return $this;
     }
 
-    public function getCheckInDate(): ?string
+    public function getCheckInDate(): ?\DateTime
     {
         return $this->CheckInDate;
     }
 
-    public function setCheckInDate(string $CheckInDate): self
+    public function setCheckInDate(\DateTime $CheckInDate): self
     {
         $this->CheckInDate = $CheckInDate;
 
         return $this;
     }
 
-    public function getCheckOutDate(): ?string
+    public function getCheckOutDate(): ?\DateTime
     {
         return $this->CheckOutDate;
     }
 
-    public function setCheckOutDate(string $CheckOutDate): self
+    public function setCheckOutDate(\DateTime $CheckOutDate): self
     {
         $this->CheckOutDate = $CheckOutDate;
 
         return $this;
     }
 
-    public function getNumberOfBeds(): ?int
+    public function getNoAdult(): ?int
     {
-        return $this->NumberOfBeds;
+        return $this->NoAdult;
     }
 
-    public function setNumberOfBeds(int $NumberOfBeds): self
+    public function setNoAdult(int $NoAdult): self
     {
-        $this->NumberOfBeds = $NumberOfBeds;
+        $this->NoAdult = $NoAdult;
 
         return $this;
     }
@@ -128,14 +140,14 @@ class Reservation
         return $this;
     }
 
-    public function getRoomNo(): ?int
+    public function getNoEnfant(): ?int
     {
-        return $this->RoomNo;
+        return $this->NoEnfant;
     }
 
-    public function setRoomNo(int $RoomNo): self
+    public function setNoEnfant(int $NoEnfant): self
     {
-        $this->RoomNo = $RoomNo;
+        $this->NoEnfant = $NoEnfant;
 
         return $this;
     }
@@ -165,6 +177,30 @@ class Reservation
     public function setCustomerID(?Customer $CustomerID): self
     {
         $this->CustomerID = $CustomerID;
+
+        return $this;
+    }
+
+    public function getCodePromo(): ?string
+    {
+        return $this->CodePromo;
+    }
+
+    public function setCodePromo(?string $CodePromo): self
+    {
+        $this->CodePromo = $CodePromo;
+
+        return $this;
+    }
+
+    public function getRoomNo(): ?int
+    {
+        return $this->RoomNo;
+    }
+
+    public function setRoomNo(int $RoomNo): self
+    {
+        $this->RoomNo = $RoomNo;
 
         return $this;
     }

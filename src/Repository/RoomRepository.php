@@ -50,22 +50,19 @@ class RoomRepository extends ServiceEntityRepository
         }
     }
 
-    // /**
-    //  * @return Room[] Returns an array of Room objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    /**
+     * @return Room[] Returns an array of Room objects
+     */
+
+    public function findByExampleField($roomno)
     {
         return $this->createQueryBuilder('r')
-            ->andWhere('r.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('r.id', 'ASC')
-            ->setMaxResults(10)
+            ->andWhere('r.RoomNo = :val')
+            ->setParameter('val', $roomno)
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
-    */
+
 
 
     public function findRoomsDispo($roomNoReserved)

@@ -1,0 +1,50 @@
+{% extends "front/base.html.twig" %}
+
+{% block title %}
+	update
+{% endblock %}
+
+{% block body %}
+	<h1 class='title'>
+		MODIFIER VOTRE RESERVATION
+	</h1>
+
+	<div class='search-tag'>
+		<div class='search-form'>
+			<div>
+
+
+				{{ form_start(form)}}
+
+				{{ form_row(form.CheckInDate)}}
+
+			</div>
+			<div>{{ form_row(form.CheckOutDate)}}</div>
+
+			<div>{{ form_row(form.NoAdult)}}</div>
+
+			<div>
+				{{ form_row(form.NoEnfant)}}
+
+			</div>
+			<div>
+				{{ form_row(form.SpecialDemande)}}
+
+			</div>
+
+
+			<div>{{ form_row(form.CodePromo)}}</div>
+
+
+			<button class='btn-reserver'>RESERVER</button>
+		</div>
+		<div class='error-msg'>
+			{{form_errors(form)}}
+			{{form_errors(form.CheckInDate)}}
+			{{form_errors(form.CheckOutDate)}}
+			{{form_errors(form.NoAdult)}}
+
+		</div>
+		{{ form_end(form)}}
+	</div>
+{% endblock %}

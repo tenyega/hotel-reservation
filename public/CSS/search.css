@@ -24,3 +24,13 @@
 .search-form ul:first-child {
     display: none;
 }
+
+.search-tag {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+}
+
+.error-msg {
+    color: red;
+}

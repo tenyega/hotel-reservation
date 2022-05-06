@@ -16,25 +16,24 @@
 			{{ form_start(form)}}
 			{{form_errors(form)}}
 
-			{{ form_row(form.arrivalDate)}}
+			{{ form_row(form.CheckInDate)}}
 		</div>
 
-		<div>{{ form_row(form.departureDate)}}</div>
-
-		<div>{{ form_row(form.rooms)}}</div>
+		<div>{{ form_row(form.CheckOutDate)}}</div>
 
 		<div>
-			{{ form_row(form.adults)}}
+			{{ form_row(form.NoAdult)}}
 
 		</div>
 
 		<div>
-			{{ form_row(form.enfants)}}
+			{{ form_row(form.NoEnfant)}}
 
 		</div>
 
 
-		<div>{{ form_row(form.codePromo)}}</div>
+		<div>{{ form_row(form.CodePromo)}}</div>
+		<div>{{ form_row(form.SpecialDemande)}}</div>
 
 		<button class='btn-reserver'>RESERVER</button>
 		{{ form_end(form)}}
@@ -79,8 +78,8 @@
 
 								Personnes
 								{{ room.getMaxCapacity() }},
-																																																																																																																																																																																																																																																																																																																																																																																																			
-																																																																																																																																																																																																																																																																																																																																																																																																			Prix
+																																																																																																																																																																																																																																																																																																																																																																																																																			
+																																																																																																																																																																																																																																																																																																																																																																																																																			Prix
 								{{ room.getPrice() }}&euro;
 								<br>
 
@@ -100,7 +99,7 @@
 
 						</div>
 
-						<a href="{{ path ('reservation_reserver', {'roomNo': room.getRoomNo() }) }}">
+						<a href="{{ path ('reservation_confirmation', {'roomNo': room.getRoomNo() }) }}">
 							<input class='btn-reserver' type="button" value="RESERVER">
 						</a>
 						{# <button class="btn btn-secondary btn-danger mx-2 reservation" type="submit">RESERVER</button> #}

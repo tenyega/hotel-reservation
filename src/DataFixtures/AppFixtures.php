@@ -69,10 +69,12 @@ class AppFixtures extends Fixture
             $reservation = new Reservation;
             $reservation->setCustomerID($customer)
                 ->setBookingDate($faker->dateTimeBetween('-6 months'))
-                ->setCheckInDate($faker->dateTimeBetween('-7 days', '+2 months')->format('Y-m-d'))
-                ->setCheckOutDate($faker->dateTimeInInterval($reservation->getCheckInDate(), '+4days')->format('Y-m-d'))
-                ->setNumberOfBeds(mt_rand(2, 5))
+                ->setCheckInDate($faker->dateTimeBetween('-7 days', '+2 months'))
+                ->setCheckOutDate($faker->dateTimeInInterval($reservation->getCheckInDate(), '+4days'))
+                ->setNoAdult(mt_rand(1, 3))
+                ->setNoEnfant(mt_rand(0, 3))
                 ->setRoomNo($room->getRoomNo())
+                ->setCodePromo(Reservation::CODE_PROMO)
                 ->setSpecialDemande("nothing special");
 
             $this->em->persist($reservation);

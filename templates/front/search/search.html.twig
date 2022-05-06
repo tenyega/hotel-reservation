@@ -6,83 +6,87 @@
 {% block body %}
 	<h1 class='title'>Welcome To My Hotel Reservation System
 	</h1>
-	<div class='search-form'>
-		<div>
+
+	<div class='search-tag'>
+		<div class='search-form'>
+			<div>
 
 
-			{{ form_start(form)}}
+				{{ form_start(form)}}
 
-			{{ form_row(form.arrivalDate)}}
+				{{ form_row(form.CheckInDate)}}
 
+			</div>
+			<div>{{ form_row(form.CheckOutDate)}}</div>
+
+			<div>
+				{{ form_row(form.NoAdult)}}
+
+			</div>
+			<div>
+				{{ form_row(form.NoEnfant)}}
+
+			</div>
+
+
+			<div>{{ form_row(form.CodePromo)}}</div>
+			<div>{{ form_row(form.SpecialDemande)}}</div>
+
+
+			<button class='btn-reserver'>RESERVER</button>
 		</div>
-		<div>{{ form_row(form.departureDate)}}</div>
-
-		<div>{{ form_row(form.rooms)}}</div>
-
-
-		<div>
-			{{ form_row(form.adults)}}
-
+		<div class='error-msg'>
+			{{form_errors(form)}}
+			{{form_errors(form.CheckInDate)}}
+			{{form_errors(form.CheckOutDate)}}
+			{{form_errors(form.NoAdult)}}
 		</div>
-		<div>
-			{{ form_row(form.enfants)}}
-
-		</div>
-
-
-		<div>{{ form_row(form.codePromo)}}</div>
-		{{form_errors(form)}}
-		{{form_errors(form.arrivalDate)}}
-		{{form_errors(form.departureDate)}}
-		{{form_errors(form.rooms)}}
-		{{form_errors(form.adults)}}
-
-
-		<button class='btn-reserver'>RESERVER</button>
 		{{ form_end(form)}}
 	</div>
-</div></div></div>{% if rooms %}<table>
+	{% if rooms %}
+		<table>
 
 
-<table>
-	<thead>
-		<tr>
-			<th>Room No</th>
-			<th>Floor</th>
-			<th>Capacité Maximal</th>
-			<th>Type</th>
-			<th>Is Smoking</th>
-			<th>Facilité possible</th>
-		</tr>
-	</thead>
-	{% for room in rooms %}
+			<table>
+				<thead>
+					<tr>
+						<th>Room No</th>
+						<th>Floor</th>
+						<th>Capacité Maximal</th>
+						<th>Type</th>
+						<th>Is Smoking</th>
+						<th>Facilité possible</th>
+					</tr>
+				</thead>
+				{% for room in rooms %}
 
-		<tbody>
-			<tr></tr>
-			<tr>
+					<tbody>
+						<tr></tr>
+						<tr>
 
-				<td>{{ room.getRoomNo() }}</td>
-
-
-				<td>{{ room.getFloor()  }}</td>
+							<td>{{ room.getRoomNo() }}</td>
 
 
-				<td>{{ room.getMaxCapacity }}</td>
+							<td>{{ room.getFloor()  }}</td>
 
 
-				<td>{{ room.getType() }}</td>
+							<td>{{ room.getMaxCapacity }}</td>
 
 
-				<td>
-					{% if room.getIsSmoking() %}
-						yes
-					{% else %}
-						No
-					{% endif %}
-				</td>
-				<td>
-					{{ room.getFacilityPossible() }}</td>
-			</tr>
-		</tbody>
-	{% endfor %}
-{% endif %}{% endblock %}
+							<td>{{ room.getType() }}</td>
+
+
+							<td>
+								{% if room.getIsSmoking() %}
+									yes
+								{% else %}
+									No
+								{% endif %}
+							</td>
+							<td>
+								{{ room.getFacilityPossible() }}</td>
+						</tr>
+					</tbody>
+				{% endfor %}
+			{% endif %}
+		{% endblock %}

@@ -79,15 +79,15 @@ class SessionService
      */
     public function getSessionDetails(): array
     {
-        $detailedCart = [];
+        $detailedCart = 0;
 
         foreach ($this->getSession() as $fieldName => $value) {
 
 
-            $detailedCart[] = [
-                'fieldName' => $fieldName,
-                'value' => $value
-            ];
+            // $detailedCart = [
+            //     'value' => $value
+            // ];
+            $detailedCart = $value;
         }
         return $detailedCart;
     }

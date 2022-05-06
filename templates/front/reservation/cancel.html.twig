@@ -1,0 +1,30 @@
+{% extends "front/base.html.twig" %}
+{% block title %}
+	Cancel
+
+{% endblock %}
+{% block body %}
+	<h1 class='title'>Details de votre reservation annulé
+	</h1>
+	Customer:
+	{{ app.user }}
+
+	<div class='title'>
+		<hr>
+		Reservé le :-
+		{{ reservation.getBookingDate()| date('Y-m-d') }}<br>
+		Date d'arrivée:-
+		{{ reservation.getCheckInDate()| date('Y-m-d') }}<br>
+		Date de depart:-
+		{{ reservation.getCheckOutDate()| date('Y-m-d') }}<br>
+		Nombre des Personnes :-
+		{{ reservation.getNoAdult() }}<br>
+		Nombre des Enfants :-
+		{{ reservation.getNoEnfant() }}<br>
+		Demande Speciale  :-
+		{{ reservation.getSpecialDemande() }}<br>
+	</div>
+	<hr>
+
+
+{% endblock %}

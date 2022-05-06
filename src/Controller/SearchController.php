@@ -21,16 +21,19 @@ class SearchController extends AbstractController
     public function search(Request $request, RoomRepository $roomRepository, ReservationRepository $reservationRepository, SessionService $sessionService): Response
     {
         $form = $this->createForm(SearchType::class);
+
         $form->handleRequest($request);
         $rooms = [];
+
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
-            // dd($data);
+            //dd($data);
+
             $sessionService->add($data);
 
 
-            $arrivalDate = $data['arrivalDate']->format('Y-m-d');
-            $departureDate = $data['departureDate']->format('Y-m-d');
+            $arrivalDate = $data['CheckInDate']->format('Y-m-d');
+            $departureDate = $data['CheckOutDate']->format('Y-m-d');
 
             $roomNo = 0;
             $roomNo = $reservationRepository->findReservation($arrivalDate, $departureDate);

@@ -1,0 +1,30 @@
+{% extends "front/base.html.twig" %}
+{% block title %}
+	show reservation
+
+{% endblock %}
+{% block body %}
+	<h1 class='title'>Voici vos reservations</h1>
+	Customer:
+	{{ app.user }}
+	{% for r in reservations %}
+		<div class='title'>
+			<hr>
+			Reservé le :-
+			{{ r.getBookingDate()| date('Y-m-d') }}<br>
+			Date d'arrivée:-
+			{{ r.getCheckInDate()| date('Y-m-d') }}<br>
+			Date de depart:-
+			{{ r.getCheckOutDate()| date('Y-m-d') }}<br>
+			Nombre des Personnes :-
+			{{ reservation.getNoAdult() }}<br>
+			Nombre des Enfants :-
+			{{ reservation.getNoEnfant() }}<br>
+			Demande Speciale  :-
+			{{ reservation.getSpecialDemande() }}<br>
+		</div>
+		<hr>
+	{% endfor %}
+
+
+{% endblock %}
