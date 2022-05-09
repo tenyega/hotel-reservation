@@ -1,0 +1,45 @@
+<h1>Bravo pour votre reservation no
+	{{ reservation.id }}</h1>
+
+<p>Merci a vous
+	{{ user }}</p>
+<table>
+	<thead>
+		<th>Date d'arrive</th>
+		<th>Date de depart</th>
+		<th>Nombre d'adults</th>
+		<th>Services fournis</th>
+		<th>Type</th>
+		<th>Prix</th>
+	</thead>
+	<tbody>
+
+		<tr>
+			<td>{{ reservation.getCheckInDate() | date('Y-m-d')}}</td>
+			<td>{{  reservation.getCheckOutDate() | date('Y-m-d') }}</td>
+			<td>{{ reservation.getNoAdult()}}</td>
+			{% for r in room %}
+				<td>{{ r.getFacilityPossible()}}</td>
+				<td>{{ r.getType()}}
+					:
+					{% if(r.getIsSmoking())%}
+						Fumeuse
+					{% else %}
+						Non Fumeuse
+					{% endif %}
+				</td>
+
+				<td>{{ r.getPrice()}}</td>
+			{% endfor %}
+		</tr>
+
+	</tbody>
+	<tfoot>
+		<tr>
+			<td colspan="3">Total:</td>
+			<td>
+				qsdqdqsd</td>
+		</tr>
+	</tfoot>
+
+</table>
