@@ -12,26 +12,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ChartController extends AbstractController
 {
-    /**
-     * @Route("/chart", name="admin_chart")
-     */
-    public function chart(ChartBuilderInterface $chartBuilder): Response
-    { //not used
-
-
-
-
-        $datapoints = [
-            '0' => (object) ['label' => "Jan", 'y' => 10],
-            '1' => (object) ['label' => "feb", 'y' => 15]
-        ];
-
-        $datapoints = json_encode($datapoints);
-
-        return $this->render('back/chart/chart.html.twig', [
-            'datapoints' => $datapoints
-        ]);
-    }
 
     /**
      * @Route("/chart/{roomNo}", name="admin_chart_index")
@@ -46,98 +26,65 @@ class ChartController extends AbstractController
             if ($checkIn == $checkOut) {
                 return 1;
             } else {
-                return (date_diff($checkIn, $checkOut)->d + 1);
+                return (date_diff($checkIn, $checkOut)->d + 1); // here 1 is to take into account both the checkin and check out date
             }
         }
         $dataPoints = [];
         $janDiff = $febDiff = $marDiff = $aprilDiff = $mayDiff = $juneDiff = $julyDiff = $augDiff = $septDiff = $octDiff = $novDiff = $decDiff = 0;
+
         foreach ($reservations as $key => $reservation) {
-            $resaMonth = date("m", strtotime($reservation->getCheckInDate()->format('Y-m-d')));
+            $resaMonth = date("m", strtotime($reservation->getCheckInDate()->format('Y-m-d'))); // to get the month in integer
             $checkIn = $reservation->getCheckInDate();
             $checkOut = $reservation->getCheckOutDate();
 
 
             switch ($resaMonth) {
                 case 1:
-                    if ($checkIn == $checkOut) {
-                        $janDiff++;
-                    } else {
-
-                        $janDiff = date_diff($checkIn, $checkOut)->d + 1;
-                    }
-
+                    $janDiff = $janDiff + daysCalcul($checkIn, $checkOut);
                     break;
+
                 case 2:
-                    if ($checkIn == $checkOut) {
-                        $febDiff++;
-                    } else {
-                        $febDiff = date_diff($checkIn, $checkOut)->d + 1;
-                    }
+                    $febDiff = $febDiff + daysCalcul($checkIn, $checkOut);
+                    break;
 
-                    break;
                 case 3:
-                    if ($checkIn == $checkOut) {
-                        $marDiff++;
-                    } else {
-                        $marDiff = date_diff($checkIn, $checkOut)->d + 1;
-                    }
+                    $marDiff = $marDiff + daysCalcul($checkIn, $checkOut);
                     break;
+
                 case 4:
-                    if ($checkIn == $checkOut) {
-                        $aprilDiff++;
-                    } else {
-                        $aprilDiff = date_diff($checkIn, $checkOut)->d + 1;
-                    }
+                    $aprilDiff = $aprilDiff + daysCalcul($checkIn, $checkOut);
                     break;
+
                 case 5:
                     $mayDiff = $mayDiff + daysCalcul($checkIn, $checkOut);
-
                     break;
+
                 case 6:
                     $juneDiff = $juneDiff + daysCalcul($checkIn, $checkOut);
+                    break;
 
-                    break;
                 case 7:
-                    if ($checkIn == $checkOut) {
-                        $julyDiff++;
-                    } else {
-                        $julyDiff = date_diff($checkIn, $checkOut)->d + 1;
-                    }
+                    $julyDiff = $julyDiff + daysCalcul($checkIn, $checkOut);
                     break;
+
                 case 8:
-                    if ($checkIn == $checkOut) {
-                        $augDiff++;
-                    } else {
-                        $augDiff = date_diff($checkIn, $checkOut)->d + 1;
-                    }
+                    $augDiff = $augDiff + daysCalcul($checkIn, $checkOut);
                     break;
+
                 case 9:
-                    if ($checkIn == $checkOut) {
-                        $septDiff++;
-                    } else {
-                        $septDiff = date_diff($checkIn, $checkOut)->d + 1;
-                    }
+                    $septDiff = $septDiff + daysCalcul($checkIn, $checkOut);
                     break;
+
                 case 10:
-                    if ($checkIn == $checkOut) {
-                        $octDiff++;
-                    } else {
-                        $octDiff = date_diff($checkIn, $checkOut)->d + 1;
-                    }
+                    $octDiff = $octDiff + daysCalcul($checkIn, $checkOut);
                     break;
+
                 case 11:
-                    if ($checkIn == $checkOut) {
-                        $novDiff++;
-                    } else {
-                        $novDiff = date_diff($checkIn, $checkOut)->d + 1;
-                    }
+                    $novDiff = $novDiff + daysCalcul($checkIn, $checkOut);
                     break;
+
                 case 12:
-                    if ($checkIn == $checkOut) {
-                        $decDiff++;
-                    } else {
-                        $decDiff = date_diff($checkIn, $checkOut)->d + 1;
-                    }
+                    $decDiff = $decDiff + daysCalcul($checkIn, $checkOut);
                     break;
             }
         }

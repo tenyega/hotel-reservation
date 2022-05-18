@@ -29,6 +29,7 @@ class SearchController extends AbstractController
             $data = $form->getData();
             //dd($data);
 
+            // adding form data to the session so that i can give it to the search criteria
             $sessionService->add($data);
 
 

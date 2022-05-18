@@ -23,6 +23,8 @@
 		window.onload = function (data) {
 
 			var dataSelector = document.querySelector('#chartContainer');
+			//have taken the data from the controller as a form of a string and replaced the " 
+			//for the label and y with empty strings so that i can get an array of object with JSON.parse for the dataPoints( so that it becomes a JS object ).
 			var datapoints='{{data}}';
 			datapoints= datapoints.replace(/(&quot\;)/g,"\"")
 			//var dataPoints = dataSelector.dataset.datapoints;

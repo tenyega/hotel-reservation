@@ -76,15 +76,16 @@ class ReservationRepository extends ServiceEntityRepository
     {
         // dd('inside reservationReposit');
         return $this->createQueryBuilder('r')
-            ->andWhere('r.CheckInDate =  :val')
-            ->andWhere('r.CheckOutDate = :val2')
+            ->andWhere('r.CheckInDate >=  :val')
+            ->andWhere('r.CheckOutDate >= :val2')
             ->setParameter('val', $arrivalDate)
             ->setParameter('val2', $departureDate)
             ->getQuery()
             ->getResult();
     }
 
-    public function findAllByRoomNo($roomNo){
+    public function findAllByRoomNo($roomNo)
+    {
         return $this->createQueryBuilder('r')
             ->andWhere('r.RoomNo = :val')
             ->setParameter('val', $roomNo)
