@@ -83,4 +83,12 @@ class ReservationRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function findAllByRoomNo($roomNo){
+        return $this->createQueryBuilder('r')
+            ->andWhere('r.RoomNo = :val')
+            ->setParameter('val', $roomNo)
+            ->getQuery()
+            ->getResult();
+    }
 }

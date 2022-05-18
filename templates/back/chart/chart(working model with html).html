@@ -1,0 +1,75 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+	<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+	<script type="text/javascript">
+
+		window.onload = function (data) {
+			var dataSelector = document.querySelector('#chartContainer');
+			var dataPoints = dataSelector.dataset.datapoints;
+			var chart = new CanvasJS.Chart("chartContainer", {
+				theme: "light2", // light1
+				title: {
+					text: "Room Occupancy Rate for Room no "
+				},
+				data: [
+					{
+						type: "column",
+						dataPoints: 
+						[
+						{
+							label: "Jan",
+							y: 10
+						},
+						{
+							label: "feb",
+							y: 15
+						},
+						{
+							label: "march",
+							y: 25
+						},
+						{
+							label: "april",
+							y: 30
+						}, {
+							label: "may",
+							y: 28
+						}, {
+							label: "june",
+							y: 10
+						}, {
+							label: "july",
+							y: 12
+						}, {
+							label: "aug",
+							y: 19
+						}, {
+							label: "sept",
+							y: 30
+						}, {
+							label: "oct",
+							y: 18
+						}, {
+							label: "nov",
+							y: 5
+						}, {
+							label: "dec",
+							y: 4
+						}
+						]
+					}
+				]
+			});
+			chart.render();
+		}
+	</script>
+</head>
+
+<body>
+	<div id="chartContainer"  style="height: 400px; width: 100%;"></div>
+
+</body>
+
+</html>

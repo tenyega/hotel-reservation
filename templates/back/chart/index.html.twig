@@ -1,0 +1,54 @@
+{% extends 'back/base.html.twig' %}
+
+{% block title %}Hello ChartjsController!
+{% endblock %}
+{% block stylesheets %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js" integrity="sha512-QSkVNOCYLtj73J4hbmVoOV6KVZuMluZlioC+trLpewV8qMjsWqlIQvkn1KGX2StWvPMdWGBqim1xlC8krl1EKQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+{% endblock %}
+
+{% block body %}
+	<h1>
+		Statistis of room no
+	</h1>
+		<div id="chartContainer"  style="height: 400px; width: 100%;"></div>
+
+
+
+{% endblock %}
+{% block javascripts %}
+	<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+
+<script type="text/javascript">
+
+		window.onload = function (data) {
+
+			var dataSelector = document.querySelector('#chartContainer');
+			var datapoints='{{data}}';
+			datapoints= datapoints.replace(/(&quot\;)/g,"\"")
+			//var dataPoints = dataSelector.dataset.datapoints;
+			var chart = new CanvasJS.Chart("chartContainer", {
+				theme: "light2", // light1
+				title: {
+					text: "Room Occupancy Rate for Room no "
+				},
+				data: [
+					{
+						type: "column",
+						dataPoints: JSON.parse(datapoints)
+					}
+				],
+				options:{
+					scales:{
+						y:{
+							beginAtZero: true,
+							steps:1,
+							max:31
+						}
+					}
+				}
+			});
+			chart.render();
+		}
+	</script>
+
+{% endblock %}
