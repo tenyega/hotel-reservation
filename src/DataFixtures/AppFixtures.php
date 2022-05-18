@@ -75,7 +75,8 @@ class AppFixtures extends Fixture
                 ->setNoEnfant(mt_rand(0, 3))
                 ->setRoomNo($room->getRoomNo())
                 ->setCodePromo(Reservation::CODE_PROMO)
-                ->setSpecialDemande("nothing special");
+                ->setSpecialDemande("nothing special")
+                ->setStatus(Reservation::STATUS_PENDING);
 
             $this->em->persist($reservation);
 

@@ -15,6 +15,8 @@ use Symfony\Component\Validator\Constraints\Date;
 class Reservation
 {
     public const CODE_PROMO = 'Dolma123';
+    public const STATUS_PENDING = 'pending';
+    public const STATUS_PAID = 'paid';
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -72,6 +74,11 @@ class Reservation
      * @ORM\Column(type="integer")
      */
     private $RoomNo;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $status = self::STATUS_PENDING;
 
 
 
@@ -201,6 +208,18 @@ class Reservation
     public function setRoomNo(int $RoomNo): self
     {
         $this->RoomNo = $RoomNo;
+
+        return $this;
+    }
+
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): self
+    {
+        $this->status = $status;
 
         return $this;
     }
