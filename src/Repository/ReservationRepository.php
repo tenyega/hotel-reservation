@@ -55,6 +55,7 @@ class ReservationRepository extends ServiceEntityRepository
             ->andWhere('r.CustomerID = :val')
             ->setParameter('val', $customerID)
             ->getQuery()
+            
             ->getResult();
     }
     // /**
@@ -76,12 +77,16 @@ class ReservationRepository extends ServiceEntityRepository
     {
         // dd('inside reservationReposit');
         return $this->createQueryBuilder('r')
-            ->andWhere('r.CheckInDate >=  :val')
-            ->andWhere('r.CheckOutDate >= :val2')
+            ->andWhere(':val NOT BETWEEN r.CheckInDate  AND r.CheckOutDate')
+            ->andWhere(':val2 NOT BETWEEN r.CheckInDate  AND r.CheckOutDate')
             ->setParameter('val', $arrivalDate)
             ->setParameter('val2', $departureDate)
+            ->setMaxResults(3)
             ->getQuery()
             ->getResult();
+
+
+            
     }
 
     public function findAllByRoomNo($roomNo)

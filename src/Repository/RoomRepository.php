@@ -56,24 +56,57 @@ class RoomRepository extends ServiceEntityRepository
 
     public function findByExampleField($roomno)
     {
+
         return $this->createQueryBuilder('r')
             ->andWhere('r.RoomNo = :val')
             ->setParameter('val', $roomno)
+            ->orderBy('r.RoomNo', 'ASC')
             ->getQuery()
             ->getResult();
     }
 
 
-
-    public function findRoomsDispo($roomNoReserved)
+    // this returns the rooms which is not reserved on the dates supplied by the client 
+    //this method checks in the array of roomsAlreadyReserved and brings all the room details whose room no is not in the array roomsAlreadyReserved
+    public function findRoomSuggestions($roomsAlreadyReserved)
     {
-        $roomNoReserved = (int)$roomNoReserved;
-        //dd($roomNoReserved);
+
         return $this->createQueryBuilder('r')
-            ->andWhere('r.RoomNo != :val')
-            ->setParameter('val', $roomNoReserved)
+            ->andWhere('r.RoomNo NOT IN (:vals)')
+            ->setParameters(array('vals' => $roomsAlreadyReserved))
             ->orderBy('r.RoomNo', 'ASC')
             ->setMaxResults(3)
+            ->getQuery()
+            ->getResult();
+    }
+
+    // public function findRoomsDispo($roomNoReserved)
+    // {
+    //     $roomNoReserved = (int)$roomNoReserved;
+    //     //dd($roomNoReserved);
+    //     return $this->createQueryBuilder('r')
+    //         ->andWhere('r.RoomNo != :val')
+    //         ->setParameter('val', $roomNoReserved)
+    //         ->orderBy('r.RoomNo', 'ASC')
+    //         ->setMaxResults(3)
+    //         ->getQuery()
+    //         ->getResult();
+    // }
+
+
+    // Here i m getting the details of the room which is booked between the dates mentioned by the client
+    public function getRoomsReserved($arrivalDate, $departureDate)
+    {
+        return $this->createQueryBuilder('r')
+            ->select('r', 'r1')
+            ->from('App\Entity\Reservation', 'r1')
+            ->andWhere(':arrivalDate  BETWEEN r1.CheckInDate  AND r1.CheckOutDate')
+            ->setParameter('arrivalDate', $arrivalDate)
+            ->orWhere(':departureDate  BETWEEN r1.CheckInDate  AND r1.CheckOutDate')
+            ->orWhere('r1.CheckInDate BETWEEN :arrivalDate AND :departureDate ')
+            ->orWhere('r1.CheckOutDate BETWEEN :arrivalDate AND :departureDate ')
+            ->setParameter('departureDate', $departureDate)
+            ->having('r.RoomNo = r1.RoomNo')
             ->getQuery()
             ->getResult();
     }

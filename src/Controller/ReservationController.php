@@ -59,8 +59,8 @@ class ReservationController extends AbstractController
         $reservationDetails = $sessionService->getSessionDetails();
 
         $reservation = new Reservation;
-        $customer = $customerRepository->find('322');
-        $payment = $paymentRepository->find('274');
+        $customer = $customerRepository->find('336');
+        $payment = $paymentRepository->find('279');
         /** @var Room */
         $room = $this->roomRepository->findByExampleField($roomNo);
 

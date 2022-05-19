@@ -10,7 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-
+use Symfony\Component\Validator\Constraints\Length;
 
 class SearchController extends AbstractController
 {
@@ -23,7 +23,8 @@ class SearchController extends AbstractController
         $form = $this->createForm(SearchType::class);
 
         $form->handleRequest($request);
-        $rooms = [];
+
+        $roomsAlreadyReserved = [];
 
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
@@ -36,29 +37,33 @@ class SearchController extends AbstractController
             $arrivalDate = $data['CheckInDate']->format('Y-m-d');
             $departureDate = $data['CheckOutDate']->format('Y-m-d');
 
-            $roomNo = 0;
-            $roomNo = $reservationRepository->findReservation($arrivalDate, $departureDate);
-            // dd($roomNo);
-            $rooms = [];
-            if ($roomNo != null) {
-                $roomNoReserved = $roomNo[0]->getRoomNo();
-
-                $rooms = $roomRepository->findRoomsDispo($roomNoReserved);
-                if ($rooms === []) {
-                    return $this->render('front/search/noresult.html.twig');
+            // this getRoom contains the details of the room which has been booked on this particular dates supplied by the client 
+            $getRoom = $roomRepository->getRoomsReserved($arrivalDate, $departureDate);
+            if ($getRoom != null) {
+                for ($i = 0; $i < count($getRoom) - 1; $i++) {
+                    $roomsAlreadyReserved[] = $getRoom[$i]->getRoomNo();
+                    //roomsAlreadyReserved contains all the RoomNo of the rooms which are booked on this particular date supplied by the client 
                 }
-            } else {
-                $rooms = $roomRepository->findBy(['Type' => 'Climatisation'], ['Type' => 'ASC'], 3);
+
+                // so finally the rooms which are available are filtered here. 
+                $roomSuggestion = $roomRepository->findRoomSuggestions($roomsAlreadyReserved);
+                dump($roomSuggestion);
             }
-            // dd($sessionService->getSessionDetails());
+
+
+            if ($roomsAlreadyReserved === null) {
+                $roomSuggestion = $roomRepository->findAll();
+            }
+
+
             return $this->render('front/search/roomsAvailable.html.twig', [
                 'form' => $form->createView(),
-                'rooms' => $rooms
+                'rooms' => $roomSuggestion
             ]);
         }
 
         return $this->render('front/search/search.html.twig', [
-            'rooms' => $rooms,
+            'rooms' => $roomsAlreadyReserved,
             'form' => $form->createView(),
         ]);
     }
