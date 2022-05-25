@@ -48,10 +48,7 @@ class SearchController extends AbstractController
                 // so finally the rooms which are available are filtered here. 
                 $roomSuggestion = $roomRepository->findRoomSuggestions($roomsAlreadyReserved);
                 dump($roomSuggestion);
-            }
-
-
-            if ($roomsAlreadyReserved === null) {
+            } else {
                 $roomSuggestion = $roomRepository->findAll();
             }
 

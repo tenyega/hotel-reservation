@@ -80,6 +80,11 @@ class Reservation
      */
     private $status = self::STATUS_PENDING;
 
+    /**
+     * @ORM\Column(type="float")
+     */
+    private $total;
+
 
 
     public function getId(): ?int
@@ -220,6 +225,18 @@ class Reservation
     public function setStatus(string $status): self
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    public function getTotal(): ?float
+    {
+        return $this->total;
+    }
+
+    public function setTotal(float $total): self
+    {
+        $this->total = $total;
 
         return $this;
     }

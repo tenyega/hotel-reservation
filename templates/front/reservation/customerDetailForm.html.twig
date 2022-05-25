@@ -1,0 +1,51 @@
+{% extends "front/base.html.twig" %}
+{% block title %}
+	Customer Details
+{% endblock %}
+
+{% block body %}
+
+	<h1 class='title'>Vos informations important !
+	</h1>
+	<div class='form'>
+
+		<div>
+			<div class='form-container'>
+				{{ form_start(form)}}
+				<div class='form_row'>
+
+
+					{{ form_row(form.firstName)}}
+
+				</div>
+				<div class='form_row'>{{ form_row(form.lastName)}}</div>
+
+				<div class='form_row'>
+					{{ form_row(form.phone)}}
+
+				</div>
+
+				<div class='form_row'>{{ form_row(form.email)}}</div>
+				<div class='form_row'>{{ form_row(form.address)}}</div>
+
+			</div>
+			<button class='btn-confirmer' type='submit'>Confirmer mes coordonées</button>
+		</div>
+		<div class='error-msg'>
+			{{form_errors(form)}}
+			{{form_errors(form.firstName)}}
+			{{form_errors(form.lastName)}}
+			{{form_errors(form.phone)}}
+			{{form_errors(form.email)}}
+			{{form_errors(form.address)}}
+		</div>
+		{{ form_end(form)}}
+	</div>
+
+
+{% endblock %}
+{% block stylesheets %}
+	{{ parent() }}
+	<link rel="stylesheet" href="{{ asset('CSS/customerDetailForm.css') }}"/>
+
+{% endblock %}

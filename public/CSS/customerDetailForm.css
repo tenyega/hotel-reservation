@@ -1,0 +1,39 @@
+
+
+.form {
+    width: 80%;
+    margin: 20px; 
+    background-color: rgba(255, 0, 0, 0.383);
+    padding: 20px;
+    letter-spacing: 5px;
+  }
+  
+.form_row label{
+ 
+    text-align: center;
+    padding: 10px;
+   
+}
+
+.form_row input{
+    float: right;
+}
+.form_row textarea{
+    float: right;
+}
+.form-container{
+     margin: 0 auto;
+     display: inline-block;
+}
+
+
+.error-msg {
+    color: red;
+}
+
+.btn-confirmer {
+    background-color: red;
+    padding: 5px;
+    border-radius: 10px;
+    float: center;
+}

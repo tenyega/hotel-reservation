@@ -13,10 +13,13 @@ use App\Session\SessionService;
 use Doctrine\ORM\EntityManager;
 use App\Repository\RoomRepository;
 use App\Repository\PaymentRepository;
-use App\Repository\CustomerRepository;
+
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\ReservationRepository;
 use App\Event\ReservationConfirmationEvent;
+use App\Repository\CustomerRepository;
+use App\Reservation\ReservationPersister;
+use App\Stripe\StripeService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -24,14 +27,17 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
+
 class ReservationController extends AbstractController
 {
 
     protected $roomRepository;
+    protected $reservationPersister;
 
-    public function __construct(RoomRepository $roomRepository)
+    public function __construct(RoomRepository $roomRepository, ReservationPersister $reservationPersister)
     {
         $this->roomRepository = $roomRepository;
+        $this->reservationPersister = $reservationPersister;
     }
     /**
      * @Route("/reservation", name="reservation_show")
@@ -49,52 +55,55 @@ class ReservationController extends AbstractController
         ]);
     }
 
+
+
     /**
-     * @Route("/reservation/{roomNo}", name="reservation_confirmation")
+     * @Route("/reservation/confirmation/{id}", name="reservation_confirmation")
      */
-    public function confirmation($roomNo, SessionService $sessionService, EntityManagerInterface $em, CustomerRepository $customerRepository, PaymentRepository $paymentRepository, EventDispatcherInterface $dispatcher)
+    public function confirmation($id, ReservationRepository $reservationRepository, RoomRepository $roomRepository, CustomerRepository $customerRepository, SessionService $sessionService, EntityManagerInterface $em, PaymentRepository $paymentRepository, EventDispatcherInterface $dispatcher)
     {
 
-        /**  @var Reservation */
-        $reservationDetails = $sessionService->getSessionDetails();
+        // /**  @var Reservation */
+        // $reservationDetails = $sessionService->getSessionDetails();
 
-        $reservation = new Reservation;
-        $customer = $customerRepository->find('336');
-        $payment = $paymentRepository->find('279');
-        /** @var Room */
-        $room = $this->roomRepository->findByExampleField($roomNo);
+        // $reservation = new Reservation;
+        // $customer = $customerRepository->find('336');
+        // $payment = $paymentRepository->find('279');
+        // /** @var Room */
+        // $room = $this->roomRepository->findByExampleField($roomNo);
 
-        //dd($reservationDetails['CheckInDate']);
-        // dd($reservationDetails[0]['value']['arrivalDate']);
-        $reservation->setBookingDate(new DateTime('now'))
-            ->setCheckInDate($reservationDetails['CheckInDate'])
-            ->setCheckOutDate($reservationDetails['CheckOutDate'])
-            ->setCustomerID($customer)
-            ->setNoAdult($reservationDetails['NoAdult']);
-        if ($reservationDetails['NoEnfant']) {
-            $reservation->setNoEnfant($reservationDetails['NoEnfant']);
-        } else {
-            $reservation->setNoEnfant(0);
-        }
+        // //dd($reservationDetails['CheckInDate']);
+        // // dd($reservationDetails[0]['value']['arrivalDate']);
+        // $reservation->setBookingDate(new DateTime('now'))
+        //     ->setCheckInDate($reservationDetails['CheckInDate'])
+        //     ->setCheckOutDate($reservationDetails['CheckOutDate'])
+        //     ->setCustomerID($customer)
+        //     ->setNoAdult($reservationDetails['NoAdult']);
+        // if ($reservationDetails['NoEnfant']) {
+        //     $reservation->setNoEnfant($reservationDetails['NoEnfant']);
+        // } else {
+        //     $reservation->setNoEnfant(0);
+        // }
 
-        if ($reservationDetails['CodePromo']) {
-            $reservation->setCodePromo($reservationDetails['CodePromo']);
-        }
-        if ($reservationDetails['SpecialDemande']) {
-            $reservation->setSpecialDemande($reservationDetails['SpecialDemande']);
-        }
+        // if ($reservationDetails['CodePromo']) {
+        //     $reservation->setCodePromo($reservationDetails['CodePromo']);
+        // }
+        // if ($reservationDetails['SpecialDemande']) {
+        //     $reservation->setSpecialDemande($reservationDetails['SpecialDemande']);
+        // }
 
-        $reservation->setRoomNo($roomNo);
+        // $reservation->setRoomNo($roomNo);
 
-        $reservation->setPayment($payment);
+        // $reservation->setPayment($payment);
 
+
+        $reservation = $reservationRepository->find($id);
+        $roomNo = $reservation->getRoomNo();
+        $reservation->setStatus(Reservation::STATUS_PAID);
         $em->persist($reservation);
         $em->flush();
-
-        $reservationEvent = new ReservationConfirmationEvent($reservation);
-        $dispatcher->dispatch($reservationEvent, 'reservation.success');
-
-        // dd($reservationEvent);
+        $room = $roomRepository->findByExampleField($roomNo);
+        // dd($room);
         return $this->render('front/reservation/confirmation.html.twig', [
             'reservation' => $reservation,
             'room' => $room
@@ -145,6 +154,27 @@ class ReservationController extends AbstractController
 
         return $this->render('front/reservation/cancel.html.twig', [
             'reservation' => $reservation
+        ]);
+    }
+
+    /**
+     * @Route("/reservation/pay/{roomNo}", name="reservation_payment", priority=1)
+     */
+
+    public function payment($roomNo, StripeService $stripeService, EntityManagerInterface $em, SessionService $sessionService, CustomerRepository $customerRepository, PaymentRepository $paymentRepository, EventDispatcherInterface $dispatcher)
+    {
+
+        $reservation = $this->reservationPersister->persistReservation($roomNo);
+
+        $reservationEvent = new ReservationConfirmationEvent($reservation);
+        $dispatcher->dispatch($reservationEvent, 'reservation.success');
+
+        $paymentIntent = $stripeService->getPaymentIntent($reservation);
+
+        return $this->render('front/payment/payment.html.twig', [
+            'reservation' => $reservation,
+            'clientSecret' => $paymentIntent->client_secret,
+            'stripePublicKey' => $stripeService->getPublicKey()
         ]);
     }
 }
