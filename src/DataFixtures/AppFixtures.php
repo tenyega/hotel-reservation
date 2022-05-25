@@ -5,7 +5,6 @@ namespace App\DataFixtures;
 use DateTime;
 use Faker\Factory;
 use App\Entity\Room;
-use App\Entity\Payment;
 use App\Entity\Customer;
 use App\Entity\Reservation;
 use Doctrine\ORM\Query\Expr\Math;
@@ -28,7 +27,8 @@ class AppFixtures extends Fixture
 
         $faker->addProvider(new \Liior\Faker\Prices($faker));
         $faker->addProvider(new \Bluemmb\Faker\PicsumPhotosProvider($faker)); //added it for the pictures 
-
+        $roomNo = 1;
+        $total = 0;
 
 
         for ($c = 0; $c < (mt_rand(10, 30)); $c++) {
@@ -50,7 +50,7 @@ class AppFixtures extends Fixture
                 ->setIsSmoking($faker->boolean(70))
                 ->setMaxCapacity(mt_rand(2, 10))
                 ->setPrice($faker->price(3000, 500))
-                ->setRoomNo(mt_rand(20, 80))
+                ->setRoomNo($roomNo)
                 ->setDescription("Nos chambres Deluxe, raffinées et lumineuses, représentent l’atmosphère du quartier. Spacieuses, vous profiterez d’un espace bureau, d’une salle de bain avec baignoire ou douche, et d’une literie au choix (double ou lits jumeaux). Nos chambres sont insonorisées pour un séjour toute en tranquillité.")
                 ->setMainPicture(Room::ROOM_IMAGE1)
                 ->setOtherPicture(Room::ROOM_IMAGE2)
@@ -62,10 +62,11 @@ class AppFixtures extends Fixture
                 $room->setType(Room::TYPE_NONAC)
                     ->setBedding(Room::BED_SIMPLE);
             }
-
+            $roomNo = $roomNo + 1; // just to have unique room no everytime 
             $this->em->persist($room);
 
 
+            $noOfDays = 0;
             $reservation = new Reservation;
             $reservation->setCustomerID($customer)
                 ->setBookingDate($faker->dateTimeBetween('-6 months'))
@@ -73,26 +74,29 @@ class AppFixtures extends Fixture
                 ->setCheckOutDate($faker->dateTimeInInterval($reservation->getCheckInDate(), '+4days'))
                 ->setNoAdult(mt_rand(1, 3))
                 ->setNoEnfant(mt_rand(0, 3))
-                ->setRoomNo($room->getRoomNo())
+                ->setRoomNo($roomNo - 1) // to get the room no which we have just worked 
                 ->setCodePromo(Reservation::CODE_PROMO)
                 ->setSpecialDemande("nothing special")
                 ->setStatus(Reservation::STATUS_PENDING);
 
-            $this->em->persist($reservation);
-
-            $payment = new Payment;
-            $payment->setReservationID($reservation)
-                ->setTotalCharges(mt_rand(1000, 25000));
-            if ($faker->boolean(70)) {
-                $payment->setCouponPromo(Payment::Payment_Coupon)
-                    ->setDescription("Congratulations")
-                    ->setPaymentType("Credit Card");
+            $checkIn = "";
+            $checkOut = "";
+            $checkIn = new DateTime($reservation->getCheckInDate()->format('Y-m-d'));
+            $checkOut = new DateTime($reservation->getCheckOutDate()->format('Y-m-d'));
+            if ($checkIn === $checkOut) {
+                $noOfDays = 1;
             } else {
-                $payment->setPaymentType("Cash")
-                    ->setCouponPromo("No Coupon")
-                    ->setDescription("Sorry with out PROMO");
+
+                $noOfDays = ($checkIn->diff($checkOut))->format("%a");
             }
-            $this->em->persist($payment);
+            $totalNoOfDays = ($noOfDays + 1);
+
+
+            $total = ($totalNoOfDays * $room->getPrice())*100;
+            //dump($total);
+            $reservation->setTotal($total);
+
+            $this->em->persist($reservation);
         }
 
         $manager->flush();

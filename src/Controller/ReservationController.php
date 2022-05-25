@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use DateTime;
 use App\Entity\Room;
-use App\Entity\Payment;
 use App\Entity\Customer;
 use App\Form\SearchType;
 use App\Entity\Reservation;
@@ -12,8 +11,6 @@ use App\Form\ReservationType;
 use App\Session\SessionService;
 use Doctrine\ORM\EntityManager;
 use App\Repository\RoomRepository;
-use App\Repository\PaymentRepository;
-
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\ReservationRepository;
 use App\Event\ReservationConfirmationEvent;
@@ -33,6 +30,8 @@ class ReservationController extends AbstractController
 
     protected $roomRepository;
     protected $reservationPersister;
+    protected $isUpdate = false;
+    protected $newTotal = 0;
 
     public function __construct(RoomRepository $roomRepository, ReservationPersister $reservationPersister)
     {
@@ -60,7 +59,7 @@ class ReservationController extends AbstractController
     /**
      * @Route("/reservation/confirmation/{id}", name="reservation_confirmation")
      */
-    public function confirmation($id, ReservationRepository $reservationRepository, RoomRepository $roomRepository, CustomerRepository $customerRepository, SessionService $sessionService, EntityManagerInterface $em, PaymentRepository $paymentRepository, EventDispatcherInterface $dispatcher)
+    public function confirmation($id, ReservationRepository $reservationRepository, RoomRepository $roomRepository, CustomerRepository $customerRepository, SessionService $sessionService, EntityManagerInterface $em, EventDispatcherInterface $dispatcher)
     {
 
         // /**  @var Reservation */
@@ -116,19 +115,34 @@ class ReservationController extends AbstractController
 
     public function update($id, Request $request, RoomRepository $roomRepository, ReservationRepository $reservationRepository, EntityManagerInterface $em)
     {
-
+        $this->isUpdate = true;
         $reservation = $reservationRepository->find($id);
         $roomno = $reservation->getRoomNo();
         $room = $roomRepository->findByExampleField($roomno);
         //dd($reservation);
         $form = $this->createForm(ReservationType::class, $reservation);
 
+
+        $total = $reservation->getTotal();
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $checkIn = $form->getData()->getCheckInDate();
+            $checkOut = $form->getData()->getCheckOutDate();
+            $myRoom = $room[0];
 
+            $newTotal = $this->reservationPersister->calculTotal($checkIn, $checkOut, $myRoom);
+            $reservation->setTotal($newTotal);
             $em->flush();
-
+            dump($total);
+            dump($newTotal);
+            if ($total < $newTotal) {
+                return $this->redirectToRoute('reservation_payment', [
+                    'roomNo' => $roomno,
+                    'reservation' => $reservation
+                ]);
+            }
             return $this->render('front/reservation/confirmation.html.twig', [
                 'reservation' => $reservation,
                 'room' => $room
@@ -161,15 +175,20 @@ class ReservationController extends AbstractController
      * @Route("/reservation/pay/{roomNo}", name="reservation_payment", priority=1)
      */
 
-    public function payment($roomNo, StripeService $stripeService, EntityManagerInterface $em, SessionService $sessionService, CustomerRepository $customerRepository, PaymentRepository $paymentRepository, EventDispatcherInterface $dispatcher)
+    public function payment($roomNo, StripeService $stripeService, Reservation $reservation=null, EntityManagerInterface $em, SessionService $sessionService, CustomerRepository $customerRepository, EventDispatcherInterface $dispatcher)
     {
 
-        $reservation = $this->reservationPersister->persistReservation($roomNo);
+        if ($this->isUpdate) {
+            $paymentIntent = $stripeService->getPaymentIntent($this->newTotal, $reservation);
+        } else {
+            $reservation = $this->reservationPersister->persistReservation($roomNo);
+        }
 
         $reservationEvent = new ReservationConfirmationEvent($reservation);
         $dispatcher->dispatch($reservationEvent, 'reservation.success');
 
-        $paymentIntent = $stripeService->getPaymentIntent($reservation);
+
+        $paymentIntent = $stripeService->getPaymentIntent($reservation->getTotal(), $reservation);
 
         return $this->render('front/payment/payment.html.twig', [
             'reservation' => $reservation,

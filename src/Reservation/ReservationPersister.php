@@ -6,10 +6,9 @@ use DateTime;
 use App\Entity\Reservation;
 use App\Session\SessionService;
 use App\Repository\CustomerRepository;
-use App\Repository\PaymentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\ReservationRepository;
-
+use App\Repository\RoomRepository;
 
 class ReservationPersister
 {
@@ -18,15 +17,16 @@ class ReservationPersister
     protected $reservationRepository;
     protected $sessionService;
     protected $customerRepository;
-    protected $paymentRepository;
+    protected $roomRepository;
 
-    public function __construct(EntityManagerInterface $em, ReservationRepository $reservationRepository, SessionService $sessionService, CustomerRepository $customerRepository, PaymentRepository $paymentRepository)
+
+    public function __construct(EntityManagerInterface $em, RoomRepository $roomRepository, ReservationRepository $reservationRepository, SessionService $sessionService, CustomerRepository $customerRepository)
     {
         $this->reservationRepository = $reservationRepository;
         $this->em = $em;
         $this->sessionService = $sessionService;
         $this->customerRepository = $customerRepository;
-        $this->paymentRepository = $paymentRepository;
+        $this->roomRepository = $roomRepository;
     }
 
     public function persistReservation($roomNo)
@@ -35,9 +35,10 @@ class ReservationPersister
         $reservationDetails = $this->sessionService->getSessionDetails();
 
         $reservation = new Reservation;
-        $customer = $this->customerRepository->find('336');
-        $payment = $this->paymentRepository->find('279');
+        $customer = $this->customerRepository->find('854');
 
+        $room = $this->roomRepository->findByExampleField($roomNo);
+        dump($room);
         $reservation->setBookingDate(new DateTime('now'))
             ->setCheckInDate($reservationDetails['CheckInDate'])
             ->setCheckOutDate($reservationDetails['CheckOutDate'])
@@ -55,16 +56,38 @@ class ReservationPersister
         if ($reservationDetails['SpecialDemande']) {
             $reservation->setSpecialDemande($reservationDetails['SpecialDemande']);
         }
+        $checkIn = "";
+        $checkOut = "";
+        $checkIn = new DateTime($reservation->getCheckInDate()->format('Y-m-d'));
+        $checkOut = new DateTime($reservation->getCheckOutDate()->format('Y-m-d'));
 
         $reservation->setRoomNo($roomNo);
 
-        $reservation->setPayment($payment);
-        $reservation->setTotal(3000);
+        $total = $this->calculTotal($checkIn, $checkOut, $room[0]);
+
+        $reservation->setTotal($total);
 
 
         $this->em->persist($reservation);
         $this->em->flush();
 
         return $reservation;
+    }
+
+    public function calculTotal($checkIn, $checkOut, $room)
+    {
+
+
+        if ($checkIn === $checkOut) {
+            $noOfDays = 1;
+        } else {
+
+            $noOfDays = ($checkIn->diff($checkOut))->format("%a");
+        }
+        $totalNoOfDays = ($noOfDays + 1);
+
+
+        $total = ($totalNoOfDays * $room->getPrice()) * 100;
+        return $total;
     }
 }

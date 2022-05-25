@@ -38,7 +38,7 @@ calendar.render();
 {% endblock %}
 {% block body %}
 	{# <button class="btn-primary" onclick="call()">
-																																																					click</button> #}
+																																																							click</button> #}
 	<div id='calendar'></div>
 	<h1 class='title'>Votre reservation est confirmé</h1>
 	<h2 class='title'>
@@ -56,6 +56,8 @@ calendar.render();
 		Date de depart:-
 		{{ reservation.getCheckOutDate()| date('Y-m-d') }}<br>
 
+		Charges Total:-
+		{{ reservation.getTotal()/100 }}&euro;<br>
 
 		{% for r in room %}
 			Installation possible:-

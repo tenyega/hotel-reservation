@@ -54,10 +54,6 @@ class Reservation
      */
     private $NoEnfant;
 
-    /**
-     * @ORM\OneToOne(targetEntity=Payment::class, mappedBy="ReservationID", cascade={"persist", "remove"})
-     */
-    private $payment;
 
     /**
      * @ORM\ManyToOne(targetEntity=Customer::class, inversedBy="reservations")
@@ -164,22 +160,6 @@ class Reservation
         return $this;
     }
 
-    public function getPayment(): ?Payment
-    {
-        return $this->payment;
-    }
-
-    public function setPayment(Payment $payment): self
-    {
-        // set the owning side of the relation if necessary
-        if ($payment->getReservationID() !== $this) {
-            $payment->setReservationID($this);
-        }
-
-        $this->payment = $payment;
-
-        return $this;
-    }
 
     public function getCustomerID(): ?Customer
     {

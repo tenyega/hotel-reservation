@@ -29,7 +29,7 @@
 					{% endif %}
 				</td>
 
-				<td>{{ r.getPrice()}}</td>
+				<td>{{ r.getPrice()}}&euro;</td>
 			{% endfor %}
 		</tr>
 
@@ -38,7 +38,7 @@
 		<tr>
 			<td colspan="3">Total:</td>
 			<td>
-				qsdqdqsd</td>
+				{{ reservation.getTotal()/100 }}&euro;</td>
 		</tr>
 	</tfoot>
 

@@ -22,7 +22,7 @@ class StripeService
     {
         return $this->publicKey;
     }
-    public function getPaymentIntent($reservation)
+    public function getPaymentIntent($amount, $reservation)
     {
 
         \Stripe\Stripe::setApiKey('sk_test_51KltkGDEBqijHsAmi00vC2n0OErlGsuUVDj5uqtPLhptQ1SyGMNW46EZxA16VOyNmbQPFxq0PHNkzgoqmacVAc6h0035b7ypdR');
@@ -36,7 +36,7 @@ class StripeService
         header('Content-Type: application/json');
         
         return \Stripe\PaymentIntent::create([
-            'amount' => $reservation->getTotal($this->productRepository),
+            'amount' =>$amount,
             'currency' => "EUR",
             'automatic_payment_methods' => [
                 'enabled' => true,
