@@ -1,0 +1,86 @@
+{% extends "front/base.html.twig" %}
+{% block title %}
+	Modification
+{% endblock %}
+{% block body %}
+	<h1 class='title'>
+		Recapitulative</h1>
+	<div class='recap'>
+		<div>
+			<hr>
+			<h1 class='title'>
+				Nouvelle Reservation</h1>
+			<p class='title'>
+				Reservation ID :-
+				{{  reservation.getID() }}<br>
+				Date d'arrivée: -
+				{{ reservation.getCheckInDate() | date('Y-m-d')}}<br>
+
+
+				Date de depart:-
+				{{ reservation.getCheckOutDate()| date('Y-m-d') }}<br>
+
+				Charges Total:-
+				{{ reservation.getTotal()/100 }}&euro;<br>
+
+				{% for r in room %}
+					Installation possible:-
+					{{ r.getFacilityPossible() }}<br>
+					-
+					{% if r.getIsSmoking()	%}fumeuse
+					{% else %}
+						non fumeuse
+					{% endif %}<br>
+					-Etage:
+					{{ r.getFloor()	}}<br>
+
+
+				{% endfor %}
+
+			</p>
+		</div>
+
+		<div>
+			<hr>
+			<h1 class='title'>
+				Reservation Avant</h1>
+			<p class='title'>
+
+				Reservation ID :-
+				{{  oldResa.getID() }}<br>
+				Date d'arrivée: -
+				{{ oldResa.getCheckInDate() | date('Y-m-d')}}<br>
+
+
+				Date de depart:-
+				{{ oldResa.getCheckOutDate()| date('Y-m-d') }}<br>
+
+				Charges Total:-
+				{{ oldResa.getTotal()/100 }}&euro;<br>
+
+				{% for r in room %}
+					Installation possible:-
+					{{ r.getFacilityPossible() }}<br>
+					-
+					{% if r.getIsSmoking()	%}fumeuse
+					{% else %}
+						non fumeuse
+					{% endif %}<br>
+					-Etage:
+					{{ r.getFloor()	}}<br>
+
+				{% endfor %}
+
+			</p>
+		</div>
+
+		<div>
+			<a href="{{ path('reservation_payment', {resaID : resaID, reservation: reservation, diffTotal: diffTotal } ) }}">
+				<input class='btn-reserver' type="button" value="Confirmer">
+			</a>
+			<a href="{{ path('reservation_cancel', {id : resaID} ) }}">
+				<input class='btn-reserver' type="button" value="Annuler la reservation">
+			</a>
+		</div>
+	</div>
+{% endblock %}

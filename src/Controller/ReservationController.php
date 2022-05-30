@@ -30,9 +30,8 @@ class ReservationController extends AbstractController
 
     protected $roomRepository;
     protected $reservationPersister;
-    protected $isUpdate = false;
     protected $newTotal = 0;
-
+    public $diffTotal = 0;
     public function __construct(RoomRepository $roomRepository, ReservationPersister $reservationPersister)
     {
         $this->roomRepository = $roomRepository;
@@ -115,33 +114,49 @@ class ReservationController extends AbstractController
 
     public function update($id, Request $request, RoomRepository $roomRepository, ReservationRepository $reservationRepository, EntityManagerInterface $em)
     {
-        $this->isUpdate = true;
+
         $reservation = $reservationRepository->find($id);
+        $oldResa = clone $reservation;
         $roomno = $reservation->getRoomNo();
         $room = $roomRepository->findByExampleField($roomno);
-        //dd($reservation);
+        dump($oldResa);
         $form = $this->createForm(ReservationType::class, $reservation);
 
-
         $total = $reservation->getTotal();
-
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            dump($reservation);
+            $reservation->setStatus(Reservation::STATUS_PENDING);
+
             $checkIn = $form->getData()->getCheckInDate();
             $checkOut = $form->getData()->getCheckOutDate();
             $myRoom = $room[0];
+            // dd($reservation);
+            $this->newTotal = $this->reservationPersister->calculTotal($checkIn, $checkOut, $myRoom);
+            $this->diffTotal = $this->newTotal - $total;
+            dump($this->diffTotal);
+            $reservation->setTotal($this->newTotal);
 
-            $newTotal = $this->reservationPersister->calculTotal($checkIn, $checkOut, $myRoom);
-            $reservation->setTotal($newTotal);
+            // dd($this->newTotal);
+            $resaID = $reservation->getId();
             $em->flush();
+
             dump($total);
-            dump($newTotal);
-            if ($total < $newTotal) {
-                return $this->redirectToRoute('reservation_payment', [
-                    'roomNo' => $roomno,
-                    'reservation' => $reservation
+            dump($this->newTotal);
+            if ($total < $this->newTotal) {
+                return $this->render('front/reservation/modificationConfirmation.html.twig', [
+                    'resaID' => $resaID,
+                    'reservation' => $reservation,
+                    'diffTotal' => $this->diffTotal,
+                    'room' => $room,
+                    'oldResa' => $oldResa
                 ]);
+                // return $this->redirectToRoute('reservation_payment', [
+                //     'resaID' => $resaID,
+                //     'reservation' => $reservation,
+                //     'diffTotal' => $this->diffTotal
+                // ]);
             }
             return $this->render('front/reservation/confirmation.html.twig', [
                 'reservation' => $reservation,
@@ -164,31 +179,40 @@ class ReservationController extends AbstractController
         $em->remove($reservation);
         $em->flush();
 
-
-
         return $this->render('front/reservation/cancel.html.twig', [
             'reservation' => $reservation
         ]);
     }
 
     /**
-     * @Route("/reservation/pay/{roomNo}", name="reservation_payment", priority=1)
+     * @Route("/reservation/pay/{resaID}/{diffTotal}", name="reservation_payment", priority=1)
      */
 
-    public function payment($roomNo, StripeService $stripeService, Reservation $reservation=null, EntityManagerInterface $em, SessionService $sessionService, CustomerRepository $customerRepository, EventDispatcherInterface $dispatcher)
+    public function payment($resaID, $diffTotal, ReservationRepository $reservationRepository, StripeService $stripeService, EntityManagerInterface $em, SessionService $sessionService, CustomerRepository $customerRepository, EventDispatcherInterface $dispatcher)
     {
 
-        if ($this->isUpdate) {
-            $paymentIntent = $stripeService->getPaymentIntent($this->newTotal, $reservation);
+        dump($diffTotal);
+
+        $reservation = $reservationRepository->find($resaID);
+        $resaTotal = $reservation->getTotal();
+        dump($resaTotal);
+        dump($this->newTotal);
+        $total = $reservation->getTotal();
+        if ($diffTotal) {
+            $paymentIntent = $stripeService->getPaymentIntent($diffTotal, $reservation);
+            dump($this->newTotal);
         } else {
-            $reservation = $this->reservationPersister->persistReservation($roomNo);
+            $paymentIntent = $stripeService->getPaymentIntent($total, $reservation);
+            dump($total);
         }
+
+
 
         $reservationEvent = new ReservationConfirmationEvent($reservation);
         $dispatcher->dispatch($reservationEvent, 'reservation.success');
 
 
-        $paymentIntent = $stripeService->getPaymentIntent($reservation->getTotal(), $reservation);
+        // $paymentIntent = $stripeService->getPaymentIntent($reservation->getTotal(), $reservation);
 
         return $this->render('front/payment/payment.html.twig', [
             'reservation' => $reservation,

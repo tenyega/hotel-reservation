@@ -19,3 +19,7 @@ body {
 .section-top {
     margin-top: -503px;
 }
+
+.recap{
+    display: flex;
+}

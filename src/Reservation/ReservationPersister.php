@@ -66,6 +66,7 @@ class ReservationPersister
         $total = $this->calculTotal($checkIn, $checkOut, $room[0]);
 
         $reservation->setTotal($total);
+        $reservation->setStatus(Reservation::STATUS_PENDING);
 
 
         $this->em->persist($reservation);

@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Customer;
 use App\Form\CustomerType;
+use App\Reservation\ReservationPersister;
 use App\Stripe\StripeService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,7 +18,7 @@ class CustomerController extends AbstractController
      * @Route("/reservation/{roomNo}", name="reservation_customerDetailForm")
      */
 
-    public function customerDetailForm($roomNo, Request $request, EntityManagerInterface $em, StripeService $stripeService)
+    public function customerDetailForm($roomNo, Request $request, ReservationPersister $reservationPersister, EntityManagerInterface $em, StripeService $stripeService)
     {
         $customer = new Customer;
         $form = $this->createForm(CustomerType::class, $customer);
@@ -30,8 +31,12 @@ class CustomerController extends AbstractController
             $data = $form->getData();
             dump($data);
             dump('form submitted');
+            $diffTotal = 0;
+            $reservation = $reservationPersister->persistReservation($roomNo);
+            $resaID = $reservation->getId();
             return $this->redirectToRoute('reservation_payment', [
-                'roomNo' => $roomNo
+                'resaID' => $resaID,
+                'diffTotal' => $diffTotal
             ]);
         }
 
