@@ -44,4 +44,11 @@ class CustomerController extends AbstractController
             'form' => $form->createView()
         ]);
     }
+
+    /**
+     * @Route("/map", name="front_map")
+     */
+    public function gMap()
+    {  return $this->render('front/map/gMap.html.twig');
+    }
 }

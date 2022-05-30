@@ -106,4 +106,5 @@ class ChartController extends AbstractController
             'data' => json_encode($dataPoints)
         ]);
     }
+   
 }

@@ -1,0 +1,64 @@
+{% extends "front/base.html.twig" %}
+{% block title %}
+	Map
+{% endblock %}
+{% block body %}
+	<h1 class='title'>
+		Emplacement de votre Hotel
+	</h1>
+	<link rel="stylesheet" href="{{ asset('CSS/map.css') }}"/>
+	<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+	<!-- playground-hide -->
+
+
+	<div id="map"></div>
+
+	<!-- 
+													     The `defer` attribute causes the callback to execute after the full HTML
+													     document has been parsed. For non-blocking uses, avoiding race conditions,
+													     and consistent behavior across browsers, consider loading using Promises
+													     with https://www.npmjs.com/package/@googlemaps/js-api-loader.
+													    -->
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDcjOqgCqWniAb2PGhXIaUJVXMHJgse0hs&callback=initMap&v=weekly" defer></script>
+
+	<script>
+
+	(function mapCord() {
+navigator.geolocation.getCurrentPosition(function (position) {
+posLat = position.coords.latitude
+console.log(posLat)
+posLng = position.coords.longitude
+console.log(posLng)
+
+initMap(posLat,posLng)
+}, function (error) {
+console.log("The Locator was denied. :(")
+})
+})();
+		function initMap(posLat, posLng) {
+
+const myhotel = {
+lat: 48.8588897,
+lng: 2.320041
+};
+
+
+const myLatLng = {
+lat: posLat,
+lng: posLng
+};
+
+
+const map = new google.maps.Map(document.getElementById("map"), {
+zoom: 10,
+center: myLatLng
+});
+
+new google.maps.Marker({position: myhotel, map, title: "Votre Hotel!"});
+new google.maps.Marker({position: myLatLng, map, title: "Votre Position!"});
+
+}
+
+window.initMap = initMap;
+	</script>
+{% endblock %}
