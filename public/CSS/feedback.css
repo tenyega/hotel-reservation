@@ -1,0 +1,39 @@
+*, *:before, *:after {
+    box-sizing: border-box;
+  }
+
+
+.container{
+    margin-left: 35%;
+    margin-top: 5%;
+    background-color: rgba(191, 25, 33, 0.423);
+    width: 433px;
+    padding: 20px;
+    text-align: center;
+
+}
+
+.form_input, textarea{
+    padding:30px;
+    border:0;
+}
+
+input,textarea{
+    padding: 10px;
+    margin: 10px;
+    font-size: large;
+    border-radius:10px;
+}
+
+.btn-reserver{
+    padding-top:10px
+}
+
+.error-msg {
+    color: blue;
+}
+
+textarea{
+    width: 300px;
+    height: 200px;
+}

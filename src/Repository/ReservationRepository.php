@@ -58,18 +58,18 @@ class ReservationRepository extends ServiceEntityRepository
             
             ->getResult();
     }
-    // /**
-    //  * @return Reservation[] Returns an array of Reservation objects
-    //  */
+    /**
+     * @return Reservation[] Returns an array of Reservation objects
+     */
 
-    // public function findByRoomNo($roomNo)
-    // {
-    //     return $this->createQueryBuilder('r')
-    //         ->andWhere('r.RoomNo = :val')
-    //         ->setParameter('val', $roomNo)
-    //         ->getQuery()
-    //         ->getResult();
-    // }
+    public function findByRoomNo($roomNo)
+    {
+        return $this->createQueryBuilder('r')
+            ->andWhere('r.RoomNo = :val')
+            ->setParameter('val', $roomNo)
+            ->getQuery()
+            ->getResult();
+    }
 
 
 

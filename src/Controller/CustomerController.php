@@ -2,11 +2,14 @@
 
 namespace App\Controller;
 
+use DateTime;
+use App\Entity\Comment;
 use App\Entity\Customer;
 use App\Form\CustomerType;
-use App\Reservation\ReservationPersister;
+use App\Form\CommentFormType;
 use App\Stripe\StripeService;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Reservation\ReservationPersister;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -49,6 +52,29 @@ class CustomerController extends AbstractController
      * @Route("/map", name="front_map")
      */
     public function gMap()
-    {  return $this->render('front/map/gMap.html.twig');
+    {
+        return $this->render('front/map/gMap.html.twig');
+    }
+
+    /**
+     * @Route("/feedback", name="front_feedback")
+     */
+
+    public function userFeedback(EntityManagerInterface $em, Request $request)
+    {
+        $comment = new Comment();
+        $form = $this->createForm(CommentFormType::class, $comment);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $comment->setCreatedAt(new DateTime('now'));
+            $em->persist($comment);
+            $em->flush();
+            return $this->render('front/feedback/feedbackSuccess.html.twig');
+        }
+
+        return $this->render('front/feedback/userFeedback.html.twig', [
+            'form' => $form->createView()
+        ]);
     }
 }
