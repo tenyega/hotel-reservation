@@ -56,10 +56,10 @@ class Reservation
 
 
     /**
-     * @ORM\ManyToOne(targetEntity=Customer::class, inversedBy="reservations")
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="reservations")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $CustomerID;
+    private $UserID;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -161,14 +161,14 @@ class Reservation
     }
 
 
-    public function getCustomerID(): ?Customer
+    public function getUserID(): ?User
     {
-        return $this->CustomerID;
+        return $this->UserID;
     }
 
-    public function setCustomerID(?Customer $CustomerID): self
+    public function setUserID(?User $UserID): self
     {
-        $this->CustomerID = $CustomerID;
+        $this->UserID = $UserID;
 
         return $this;
     }

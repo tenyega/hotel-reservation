@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use DateTime;
 use App\Entity\Room;
-use App\Entity\Customer;
+use App\Entity\User;
 use App\Form\SearchType;
 use App\Entity\Reservation;
 use App\Form\ReservationType;
@@ -14,7 +14,7 @@ use App\Repository\RoomRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\ReservationRepository;
 use App\Event\ReservationConfirmationEvent;
-use App\Repository\CustomerRepository;
+use App\Repository\UserRepository;
 use App\Reservation\ReservationPersister;
 use App\Stripe\StripeService;
 use Symfony\Component\HttpFoundation\Request;
@@ -42,7 +42,7 @@ class ReservationController extends AbstractController
      */
     public function show(ReservationRepository $reservationRepository, Request $request): Response
     {
-        /** @var Customer */
+        /** @var User */
         $user = $this->getUser();
         $reservations = $reservationRepository->findByExampleField('294');
         //  dd($reservation);
@@ -58,14 +58,14 @@ class ReservationController extends AbstractController
     /**
      * @Route("/reservation/confirmation/{id}", name="reservation_confirmation")
      */
-    public function confirmation($id, ReservationRepository $reservationRepository, RoomRepository $roomRepository, CustomerRepository $customerRepository, SessionService $sessionService, EntityManagerInterface $em, EventDispatcherInterface $dispatcher)
+    public function confirmation($id, ReservationRepository $reservationRepository, RoomRepository $roomRepository, UserRepository $userRepository, SessionService $sessionService, EntityManagerInterface $em, EventDispatcherInterface $dispatcher)
     {
 
         // /**  @var Reservation */
         // $reservationDetails = $sessionService->getSessionDetails();
 
         // $reservation = new Reservation;
-        // $customer = $customerRepository->find('336');
+        // $user = $userRepository->find('336');
         // $payment = $paymentRepository->find('279');
         // /** @var Room */
         // $room = $this->roomRepository->findByExampleField($roomNo);
@@ -75,7 +75,7 @@ class ReservationController extends AbstractController
         // $reservation->setBookingDate(new DateTime('now'))
         //     ->setCheckInDate($reservationDetails['CheckInDate'])
         //     ->setCheckOutDate($reservationDetails['CheckOutDate'])
-        //     ->setCustomerID($customer)
+        //     ->setUserID($user)
         //     ->setNoAdult($reservationDetails['NoAdult']);
         // if ($reservationDetails['NoEnfant']) {
         //     $reservation->setNoEnfant($reservationDetails['NoEnfant']);
@@ -102,6 +102,9 @@ class ReservationController extends AbstractController
         $em->flush();
         $room = $roomRepository->findByExampleField($roomNo);
         // dd($room);
+
+        $reservationEvent = new ReservationConfirmationEvent($reservation);
+        $dispatcher->dispatch($reservationEvent, 'reservation.success');
         return $this->render('front/reservation/confirmation.html.twig', [
             'reservation' => $reservation,
             'room' => $room
@@ -157,6 +160,8 @@ class ReservationController extends AbstractController
                 //     'reservation' => $reservation,
                 //     'diffTotal' => $this->diffTotal
                 // ]);
+            } else {
+                return $this->render('front/reservation/demandeRemboursement.html.twig');
             }
             return $this->render('front/reservation/confirmation.html.twig', [
                 'reservation' => $reservation,
@@ -188,7 +193,7 @@ class ReservationController extends AbstractController
      * @Route("/reservation/pay/{resaID}/{diffTotal}", name="reservation_payment", priority=1)
      */
 
-    public function payment($resaID, $diffTotal, ReservationRepository $reservationRepository, StripeService $stripeService, EntityManagerInterface $em, SessionService $sessionService, CustomerRepository $customerRepository, EventDispatcherInterface $dispatcher)
+    public function payment($resaID, $diffTotal, ReservationRepository $reservationRepository, StripeService $stripeService, EntityManagerInterface $em, SessionService $sessionService, UserRepository $userRepository)
     {
 
         dump($diffTotal);
@@ -206,10 +211,6 @@ class ReservationController extends AbstractController
             dump($total);
         }
 
-
-
-        $reservationEvent = new ReservationConfirmationEvent($reservation);
-        $dispatcher->dispatch($reservationEvent, 'reservation.success');
 
 
         // $paymentIntent = $stripeService->getPaymentIntent($reservation->getTotal(), $reservation);

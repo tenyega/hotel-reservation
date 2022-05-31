@@ -4,8 +4,8 @@ namespace App\Controller;
 
 use DateTime;
 use App\Entity\Comment;
-use App\Entity\Customer;
-use App\Form\CustomerType;
+use App\Entity\User;
+use App\Form\UserType;
 use App\Form\CommentFormType;
 use App\Stripe\StripeService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -15,21 +15,21 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-class CustomerController extends AbstractController
+class UserController extends AbstractController
 {
     /**
-     * @Route("/reservation/{roomNo}", name="reservation_customerDetailForm")
+     * @Route("/reservation/{roomNo}", name="reservation_userDetailForm")
      */
 
-    public function customerDetailForm($roomNo, Request $request, ReservationPersister $reservationPersister, EntityManagerInterface $em, StripeService $stripeService)
+    public function userDetailForm($roomNo, Request $request, ReservationPersister $reservationPersister, EntityManagerInterface $em, StripeService $stripeService)
     {
-        $customer = new Customer;
-        $form = $this->createForm(CustomerType::class, $customer);
+        $user = new User;
+        $form = $this->createForm(UserType::class, $user);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em->persist($customer);
+            $em->persist($user);
             $em->flush();
             $data = $form->getData();
             dump($data);
@@ -43,7 +43,7 @@ class CustomerController extends AbstractController
             ]);
         }
 
-        return $this->render('front/reservation/customerDetailForm.html.twig', [
+        return $this->render('front/reservation/userDetailForm.html.twig', [
             'form' => $form->createView()
         ]);
     }

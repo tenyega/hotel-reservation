@@ -36,6 +36,9 @@ class ReservationConfirmationSubscriber implements EventSubscriberInterface
     }
     public function sendSuccessEmail(ReservationConfirmationEvent $reservationConfirmationEvent)
     {
+        $publicDirectory = getcwd();
+        // e.g /var/www/project/public/mypdf.pdf
+        $pdfFilepath =  $publicDirectory . '/mypdf.pdf';
 
         // // 1. get user connected - to get his email id. - as we are not in abstractcontroller thats why Security
         // /**@var User */
@@ -60,6 +63,7 @@ class ReservationConfirmationSubscriber implements EventSubscriberInterface
                 'room' => $this->roomRepository->findByExampleField($reservationConfirmationEvent->getReservation()->getRoomNo()),
                 'user' => "yega"
             ])
+            ->attachFromPath($pdfFilepath)
             ->subject("Brovo votre reservation pour  ({$reservationConfirmationEvent->getReservation()->getCheckInDate()->format('Y-m-d')}) a été bien enregistrée.");
 
         // 4. send a mail mailer Interface 

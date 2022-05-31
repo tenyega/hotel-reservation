@@ -20,7 +20,7 @@ class Comment
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $customer;
+    private $user;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -42,14 +42,14 @@ class Comment
         return $this->id;
     }
 
-    public function getCustomer(): ?string
+    public function getUser(): ?string
     {
-        return $this->customer;
+        return $this->user;
     }
 
-    public function setCustomer(string $customer): self
+    public function setUser(string $user): self
     {
-        $this->customer = $customer;
+        $this->user = $user;
 
         return $this;
     }

@@ -49,11 +49,11 @@ class ReservationRepository extends ServiceEntityRepository
      * @return Reservation[] Returns an array of Reservation objects
      */
 
-    public function findByExampleField($customerID)
+    public function findByExampleField($userID)
     {
         return $this->createQueryBuilder('r')
-            ->andWhere('r.CustomerID = :val')
-            ->setParameter('val', $customerID)
+            ->andWhere('r.UserID = :val')
+            ->setParameter('val', $userID)
             ->getQuery()
             
             ->getResult();

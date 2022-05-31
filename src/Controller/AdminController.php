@@ -8,9 +8,9 @@ use Sentry\SentrySdk;
 use App\Entity\Comment;
 use App\Form\CommentFormType;
 use PhpParser\Node\Stmt\Label;
+use App\Repository\UserRepository;
 use Symfony\UX\Chartjs\Model\Chart;
 use App\Repository\CommentRepository;
-use App\Repository\CustomerRepository;
 
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\ReservationRepository;
@@ -120,18 +120,18 @@ class AdminController extends AbstractController
     /**
      * @Route("/calender/{roomNo}", name="admin_calender")
      */
-    public function fullCalender($roomNo, ReservationRepository $reservationRepository, CustomerRepository $customerRepository)
+    public function fullCalender($roomNo, ReservationRepository $reservationRepository, UserRepository $userRepository)
     {
         $events = [];
         $reservations = $reservationRepository->findByRoomNo($roomNo);
         foreach ($reservations as $r) {
-            $customer = $customerRepository->find($r->getCustomerID());
+            $user = $userRepository->find($r->getUserID());
             $interval = new DateInterval('P1D');
 
             if ($r->getCheckInDate()->format('Y-m-d') == $r->getCheckOutDate()->format('Y-m-d')) {
-                $events[] = array('title' => $customer->getLastName(), 'start' => $r->getCheckInDate()->format('Y-m-d'), 'end' => $r->getCheckOutDate()->format('Y-m-d'));
+                $events[] = array('title' => $user->getLastName(), 'start' => $r->getCheckInDate()->format('Y-m-d'), 'end' => $r->getCheckOutDate()->format('Y-m-d'));
             } else {
-                $events[] = array('title' => $customer->getLastName(), 'start' => ($r->getCheckInDate())->format('Y-m-d'), 'end' => ($r->getCheckOutDate()->add($interval))->format('Y-m-d'));
+                $events[] = array('title' => $user->getLastName(), 'start' => ($r->getCheckInDate())->format('Y-m-d'), 'end' => ($r->getCheckOutDate()->add($interval))->format('Y-m-d'));
             }
         }
         dump(json_encode($events));

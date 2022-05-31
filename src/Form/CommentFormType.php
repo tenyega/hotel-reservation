@@ -17,7 +17,7 @@ class CommentFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('customer', TextType::class, [
+            ->add('user', TextType::class, [
                 'label' => false,
                 'attr' => [
                     'placeholder' => "Votre Nom Complete"

@@ -5,7 +5,7 @@ namespace App\Reservation;
 use DateTime;
 use App\Entity\Reservation;
 use App\Session\SessionService;
-use App\Repository\CustomerRepository;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\ReservationRepository;
 use App\Repository\RoomRepository;
@@ -16,16 +16,16 @@ class ReservationPersister
     protected $em;
     protected $reservationRepository;
     protected $sessionService;
-    protected $customerRepository;
+    protected $userRepository;
     protected $roomRepository;
 
 
-    public function __construct(EntityManagerInterface $em, RoomRepository $roomRepository, ReservationRepository $reservationRepository, SessionService $sessionService, CustomerRepository $customerRepository)
+    public function __construct(EntityManagerInterface $em, RoomRepository $roomRepository, ReservationRepository $reservationRepository, SessionService $sessionService, UserRepository $userRepository)
     {
         $this->reservationRepository = $reservationRepository;
         $this->em = $em;
         $this->sessionService = $sessionService;
-        $this->customerRepository = $customerRepository;
+        $this->userRepository = $userRepository;
         $this->roomRepository = $roomRepository;
     }
 
@@ -35,14 +35,14 @@ class ReservationPersister
         $reservationDetails = $this->sessionService->getSessionDetails();
 
         $reservation = new Reservation;
-        $customer = $this->customerRepository->find('854');
+        $user = $this->userRepository->find('1');
 
         $room = $this->roomRepository->findByExampleField($roomNo);
         dump($room);
         $reservation->setBookingDate(new DateTime('now'))
             ->setCheckInDate($reservationDetails['CheckInDate'])
             ->setCheckOutDate($reservationDetails['CheckOutDate'])
-            ->setCustomerID($customer)
+            ->setUserID($user)
             ->setNoAdult($reservationDetails['NoAdult']);
         if ($reservationDetails['NoEnfant']) {
             $reservation->setNoEnfant($reservationDetails['NoEnfant']);

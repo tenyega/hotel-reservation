@@ -2,15 +2,15 @@
 
 namespace App\Entity;
 
-use App\Repository\CustomerRepository;
+use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=CustomerRepository::class)
+ * @ORM\Entity(repositoryClass=UserRepository::class)
  */
-class Customer
+class User
 {
     /**
      * @ORM\Id
@@ -45,7 +45,7 @@ class Customer
     private $Address;
 
     /**
-     * @ORM\OneToMany(targetEntity=Reservation::class, mappedBy="CustomerID")
+     * @ORM\OneToMany(targetEntity=Reservation::class, mappedBy="UserID")
      */
     private $reservations;
 
@@ -131,7 +131,7 @@ class Customer
     {
         if (!$this->reservations->contains($reservation)) {
             $this->reservations[] = $reservation;
-            $reservation->setCustomerID($this);
+            $reservation->setUserID($this);
         }
 
         return $this;
@@ -141,8 +141,8 @@ class Customer
     {
         if ($this->reservations->removeElement($reservation)) {
             // set the owning side to null (unless already changed)
-            if ($reservation->getCustomerID() === $this) {
-                $reservation->setCustomerID(null);
+            if ($reservation->getUserID() === $this) {
+                $reservation->setUserID(null);
             }
         }
 

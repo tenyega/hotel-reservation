@@ -5,7 +5,7 @@ namespace App\DataFixtures;
 use DateTime;
 use Faker\Factory;
 use App\Entity\Room;
-use App\Entity\Customer;
+use App\Entity\User;
 use App\Entity\Reservation;
 use Doctrine\ORM\Query\Expr\Math;
 use Bluemmb\Faker\PicsumPhotosProvider;
@@ -32,14 +32,14 @@ class AppFixtures extends Fixture
 
 
         for ($c = 0; $c < (mt_rand(10, 30)); $c++) {
-            $customer = new Customer();
-            $customer->setFirstName($faker->firstName())
+            $user = new User();
+            $user->setFirstName($faker->firstName())
                 ->setLastName($faker->lastName())
-                ->setEmail("customer$c@gmail.com")
+                ->setEmail("user$c@gmail.com")
                 ->setPhone($faker->phoneNumber())
                 ->setAddress($faker->address());
 
-            $this->em->persist($customer);
+            $this->em->persist($user);
 
 
 
@@ -68,7 +68,7 @@ class AppFixtures extends Fixture
 
             $noOfDays = 0;
             $reservation = new Reservation;
-            $reservation->setCustomerID($customer)
+            $reservation->setUserID($user)
                 ->setBookingDate($faker->dateTimeBetween('-6 months'))
                 ->setCheckInDate($faker->dateTimeBetween('-7 days', '+2 months'))
                 ->setCheckOutDate($faker->dateTimeInInterval($reservation->getCheckInDate(), '+4days'))
@@ -92,7 +92,7 @@ class AppFixtures extends Fixture
             $totalNoOfDays = ($noOfDays + 1);
 
 
-            $total = ($totalNoOfDays * $room->getPrice())*100;
+            $total = ($totalNoOfDays * $room->getPrice()) * 100;
             //dump($total);
             $reservation->setTotal($total);
 
