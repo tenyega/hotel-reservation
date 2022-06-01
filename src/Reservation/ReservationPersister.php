@@ -5,10 +5,11 @@ namespace App\Reservation;
 use DateTime;
 use App\Entity\Reservation;
 use App\Session\SessionService;
+use App\Repository\RoomRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\ReservationRepository;
-use App\Repository\RoomRepository;
+use Symfony\Component\Security\Core\Security;
 
 class ReservationPersister
 {
@@ -18,11 +19,13 @@ class ReservationPersister
     protected $sessionService;
     protected $userRepository;
     protected $roomRepository;
+    protected $security;
 
 
-    public function __construct(EntityManagerInterface $em, RoomRepository $roomRepository, ReservationRepository $reservationRepository, SessionService $sessionService, UserRepository $userRepository)
+    public function __construct(EntityManagerInterface $em, RoomRepository $roomRepository,Security $security, ReservationRepository $reservationRepository, SessionService $sessionService, UserRepository $userRepository)
     {
         $this->reservationRepository = $reservationRepository;
+        $this->security=$security;
         $this->em = $em;
         $this->sessionService = $sessionService;
         $this->userRepository = $userRepository;
@@ -35,7 +38,7 @@ class ReservationPersister
         $reservationDetails = $this->sessionService->getSessionDetails();
 
         $reservation = new Reservation;
-        $user = $this->userRepository->find('1');
+        $user = $this->security->getUser();
 
         $room = $this->roomRepository->findByExampleField($roomNo);
         dump($room);

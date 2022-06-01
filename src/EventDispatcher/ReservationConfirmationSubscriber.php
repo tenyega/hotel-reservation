@@ -3,10 +3,12 @@
 namespace App\EventDispatcher;
 
 use Psr\Log\LoggerInterface;
+use App\Invoice\InvoiceGenerator;
 use Symfony\Component\Mime\Email;
+use App\Repository\RoomRepository;
 use Symfony\Component\Mime\Address;
 use App\Event\ReservationConfirmationEvent;
-use App\Repository\RoomRepository;
+use Stripe\Invoice;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Security\Core\Security;
@@ -19,9 +21,11 @@ class ReservationConfirmationSubscriber implements EventSubscriberInterface
     protected $mailer;
     protected $security;
     protected $roomRepository;
+    protected $invoiceGenerator;
 
-    public function __construct(LoggerInterface $logger, MailerInterface $mailer, Security $security, RoomRepository $roomRepository)
+    public function __construct(LoggerInterface $logger, MailerInterface $mailer, Security $security, RoomRepository $roomRepository, InvoiceGenerator $invoiceGenerator)
     {
+        $this->invoiceGenerator = $invoiceGenerator;
         $this->logger = $logger;
         $this->mailer = $mailer;
         $this->security = $security;
@@ -36,9 +40,7 @@ class ReservationConfirmationSubscriber implements EventSubscriberInterface
     }
     public function sendSuccessEmail(ReservationConfirmationEvent $reservationConfirmationEvent)
     {
-        $publicDirectory = getcwd();
-        // e.g /var/www/project/public/mypdf.pdf
-        $pdfFilepath =  $publicDirectory . '/mypdf.pdf';
+        $pdfFilepath =  $this->invoiceGenerator->generateInvoice($reservationConfirmationEvent->getReservation()->getId());
 
         // // 1. get user connected - to get his email id. - as we are not in abstractcontroller thats why Security
         // /**@var User */
@@ -61,7 +63,7 @@ class ReservationConfirmationSubscriber implements EventSubscriberInterface
             ->context([
                 'reservation' => $reservationConfirmationEvent->getReservation(),
                 'room' => $this->roomRepository->findByExampleField($reservationConfirmationEvent->getReservation()->getRoomNo()),
-                'user' => "yega"
+                'user' => $this->security->getUser()
             ])
             ->attachFromPath($pdfFilepath)
             ->subject("Brovo votre reservation pour  ({$reservationConfirmationEvent->getReservation()->getCheckInDate()->format('Y-m-d')}) a été bien enregistrée.");

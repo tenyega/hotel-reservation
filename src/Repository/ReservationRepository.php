@@ -55,7 +55,7 @@ class ReservationRepository extends ServiceEntityRepository
             ->andWhere('r.UserID = :val')
             ->setParameter('val', $userID)
             ->getQuery()
-            
+
             ->getResult();
     }
     /**
@@ -84,9 +84,6 @@ class ReservationRepository extends ServiceEntityRepository
             ->setMaxResults(3)
             ->getQuery()
             ->getResult();
-
-
-            
     }
 
     public function findAllByRoomNo($roomNo)

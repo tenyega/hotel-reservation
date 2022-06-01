@@ -25,7 +25,7 @@ class AdminController extends AbstractController
 {
 
     /**
-     * @Route("/chart/{roomNo}", name="admin_chart_index")
+     * @Route("/admin/chart/{roomNo}", name="admin_chart_index")
      */
     public function index($roomNo, ChartBuilderInterface $chartBuilder, ReservationRepository $reservationRepository)
     {
@@ -118,7 +118,7 @@ class AdminController extends AbstractController
         ]);
     }
     /**
-     * @Route("/calender/{roomNo}", name="admin_calender")
+     * @Route("/admin/calender/{roomNo}", name="admin_calender")
      */
     public function fullCalender($roomNo, ReservationRepository $reservationRepository, UserRepository $userRepository)
     {

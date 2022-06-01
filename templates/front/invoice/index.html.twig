@@ -1,12 +1,53 @@
 {% extends "front/base.html.twig" %}
 
 {% block title %}
-    Invoice
+	Invoice
 {% endblock %}
 
 {% block body %}
-    <title>Title of the PDF</title>
-     <h4>{{ title }}</h4>
-        <p>Lorem Ipsum</p>
+	<title>Title of the PDF</title>
+	<h1>{{ title }}</h1>
+	<hr>
+	<h1 class='title'>Votre Reservation</h1>
+	User:
+	{{ app.user }}
+
+	<div class='title'>
+		<hr>
+		Reservé le :-
+		{{ reservation.getBookingDate()| date('Y-m-d') }}<br><br>
+		Date d'arrivée:-
+		{{ reservation.getCheckInDate()| date('Y-m-d') }}<br><br>
+		Date de depart:-
+		{{ reservation.getCheckOutDate()| date('Y-m-d') }}<br><br>
+		Nombre des Personnes :-
+		{{ reservation.getNoAdult() }}<br><br>
+		Nombre des Enfants :-
+		{{ reservation.getNoEnfant() }}<br><br>
+		Demande Speciale  :-
+		{{ reservation.getSpecialDemande() }}<br><br>
+
+
+		<hr>
+		{% for r in room %}
+			Type de Chambre :-
+			{{ r.getType() }}<br><br>
+			Bedding :-
+			{{ r.getBedding() }}<br><br>
+			Details de la Chambre :-
+			{{ r.getDescription() }}<br><br>
+			Possible options :-
+			{{ r.getFacilityPossible() }}<br><br>
+			Prix per nuit :-
+			{{ r.getPrice() }}&euro;<br><br>
+		{% endfor %}
+		<hr>
+		Total :-
+		{{ reservation.getTotal() /100 }}&euro;
+		<br>
+
+
+	</div>
+	<hr>
+
 {% endblock %}
-    

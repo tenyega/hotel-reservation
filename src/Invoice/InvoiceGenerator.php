@@ -1,24 +1,39 @@
 <?php
 
-namespace App\Controller;
+namespace App\Invoice;
 
+use App\Repository\ReservationRepository;
+use App\Repository\RoomRepository;
 use Dompdf\Dompdf;
 use Dompdf\Options;
-
+use Symfony\Bridge\Twig\Form\TwigRendererEngine;
 // Include Dompdf required namespaces
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\TwigBundle\DependencyInjection\Compiler\TwigEnvironmentPass;
+use Twig\Environment;
 
-
-class InvoiceController extends AbstractController
+class InvoiceGenerator
 {
+    protected $reservationRepository;
+    protected $twig;
+    protected $roomRepository;
+    public function __construct(ReservationRepository $reservationRepository, Environment $twig, RoomRepository $roomRepository)
+    {
+        $this->reservationRepository = $reservationRepository;
+        $this->twig = $twig;
+        $this->roomRepository = $roomRepository;
+    }
     /**
      * @Route("/invoice", name="app_invoice")
      */
-    public function index()
+    public function generateInvoice($resaID)
     {
+
+        // Invoice no, 
+        // reservation details 
         // Configure Dompdf according to your needs
         $pdfOptions = new Options();
         $pdfOptions->set('defaultFont', 'Arial');
@@ -27,8 +42,14 @@ class InvoiceController extends AbstractController
         $dompdf = new Dompdf($pdfOptions);
 
         // Retrieve the HTML generated in our twig file
-        $html = $this->renderView('front/invoice/index.html.twig', [
-            'title' => "Welcome to our PDF Test"
+
+        $reservation = $this->reservationRepository->find($resaID);
+        $room = $this->roomRepository->findByExampleField($reservation->getRoomNo());
+
+        $html = $this->twig->render('front/invoice/index.html.twig', [
+            'title' => "INVOICE",
+            'reservation' => $reservation,
+            'room' => $room
         ]);
 
         // Load HTML to Dompdf
@@ -52,6 +73,6 @@ class InvoiceController extends AbstractController
         file_put_contents($pdfFilepath, $output);
 
         // Send some text response
-        return new Response("The PDF file has been succesfully generated !");
+        return $pdfFilepath;
     }
 }

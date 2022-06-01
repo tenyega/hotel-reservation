@@ -88,6 +88,8 @@ class Reservation
         return $this->id;
     }
 
+  
+
     public function getBookingDate(): ?\DateTimeInterface
     {
         return $this->BookingDate;

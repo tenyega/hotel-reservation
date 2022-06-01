@@ -78,8 +78,8 @@
 
 								Personnes
 								{{ room.getMaxCapacity() }},
-																																																																																																																																																																																																																																																																																																																																																																																																																											
-																																																																																																																																																																																																																																																																																																																																																																																																																											Prix
+																																																																																																																																																																																																																																																																																																																																																																																																																																											
+																																																																																																																																																																																																																																																																																																																																																																																																																																											Prix
 								{{ room.getPrice() }}&euro;
 								<br>
 
@@ -102,6 +102,7 @@
 						<a href="{{ path ('reservation_userDetailForm', {'roomNo': room.getRoomNo() }) }}">
 							<input class='btn-reserver' type="button" value="RESERVER">
 						</a>
+
 						{# <button class="btn btn-secondary btn-danger mx-2 reservation" type="submit">RESERVER</button> #}
 					</div>
 

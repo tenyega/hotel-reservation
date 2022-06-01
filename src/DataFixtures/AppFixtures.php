@@ -12,14 +12,18 @@ use Bluemmb\Faker\PicsumPhotosProvider;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+
 
 class AppFixtures extends Fixture
 {
     protected $em;
+    protected $encoder;
 
-    public function __construct(EntityManagerInterface $em)
+    public function __construct(EntityManagerInterface $em, UserPasswordHasherInterface $encoder)
     {
         $this->em = $em;
+        $this->encoder = $encoder;
     }
     public function load(ObjectManager $manager): void
     {
@@ -29,16 +33,32 @@ class AppFixtures extends Fixture
         $faker->addProvider(new \Bluemmb\Faker\PicsumPhotosProvider($faker)); //added it for the pictures 
         $roomNo = 1;
         $total = 0;
+        $users = [];
+
+        $admin = new User;
+        $hashedPassword = $this->encoder->hashPassword($admin, "admin");
+        $admin->setEmail("admin@gmail.com")
+            ->setPassword($hashedPassword)
+            ->setRoles(["ROLE_ADMIN"])
+            ->setFirstName("Monsieur")
+            ->setLastName('Admin')
+            ->setAddress("10 rue de la formateur, paris 75015")
+            ->setPhone('123456');
+        $this->em->persist($admin);
+        $this->em->flush();
 
 
         for ($c = 0; $c < (mt_rand(10, 30)); $c++) {
             $user = new User();
+            $hashedPassword = $this->encoder->hashPassword($user, "user");
             $user->setFirstName($faker->firstName())
                 ->setLastName($faker->lastName())
                 ->setEmail("user$c@gmail.com")
                 ->setPhone($faker->phoneNumber())
-                ->setAddress($faker->address());
-
+                ->setAddress($faker->address())
+                ->setPassword($hashedPassword)
+                ->setRoles(["ROLE_USER"]);
+            $users[] = $user;
             $this->em->persist($user);
 
 
@@ -62,7 +82,7 @@ class AppFixtures extends Fixture
                 $room->setType(Room::TYPE_NONAC)
                     ->setBedding(Room::BED_SIMPLE);
             }
-            $roomNo = $roomNo + 1; // just to have unique room no everytime 
+
             $this->em->persist($room);
 
 
@@ -74,7 +94,7 @@ class AppFixtures extends Fixture
                 ->setCheckOutDate($faker->dateTimeInInterval($reservation->getCheckInDate(), '+4days'))
                 ->setNoAdult(mt_rand(1, 3))
                 ->setNoEnfant(mt_rand(0, 3))
-                ->setRoomNo($roomNo - 1) // to get the room no which we have just worked 
+                ->setRoomNo($roomNo) // to get the room no which we have just worked 
                 ->setCodePromo(Reservation::CODE_PROMO)
                 ->setSpecialDemande("nothing special")
                 ->setStatus(Reservation::STATUS_PENDING);
@@ -97,6 +117,43 @@ class AppFixtures extends Fixture
             $reservation->setTotal($total);
 
             $this->em->persist($reservation);
+
+            //////////////////////////////////////////////////////////////////////////////////// Another Reservation for same room and same user 
+            $noOfDays = 0;
+            $reservation1 = new Reservation;
+            $reservation1->setUserID($faker->randomElement($users))
+                ->setBookingDate($faker->dateTimeBetween('-6 months'))
+                ->setCheckInDate($faker->dateTimeInInterval($reservation->getCheckOutDate(), '+30days'))
+                ->setCheckOutDate($faker->dateTimeInInterval($reservation1->getCheckInDate(), '+4days'))
+                ->setNoAdult(mt_rand(1, 3))
+                ->setNoEnfant(mt_rand(0, 3))
+                ->setRoomNo($roomNo) // to get the room no which we have just worked 
+                ->setCodePromo(Reservation::CODE_PROMO)
+                ->setSpecialDemande("nothing special")
+                ->setStatus(Reservation::STATUS_PENDING);
+
+            $checkIn = "";
+            $checkOut = "";
+            $checkIn = new DateTime($reservation1->getCheckInDate()->format('Y-m-d'));
+            $checkOut = new DateTime($reservation1->getCheckOutDate()->format('Y-m-d'));
+            if ($checkIn === $checkOut) {
+                $noOfDays = 1;
+            } else {
+
+                $noOfDays = ($checkIn->diff($checkOut))->format("%a");
+            }
+            $totalNoOfDays = ($noOfDays + 1);
+
+
+            $total1 = ($totalNoOfDays * $room->getPrice()) * 100;
+            //dump($total);
+            $reservation1->setTotal($total1);
+
+            $this->em->persist($reservation1);
+
+
+
+            $roomNo = $roomNo + 1; // just to have unique room no everytime 
         }
 
         $manager->flush();
