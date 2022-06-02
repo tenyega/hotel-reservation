@@ -15,15 +15,39 @@
 				<li>
 					<a class='nav-link' href="#">Chambre & Suite</a>
 				</li>
-				<li>
-					<a class='nav-link' href="#">Offre Exceptionnelle</a>
-				</li>
+
 				<li>
 					<a class='nav-link' href="#">Bar & Services</a>
 				</li>
-				<li>
-					<a class='nav-link' href="#">Gallerie Photo</a>
-				</li>
+				{% if is_granted('ROLE_USER') %}
+					{% if (is_granted('ROLE_ADMIN') == false) %}
+						<li>
+							<a class='nav-link' href="{{ path('reservation_show') }}">Mes Reservation</a>
+						</li>
+					{% endif %}
+				{% endif %}
+				{% if is_granted('ROLE_ADMIN') %}
+					<li>
+						<a class='nav-link' href="{{ path('admin_room_showAll') }}">
+							Les Chambres</a>
+					</li>
+				{% endif %}
+				{% if is_granted('ROLE_USER') == false %}
+					<li>
+						<a class='nav-link' href="{{ path('reservation_userDetailForm')}}">Inscription</a>
+					</li>
+
+					<li>
+						<a class='nav-link' href="{{ path('security_login')}}">Login</a>
+					</li>
+				{% endif %}
+				{% if is_granted('ROLE_USER') %}
+					<li>
+						<a class='nav-link' href="{{ path('security_logout')}}">Logout</a>
+					</li>
+				{% endif %}
+
+
 			</ul>
 
 		</div>

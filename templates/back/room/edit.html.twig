@@ -1,0 +1,17 @@
+{% extends 'back/base.html.twig' %}
+{% block title %}
+	<h1 class="title">Editer une Chambre
+	</h1>
+{% endblock %}
+{% block body %}
+	<h1>Edit Room</h1>
+
+	{{ include('back/room/_form.html.twig', {'button_label': 'Modifier'}) }}
+
+	{# <a href="{{ path('admin_room_showAll') }}">Retours a la list</a> #}
+	<a href="{{ path('admin_room_showAll') }}">
+		<input class='btn-reserver' type="button" value="Retours a la list">
+	</a>
+
+	{{ include('back/room/_delete_form.html.twig') }}
+{% endblock %}

@@ -33,7 +33,6 @@ class SearchController extends AbstractController
             // adding form data to the session so that i can give it to the search criteria
             $sessionService->add($data);
 
-
             $arrivalDate = $data['CheckInDate']->format('Y-m-d');
             $departureDate = $data['CheckOutDate']->format('Y-m-d');
 

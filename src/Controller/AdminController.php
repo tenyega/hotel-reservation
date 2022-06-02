@@ -4,20 +4,24 @@ namespace App\Controller;
 
 use DateTime;
 use DateInterval;
+use App\Entity\Room;
 use Sentry\SentrySdk;
+use App\Form\RoomType;
 use App\Entity\Comment;
 use App\Form\CommentFormType;
 use PhpParser\Node\Stmt\Label;
+use App\Repository\RoomRepository;
+
 use App\Repository\UserRepository;
 use Symfony\UX\Chartjs\Model\Chart;
 use App\Repository\CommentRepository;
-
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\ReservationRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\UX\Chartjs\Builder\ChartBuilderInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 
@@ -26,6 +30,7 @@ class AdminController extends AbstractController
 
     /**
      * @Route("/admin/chart/{roomNo}", name="admin_chart_index")
+     * @IsGranted("ROLE_ADMIN", message="Vous devez etre administrateur du site pour pouvoir acceder !!!")
      */
     public function index($roomNo, ChartBuilderInterface $chartBuilder, ReservationRepository $reservationRepository)
     {
@@ -119,6 +124,7 @@ class AdminController extends AbstractController
     }
     /**
      * @Route("/admin/calender/{roomNo}", name="admin_calender")
+     * @IsGranted("ROLE_ADMIN", message="Vous devez etre administrateur du site pour pouvoir acceder !!!")
      */
     public function fullCalender($roomNo, ReservationRepository $reservationRepository, UserRepository $userRepository)
     {
@@ -149,5 +155,79 @@ class AdminController extends AbstractController
         return $this->render('back/calender/fullCalender.html.twig', [
             'events' => json_encode($events)
         ]);
+    }
+
+
+    /**
+     * @Route("/admin/room", name="admin_room_showAll", methods={"GET"})
+     */
+    public function showAll(RoomRepository $roomRepository): Response
+    {
+        return $this->render('back/room/index.html.twig', [
+            'rooms' => $roomRepository->findAll(),
+        ]);
+    }
+
+    /**
+     * @Route("/admin/room/new", name="admin_newRoom", methods={"GET", "POST"})
+     */
+    public function new(Request $request, RoomRepository $roomRepository): Response
+    {
+        $room = new Room();
+        $form = $this->createForm(RoomType::class, $room);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $roomRepository->add($room, true);
+
+            return $this->redirectToRoute('app_room_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('back/room/new.html.twig', [
+            'room' => $room,
+            'form' => $form,
+        ]);
+    }
+
+    /**
+     * @Route("/admin/room/{id}", name="admin_showRoom", methods={"GET"})
+     */
+    public function show(Room $room): Response
+    {
+        return $this->render('back/room/show.html.twig', [
+            'room' => $room,
+        ]);
+    }
+
+    /**
+     * @Route("/admin/room/{id}/edit", name="admin_editRoom", methods={"GET", "POST"})
+     */
+    public function edit(Request $request, Room $room, RoomRepository $roomRepository): Response
+    {
+        $form = $this->createForm(RoomType::class, $room);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $roomRepository->add($room, true);
+
+            return $this->redirectToRoute('admin_room_showAll', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('back/room/edit.html.twig', [
+            'room' => $room,
+            'form' => $form,
+        ]);
+    }
+
+    /**
+     * @Route("/admin/room/{id}", name="admin_deleteRoom", methods={"POST"})
+     */
+    public function delete(Request $request, Room $room, RoomRepository $roomRepository): Response
+    {
+        if ($this->isCsrfTokenValid('delete' . $room->getId(), $request->request->get('_token'))) {
+            $roomRepository->remove($room, true);
+        }
+
+        return $this->redirectToRoute('admin_room_showAll', [], Response::HTTP_SEE_OTHER);
     }
 }

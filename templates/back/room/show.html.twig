@@ -1,0 +1,70 @@
+{% extends 'back/base.html.twig' %}
+{% block title %}
+	Rooms
+{% endblock %}
+{% block body %}
+	<h1 class='title'>Chambre</h1>
+
+	<table class="table">
+		<tbody>
+			<tr>
+				<th>Id</th>
+				<td>{{ room.id }}</td>
+			</tr>
+			<tr>
+				<th>RoomNo</th>
+				<td>{{ room.RoomNo }}</td>
+			</tr>
+			<tr>
+				<th>Floor</th>
+				<td>{{ room.Floor }}</td>
+			</tr>
+			<tr>
+				<th>MaxCapacity</th>
+				<td>{{ room.MaxCapacity }}</td>
+			</tr>
+			<tr>
+				<th>Type</th>
+				<td>{{ room.Type }}</td>
+			</tr>
+			<tr>
+				<th>IsSmoking</th>
+				<td>{{ room.IsSmoking ? 'Yes' : 'No' }}</td>
+			</tr>
+			<tr>
+				<th>FacilityPossible</th>
+				<td>{{ room.FacilityPossible }}</td>
+			</tr>
+			<tr>
+				<th>Price</th>
+				<td>{{ room.price }}</td>
+			</tr>
+			<tr>
+				<th>Bedding</th>
+				<td>{{ room.bedding }}</td>
+			</tr>
+			<tr>
+				<th>Description</th>
+				<td>{{ room.description }}</td>
+			</tr>
+			<tr>
+				<th>MainPicture</th>
+				<td>{{ room.mainPicture }}</td>
+			</tr>
+			<tr>
+				<th>OtherPicture</th>
+				<td>{{ room.otherPicture }}</td>
+			</tr>
+			<tr>
+				<th>Anotherpicture</th>
+				<td>{{ room.anotherpicture }}</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<a href="{{ path('admin_room_showAll') }}">Retours a la list</a>
+
+	<a href="{{ path('admin_editRoom', {'id': room.id}) }}">Modifier</a>
+
+	{{ include('back/room/_delete_form.html.twig') }}
+{% endblock %}

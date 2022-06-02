@@ -22,26 +22,31 @@ class ReservationPersister
     protected $security;
 
 
-    public function __construct(EntityManagerInterface $em, RoomRepository $roomRepository,Security $security, ReservationRepository $reservationRepository, SessionService $sessionService, UserRepository $userRepository)
+
+    public function __construct(EntityManagerInterface $em, RoomRepository $roomRepository, Security $security, ReservationRepository $reservationRepository, SessionService $sessionService, UserRepository $userRepository)
     {
         $this->reservationRepository = $reservationRepository;
-        $this->security=$security;
+        $this->security = $security;
         $this->em = $em;
         $this->sessionService = $sessionService;
         $this->userRepository = $userRepository;
         $this->roomRepository = $roomRepository;
+        $this->sessionService = $sessionService;
     }
 
-    public function persistReservation($roomNo)
+    public function persistReservation($roomNo, $userID = null)
     {
         /**  @var Reservation */
         $reservationDetails = $this->sessionService->getSessionDetails();
-
+        if ($userID) {
+            $user = $this->userRepository->find($userID);
+        } else {
+            $user = $this->security->getUser();
+        }
         $reservation = new Reservation;
-        $user = $this->security->getUser();
 
         $room = $this->roomRepository->findByExampleField($roomNo);
-        dump($room);
+
         $reservation->setBookingDate(new DateTime('now'))
             ->setCheckInDate($reservationDetails['CheckInDate'])
             ->setCheckOutDate($reservationDetails['CheckOutDate'])

@@ -4,27 +4,28 @@
 
 {% endblock %}
 {% block body %}
-	<h1 class='title'>Details de votre reservation annulé
-	</h1>
-	User:
-	{{ app.user }}
+	
+		<h1 class='title'>Details de votre reservation annulé
+		</h1>
+		User:
+		{{ app.user }}
 
-	<div class='title'>
+		<div class='title'>
+			<hr>
+			Reservé le :-
+			{{ reservation.getBookingDate()| date('Y-m-d') }}<br>
+			Date d'arrivée:-
+			{{ reservation.getCheckInDate()| date('Y-m-d') }}<br>
+			Date de depart:-
+			{{ reservation.getCheckOutDate()| date('Y-m-d') }}<br>
+			Nombre des Personnes :-
+			{{ reservation.getNoAdult() }}<br>
+			Nombre des Enfants :-
+			{{ reservation.getNoEnfant() }}<br>
+			Demande Speciale  :-
+			{{ reservation.getSpecialDemande() }}<br>
+		</div>
 		<hr>
-		Reservé le :-
-		{{ reservation.getBookingDate()| date('Y-m-d') }}<br>
-		Date d'arrivée:-
-		{{ reservation.getCheckInDate()| date('Y-m-d') }}<br>
-		Date de depart:-
-		{{ reservation.getCheckOutDate()| date('Y-m-d') }}<br>
-		Nombre des Personnes :-
-		{{ reservation.getNoAdult() }}<br>
-		Nombre des Enfants :-
-		{{ reservation.getNoEnfant() }}<br>
-		Demande Speciale  :-
-		{{ reservation.getSpecialDemande() }}<br>
-	</div>
-	<hr>
 
 
 {% endblock %}

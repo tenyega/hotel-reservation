@@ -8,19 +8,20 @@ use App\Entity\User;
 use App\Form\SearchType;
 use App\Entity\Reservation;
 use App\Form\ReservationType;
+use App\Stripe\StripeService;
 use App\Session\SessionService;
 use Doctrine\ORM\EntityManager;
 use App\Repository\RoomRepository;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\ReservationRepository;
-use App\Event\ReservationConfirmationEvent;
-use App\Repository\UserRepository;
 use App\Reservation\ReservationPersister;
-use App\Stripe\StripeService;
+use App\Event\ReservationConfirmationEvent;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -44,13 +45,21 @@ class ReservationController extends AbstractController
     {
         /** @var User */
         $user = $this->getUser();
-        $reservations = $reservationRepository->findByExampleField('294');
-        //  dd($reservation);
-
-
-        return $this->render('front/reservation/show.html.twig', [
-            'reservations' => $reservations
-        ]);
+        if ($user) {
+            $reservations = $reservationRepository->findByExampleField($user->getId());
+            //  dd($reservation);
+            foreach ($reservations as $r) {
+                $rooms = $this->roomRepository->findByExampleField($r->getRoomNo());
+            }
+            if ($reservations) {
+                return $this->render('front/reservation/show.html.twig', [
+                    'reservations' => $reservations,
+                    'rooms' => $rooms
+                ]);
+            } else {
+                return $this->render('front/reservation/noReservation.html.twig');
+            }
+        }
     }
 
 
@@ -196,7 +205,8 @@ class ReservationController extends AbstractController
     public function payment($resaID, $diffTotal, ReservationRepository $reservationRepository, StripeService $stripeService, EntityManagerInterface $em, SessionService $sessionService, UserRepository $userRepository)
     {
 
-        dump($diffTotal);
+        // dump($diffTotal);
+        // dd($sessionService->getSessionDetails());
 
         $reservation = $reservationRepository->find($resaID);
         $resaTotal = $reservation->getTotal();

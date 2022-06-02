@@ -1,0 +1,69 @@
+{% extends 'back/base.html.twig' %}
+{% block title %}
+	Rooms
+{% endblock %}
+{% block body %}
+	<h1 class='title'>Room index</h1>
+
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>RoomNo</th>
+				<th>Floor</th>
+				<th>MaxCapacity</th>
+				<th>Type</th>
+				<th>IsSmoking</th>
+				<th>FacilityPossible</th>
+				<th>Price</th>
+				<th>Bedding</th>
+				<th>Description</th>
+				<th>MainPicture</th>
+				<th>OtherPicture</th>
+				<th>Anotherpicture</th>
+				<th>actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for room in rooms %}
+				<tr>
+					<td>{{ room.id }}</td>
+					<td>{{ room.RoomNo }}</td>
+					<td>{{ room.Floor }}</td>
+					<td>{{ room.MaxCapacity }}</td>
+					<td>{{ room.Type }}</td>
+					<td>{{ room.IsSmoking ? 'Yes' : 'No' }}</td>
+					<td>{{ room.FacilityPossible }}</td>
+					<td>{{ room.price }}</td>
+					<td>{{ room.bedding }}</td>
+					<td>{{ room.description }}</td>
+					<td>{{ room.mainPicture }}</td>
+					<td>{{ room.otherPicture }}</td>
+					<td>{{ room.anotherpicture }}</td>
+					<td>
+						{# <a href="{{ path('admin_showRoom', {'id': room.id}) }}">Voir</a> #}
+						<a href="{{ path('admin_showRoom', {'id': room.id}) }}">
+							<input class='btn-reserver' type="button" value="Voir">
+						</a>
+						{# <a href="{{ path('admin_editRoom', {'id': room.id}) }}">Modifier</a> #}
+						<a href="{{ path('admin_editRoom', {'id': room.id}) }}">
+							<input class='btn-reserver' type="button" value="Modifier">
+						</a>
+						<a href="{{ path('admin_chart_index', {'roomNo': room.RoomNo}) }}">
+							<input class='btn-reserver' type="button" value="Chart Occupency">
+						</a>
+						<a href="{{ path('admin_calender', {'roomNo': room.RoomNo}) }}">
+							<input class='btn-reserver' type="button" value="Calendier de reservation">
+						</a>
+					</td>
+				</tr>
+			{% else %}
+				<tr>
+					<td colspan="14">Pas des Data</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+	<a href="{{ path('admin_newRoom') }}">Ajout</a>
+{% endblock %}

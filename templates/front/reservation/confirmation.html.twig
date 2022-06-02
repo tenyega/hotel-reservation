@@ -3,6 +3,8 @@
 	Confirmation
 {% endblock %}
 {% block javascripts %}
+
+
 	<link href='../node_modules/fullcalendar-scheduler/main.css' rel='stylesheet'/>
 	<script src='../node_modules/fullcalendar-scheduler/main.js'></script>
 	<script>
@@ -35,10 +37,12 @@ events: 'https://fullcalendar.io/api/demo-feeds/events.json?single-day&for-resou
 calendar.render();
 }
 	</script>
+
 {% endblock %}
 {% block body %}
+
 	{# <button class="btn-primary" onclick="call()">
-																																																								click</button> #}
+																																																											click</button> #}
 	<div id='calendar'></div>
 	<h1 class='title'>Votre reservation est confirmé</h1>
 	<h2 class='title'>

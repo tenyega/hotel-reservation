@@ -64,8 +64,6 @@ class User implements UserInterface
 
     public function __construct()
     {
-        $this->categories = new ArrayCollection();
-        $this->purchases = new ArrayCollection();
     }
 
 

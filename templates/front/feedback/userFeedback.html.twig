@@ -4,37 +4,39 @@
 {% endblock %}
 
 {% block body %}
-	<h1 class="title">Bienvenue dans notre section d'avis</h1>
-	<h2 class="title">Vos avis compte enorment pour nous !!!</h2>
-	<link rel="stylesheet" href="{{ asset('CSS/feedback.css') }}"/>
+	
+		<h1 class="title">Bienvenue dans notre section d'avis</h1>
+		<h2 class="title">Vos avis compte enorment pour nous !!!</h2>
+		<link rel="stylesheet" href="{{ asset('CSS/feedback.css') }}"/>
 
-	<div class='container'>
-		<div class='form_input'>
-			<div class='form_row'>
+		<div class='container'>
+			<div class='form_input'>
+				<div class='form_row'>
 
 
-				{{ form_start(form)}}
+					{{ form_start(form)}}
 
-				{{ form_row(form.user)}}
+					{{ form_row(form.user)}}
+
+				</div>
+
+
+				<div class='form_row'>
+					{{ form_row(form.email)}}
+
+				</div>
+				<div class='form_row'>{{ form_row(form.text)}}</div>
+
+				<button class='btn-reserver'>Envoyer</button>
+			</div>
+			<div class='error-msg'>
+				{{form_errors(form)}}
+				{{form_errors(form.user)}}
+				{{form_errors(form.text)}}
+				{{form_errors(form.email)}}
 
 			</div>
-
-
-			<div class='form_row'>
-				{{ form_row(form.email)}}
-
-			</div>
-			<div class='form_row'>{{ form_row(form.text)}}</div>
-
-			<button class='btn-reserver'>Envoyer</button>
+			{{ form_end(form)}}
 		</div>
-		<div class='error-msg'>
-			{{form_errors(form)}}
-			{{form_errors(form.user)}}
-			{{form_errors(form.text)}}
-			{{form_errors(form.email)}}
 
-		</div>
-		{{ form_end(form)}}
-	</div>
 {% endblock %}

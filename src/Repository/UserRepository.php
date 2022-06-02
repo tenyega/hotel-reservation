@@ -45,6 +45,18 @@ class UserRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+     * @return User
+     */
+    public function checkUser($email)
+    {
+        return $this->createQueryBuilder('r')
+            ->andWhere('r.Email = :val')
+            ->setParameter('val', $email)
+            ->getQuery()
+            ->getResult();
+    }
+
     // /**
     //  * @return User[] Returns an array of User objects
     //  */

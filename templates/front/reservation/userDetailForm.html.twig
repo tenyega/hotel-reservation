@@ -26,10 +26,13 @@
 				</div>
 
 				<div class='form_row'>{{ form_row(form.email)}}</div>
+				<div class='form_row'>{{ form_row(form.password)}}</div>
 				<div class='form_row'>{{ form_row(form.address)}}</div>
 
 			</div>
 			<button class='btn-confirmer' type='submit'>Confirmer mes coordonées</button>
+
+
 		</div>
 		<div class='error-msg'>
 			{{form_errors(form)}}

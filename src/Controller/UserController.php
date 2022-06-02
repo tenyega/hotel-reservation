@@ -8,21 +8,25 @@ use App\Form\UserType;
 use App\Entity\Comment;
 use App\Form\CommentFormType;
 use App\Stripe\StripeService;
+use App\Session\SessionService;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Reservation\ReservationPersister;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UserController extends AbstractController
 {
     /**
-     * @Route("/reservation/{roomNo}", name="reservation_userDetailForm")
+     * @Route("/userDetail/{roomNo}", name="reservation_userDetailForm", defaults={"roomNo" = null})
      */
 
-    public function userDetailForm($roomNo, Security $security, Request $request, ReservationPersister $reservationPersister, EntityManagerInterface $em, StripeService $stripeService)
+    public function userDetailForm($roomNo, UserPasswordHasherInterface $encoder, Security $security, UserRepository $userRepository, Request $request, ReservationPersister $reservationPersister, EntityManagerInterface $em, SessionService $sessionService)
     {
         $user = $security->getUser();
         if (!$user) {
@@ -32,18 +36,33 @@ class UserController extends AbstractController
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
-                $em->persist($user);
-                $em->flush();
                 $data = $form->getData();
-                dump($data);
-                dump('form submitted');
-                $diffTotal = 0;
-                $reservation = $reservationPersister->persistReservation($roomNo);
-                $resaID = $reservation->getId();
-                return $this->redirectToRoute('reservation_payment', [
-                    'resaID' => $resaID,
-                    'diffTotal' => $diffTotal
-                ]);
+                // dd($data->getUserIdentifier());
+                $userExist = $userRepository->checkUser($data->getUserIdentifier());
+                if (!$userExist) {
+                    $user->setRoles(['ROLE_USER']);
+
+                    $hashedPassword = $encoder->hashPassword($user, $data->getPassword());
+                    $user->setPassword($hashedPassword);
+
+                    $em->persist($user);
+                    $em->flush();
+                    $userID = $user->getId();
+
+
+                    $diffTotal = 0;
+                    if ($roomNo) {
+                        $reservation = $reservationPersister->persistReservation($roomNo, $userID);
+                        $resaID = $reservation->getId();
+
+                        $sessionService->add(array($reservation));
+                        // dd($sessionService->getSessionDetails());
+                        return $this->redirectToRoute('security_login');
+                    }
+
+
+                    return $this->redirectToRoute('security_login');
+                }
             }
             return $this->render('front/reservation/userDetailForm.html.twig', [
                 'form' => $form->createView()

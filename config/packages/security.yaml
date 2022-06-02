@@ -25,8 +25,9 @@ security:
       form_login:
         login_path: security_login
         check_path: security_login
-        username_parameter: login[Email]
-        password_parameter: login[password]
+        enable_csrf: true
+        # username_parameter: login[Email]
+        # password_parameter: login[password]
 
       logout:
         path: security_logout

@@ -2,6 +2,7 @@
 
 namespace App\Session;
 
+use App\Entity\User;
 use App\Repository\RoomRepository;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
@@ -19,6 +20,8 @@ class SessionService
     {
         return $this->session->get('session', []);
     }
+
+
     protected function saveSession(array $session)
     {
         return $this->session->set('session', $session);
@@ -67,6 +70,9 @@ class SessionService
         // $session->set('cart', $cart);
     }
 
+
+
+
     public function remove(string $data)
     {
         $cart = $this->getSession();
@@ -89,6 +95,11 @@ class SessionService
             // ];
             $detailedCart = $value;
         }
-        return $detailedCart;
+        if ($detailedCart) {
+
+            return $detailedCart;
+        } else {
+            return array(0);
+        }
     }
 }

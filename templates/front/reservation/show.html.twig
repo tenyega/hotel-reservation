@@ -4,27 +4,64 @@
 
 {% endblock %}
 {% block body %}
+
 	<h1 class='title'>Voici vos reservations</h1>
 	User:
 	{{ app.user }}
-	{% for r in reservations %}
-		<div class='title'>
-			<hr>
-			Reservé le :-
-			{{ r.getBookingDate()| date('Y-m-d') }}<br>
-			Date d'arrivée:-
-			{{ r.getCheckInDate()| date('Y-m-d') }}<br>
-			Date de depart:-
-			{{ r.getCheckOutDate()| date('Y-m-d') }}<br>
-			Nombre des Personnes :-
-			{{ reservation.getNoAdult() }}<br>
-			Nombre des Enfants :-
-			{{ reservation.getNoEnfant() }}<br>
-			Demande Speciale  :-
-			{{ reservation.getSpecialDemande() }}<br>
-		</div>
-		<hr>
-	{% endfor %}
+	{% if reservations %}
+		{% for r in reservations %}
+			<div class='title'>
+				<hr>
+				Reservé le :-
+				{{ r.getBookingDate()| date('Y-m-d') }}<br>
+				Date d'arrivée:-
+				{{ r.getCheckInDate()| date('Y-m-d') }}<br>
+				Date de depart:-
+				{{ r.getCheckOutDate()| date('Y-m-d') }}<br>
+				Nombre des Personnes :-
+				{{ r.getNoAdult() }}<br>
+				Nombre des Enfants :-
+				{{ r.getNoEnfant() }}<br>
+				Demande Speciale  :-
+				{{ r.getSpecialDemande() }}<br>
 
+
+			</div>
+			<div class='title'>
+
+				{% for room in rooms %}
+					Type de Chambre :-
+					{{ room.getType() }}<br><br>
+					Bedding :-
+					{{ room.getBedding() }}<br><br>
+					Details de la Chambre :-
+					{{ room.getDescription() }}<br><br>
+					Possible options :-
+					{{ room.getFacilityPossible() }}<br><br>
+					Prix per nuit :-
+					{{ room.getPrice() }}&euro;<br><br>
+				{% endfor %}
+
+				<hr>
+				Total :-
+				{{ r.getTotal() /100 }}&euro;
+				<br>
+
+				<hr>
+				<a href="{{ path('reservation_update', {id : r.getID()}) }}">
+					<input class='btn-reserver' type="button" value="MODIFIER">
+				</a>
+				<a href="{{ path('reservation_cancel', {id : r.getID()}) }}">
+					<input class='btn-reserver' type="button" value="ANNULER">
+				</a>
+				<a href="{{ path('front_feedback') }}">
+					<input class='btn-reserver' type="button" value="DONNER UN AVIS">
+				</a>
+				<a href="{{ path('front_map') }}">
+					<input class='btn-reserver' type="button" value="Retrouvez nous sur google map">
+				</a>
+			</div>
+		{% endfor %}
+	{% endif %}
 
 {% endblock %}
