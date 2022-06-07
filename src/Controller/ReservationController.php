@@ -199,8 +199,9 @@ class ReservationController extends AbstractController
     }
 
     /**
-     * @Route("/reservation/pay/{resaID}/{diffTotal}", name="reservation_payment", priority=1)
+     * @Route("/payment/{resaID}/{diffTotal}", name="reservation_payment", priority=1, methods={"GET"})
      */
+
 
     public function payment($resaID, $diffTotal, ReservationRepository $reservationRepository, StripeService $stripeService, EntityManagerInterface $em, SessionService $sessionService, UserRepository $userRepository)
     {

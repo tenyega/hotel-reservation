@@ -10,9 +10,15 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @Route("/room")
- */
+
 class RoomController extends AbstractController
 {
+    /**
+     * @Route("/room", name="room_display")
+     */
+
+    public function displayRooomsPicture()
+    {
+        return $this->render('front/room/displayRoomsPicture.html.twig');
+    }
 }

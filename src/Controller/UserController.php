@@ -28,6 +28,7 @@ class UserController extends AbstractController
 
     public function userDetailForm($roomNo, UserPasswordHasherInterface $encoder, Security $security, UserRepository $userRepository, Request $request, ReservationPersister $reservationPersister, EntityManagerInterface $em, SessionService $sessionService)
     {
+
         $user = $security->getUser();
         if (!$user) {
             $user = new User;

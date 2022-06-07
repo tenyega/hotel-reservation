@@ -37,7 +37,7 @@ class ReservationPersister
     public function persistReservation($roomNo, $userID = null)
     {
         /**  @var Reservation */
-        $reservationDetails = $this->sessionService->getSessionDetails();
+         $reservationDetails = $this->sessionService->getSessionDetails();
         if ($userID) {
             $user = $this->userRepository->find($userID);
         } else {

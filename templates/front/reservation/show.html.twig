@@ -6,8 +6,8 @@
 {% block body %}
 
 	<h1 class='title'>Voici vos reservations</h1>
-	User:
-	{{ app.user }}
+	Reservation pour M/Mme :-
+	{{ app.user.getFirstName() | upper }}
 	{% if reservations %}
 		{% for r in reservations %}
 			<div class='title'>
@@ -38,8 +38,7 @@
 					{{ room.getDescription() }}<br><br>
 					Possible options :-
 					{{ room.getFacilityPossible() }}<br><br>
-					Prix per nuit :-
-					{{ room.getPrice() }}&euro;<br><br>
+
 				{% endfor %}
 
 				<hr>

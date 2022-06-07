@@ -3,10 +3,12 @@
 namespace App\Repository;
 
 use App\Entity\Reservation;
+use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Validator\Constraints\Date;
 
 /**
  * @method Reservation|null find($id, $lockMode = null, $lockVersion = null)
@@ -51,9 +53,15 @@ class ReservationRepository extends ServiceEntityRepository
 
     public function findByExampleField($userID)
     {
+        $currentDate = new DateTime();
         return $this->createQueryBuilder('r')
             ->andWhere('r.UserID = :val')
             ->setParameter('val', $userID)
+            ->andWhere('r.status= :val2')
+            ->setParameter('val2', Reservation::STATUS_PAID)
+            ->andWhere('r.CheckInDate >= :val3')
+            ->setParameter('val3', $currentDate->format('Y-m-d'))
+            ->orderBy('r.CheckInDate')
             ->getQuery()
 
             ->getResult();

@@ -19,40 +19,40 @@ class UserType extends AbstractType
 
         $builder
             ->add('firstName', TextType::class, [
-                'label' => "Prénom",
+                'label' => false,
                 'attr' => [
-                    'placeholder' => "Prénom complete pour la livarison"
+                    'placeholder' => "Prénom"
                 ]
             ])
             ->add('lastName', TextType::class, [
-                'label' => "Nom",
+                'label' => false,
                 'attr' => [
-                    'placeholder' => "nom complete pour la livarison"
+                    'placeholder' => "Nom"
                 ]
             ])
             ->add('phone', TelType::class, [
-                'label' => "Un numero a vous joindre",
+                'label' => false,
                 'attr' => [
-                    'placeholder' => 'Phone no'
+                    'placeholder' => "Numero pour vous joindre"
                 ]
             ])
             ->add('email', EmailType::class, [
-                'label' => "Email",
+                'label' => false,
                 'attr' => [
                     'placeholder' => "Email addresse "
                 ]
             ])
             ->add('password', PasswordType::class, [
-                'label' => 'Mot de Passe',
+                'label' => false,
                 'attr' => [
-                    'placeholder' => 'Mot de Passe...'
+                    'placeholder' => "Mot de Passe..."
                 ]
             ])
 
             ->add('address', TextareaType::class, [
-                'label' => 'Adresse Complete',
+                'label' => false,
                 'attr' => [
-                    'placeholder' => 'adresse pour la livraison'
+                    'placeholder' => "Adresse pour la livraison"
                 ]
             ]);
     }

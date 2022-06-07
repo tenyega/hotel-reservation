@@ -1,6 +1,39 @@
 <nav>
 	<div>
+		<div class="lungta">
 
+			<div class="img_block">
+				<div>
+					<img class='lungta_img' src="{{ asset('./Img/lungta/blue.png') }}" alt='logo'/>
+					<img class='lungta_img' src="{{ asset('./Img/lungta/white.png') }}" alt='logo'/>
+					<img class='lungta_img' src="{{ asset('./Img/lungta/red.png') }}" alt='logo'/>
+					<img class='lungta_img' src="{{ asset('./Img/lungta/green.png') }}" alt='logo'/>
+					<img class='lungta_img' src="{{ asset('./Img/lungta/yellow.png') }}" alt='logo'/>
+					<img class='lungta_img' src="{{ asset('./Img/lungta/blue.png') }}" alt='logo'/>
+					<img class='lungta_img' src="{{ asset('./Img/lungta/white.png') }}" alt='logo'/>
+					<img class='lungta_img' src="{{ asset('./Img/lungta/red.png') }}" alt='logo'/>
+					<img class='lungta_img' src="{{ asset('./Img/lungta/green.png') }}" alt='logo'/>
+					<img class='lungta_img' src="{{ asset('./Img/lungta/yellow.png') }}" alt='logo'/>
+					<img class='lungta_img' src="{{ asset('./Img/lungta/blue.png') }}" alt='logo'/>
+					<img class='lungta_img' src="{{ asset('./Img/lungta/white.png') }}" alt='logo'/>
+					<img class='lungta_img' src="{{ asset('./Img/lungta/red.png') }}" alt='logo'/>
+					<img class='lungta_img' src="{{ asset('./Img/lungta/green.png') }}" alt='logo'/>
+					<img class='lungta_img' src="{{ asset('./Img/lungta/yellow.png') }}" alt='logo'/>
+					<img class='lungta_img' src="{{ asset('./Img/lungta/blue.png') }}" alt='logo'/>
+					<img class='lungta_img' src="{{ asset('./Img/lungta/white.png') }}" alt='logo'/>
+					<img class='lungta_img' src="{{ asset('./Img/lungta/red.png') }}" alt='logo'/>
+					<img class='lungta_img' src="{{ asset('./Img/lungta/green.png') }}" alt='logo'/>
+					<img class='lungta_img' src="{{ asset('./Img/lungta/yellow.png') }}" alt='logo'/>
+					<img class='lungta_img' src="{{ asset('./Img/lungta/blue.png') }}" alt='logo'/>
+					<img class='lungta_img' src="{{ asset('./Img/lungta/white.png') }}" alt='logo'/>
+					<img class='lungta_img' src="{{ asset('./Img/lungta/red.png') }}" alt='logo'/>
+					<img class='lungta_img' src="{{ asset('./Img/lungta/green.png') }}" alt='logo'/>
+
+				</div>
+			</div>
+
+
+		</div>
 		<div>
 			<ul class='nav-bar'>
 				<li>
@@ -13,7 +46,7 @@
 					<a class='nav-link' href="{{ path('front_search') }}">Accueil</a>
 				</li>
 				<li>
-					<a class='nav-link' href="#">Chambre & Suite</a>
+					<a class='nav-link' href="{{ path('room_display') }}">Chambre & Suite</a>
 				</li>
 
 				<li>
@@ -33,9 +66,9 @@
 					</li>
 				{% endif %}
 				{% if is_granted('ROLE_USER') == false %}
-					<li>
-						<a class='nav-link' href="{{ path('reservation_userDetailForm')}}">Inscription</a>
-					</li>
+					{# <li>
+											<a class='nav-link' href="{{ path('reservation_userDetailForm')}}">Inscription</a>
+										</li> #}
 
 					<li>
 						<a class='nav-link' href="{{ path('security_login')}}">Login</a>
@@ -52,4 +85,5 @@
 
 		</div>
 	</div>
+
 </nav>

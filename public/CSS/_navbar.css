@@ -1,7 +1,7 @@
-body {
-    background-image: url("../Img/noise.png");
-    background-repeat: repeat;
-}
+/* body {
+    /* background-image: url("../Img/noise.png"); */
+    /* background-repeat: repeat; */
+/*}*/ 
 
 .logo {
     width: 150px;
@@ -19,7 +19,7 @@ body {
 
 .nav-bar {
     display: flex;
-    flex-wrap: wrap;
+   
     list-style: none;
     padding: 54px;
     margin: 10px;
@@ -35,4 +35,123 @@ body {
 
 .nav-link:hover {
     color: red;
+}
+
+div.lungta{
+    
+   display:flex;
+   width: fit-content;
+ position: relative;
+ height:auto;
+   overflow: hidden;
+   margin-left:50px;
+}
+/* .img_block{
+    object-fit: contain;
+} */
+
+.lungta_img{
+
+    width: 40px;
+    height: 35px;
+    margin-top: 30px;
+    font-family: "Trebuchet MS", Arial, sans-serif;
+    color: #FFF;
+    font-size: .8em;
+    /* animation: tictac 2s infinite ease-in-out; */
+    animation-name: tictac;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-in-out;
+    position: relative;
+    z-index: 30;
+}
+
+@keyframes tictac {
+    0%,
+    100% {
+        background-color: #333;
+        transform: skewY(-5deg);
+        margin-right: 5px;
+        margin-left:5px;
+    }
+    50% {
+        transform: skewY(5deg);
+        margin-right:5px;
+        margin-left:5px;
+        background-color: #833;
+    }
+    /* 100% {
+        background-color: #333;
+        transform: rotate(-5deg);
+        margin-right: 13px;
+    } */
+}
+
+
+
+
+
+@media (min-width: 500px) and (max-width:700px) {
+  body{
+      color: aqua;
+  }
+    .lungta_img {
+        width: 5px;
+        height: 5px;
+  
+      }
+}
+@media (min-width: 700px) and (max-width:900px) {
+    body{
+        color:bisque; 
+    }
+    .lungta_img {
+        width: 13px;
+        height: 13px;
+  
+      }
+}
+
+@media (min-width: 900px) and (max-width:1100px) {
+    body{
+        color:brown;
+    }
+    .lungta_img {
+        width: 18px;
+        height: 22px;
+  
+      }
+}
+
+@media (min-width: 1100px) and (max-width:1180px) {
+  
+    body{
+        color: rgb(187, 255, 0);
+    }
+    .lungta_img {
+        width: 28px;
+        height: 30px;
+  
+      }
+}
+
+  
+@media (min-width: 1180px) and (max-width:1397px) {
+    body{
+        background-color: rgb(0, 64, 255);
+    }
+    .lungta_img {
+        width: 31px;
+        height: 35px;
+  
+      }
+}
+
+@media(min-width:1397px){
+    .lungta_img{
+        width: 40px;
+    height: 35px;
+    }
+    
 }

@@ -56,8 +56,7 @@ class AppFixtures extends Fixture
                 ->setEmail("user$c@gmail.com")
                 ->setPhone($faker->phoneNumber())
                 ->setAddress($faker->address())
-                ->setPassword($hashedPassword)
-                ->setRoles(["ROLE_USER"]);
+                ->setPassword($hashedPassword);
             $users[] = $user;
             $this->em->persist($user);
 
@@ -96,8 +95,13 @@ class AppFixtures extends Fixture
                 ->setNoEnfant(mt_rand(0, 3))
                 ->setRoomNo($roomNo) // to get the room no which we have just worked 
                 ->setCodePromo(Reservation::CODE_PROMO)
-                ->setSpecialDemande("nothing special")
-                ->setStatus(Reservation::STATUS_PENDING);
+                ->setSpecialDemande("nothing special");
+            if ($faker->boolean(98)) {
+                $reservation->setStatus(Reservation::STATUS_PAID);
+            } else {
+                $reservation->setStatus(Reservation::STATUS_PENDING);
+            }
+
 
             $checkIn = "";
             $checkOut = "";

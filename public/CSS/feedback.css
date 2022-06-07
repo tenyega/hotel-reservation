@@ -4,13 +4,28 @@
 
 
 .container{
-    margin-left: 35%;
-    margin-top: 5%;
-    background-color: rgba(191, 25, 33, 0.423);
-    width: 433px;
-    padding: 20px;
-    text-align: center;
-
+      /* margin-left: 24%; */
+      margin: 0 auto;
+      /* margin-top: 2%; */
+      background-color: #222;
+     
+      border: 1px solid;
+      border-top-left-radius: 40px 40px;
+      border-bottom-right-radius: 40px 40px;
+      padding: 221px;
+      text-align: center;
+     display: flex;
+     width: 70%;
+     height: 70%;
+}
+.form_input{
+    position: absolute; 
+      
+  width:90%;
+  height: 90%;
+  left: 50%;
+    top: 94%;
+  transform: translateX(-50%) translateY(-50%) skew(10deg);
 }
 
 .form_input, textarea{
@@ -20,7 +35,7 @@
 
 input,textarea{
     padding: 10px;
-    margin: 10px;
+    margin: 12px;
     font-size: large;
     border-radius:10px;
 }
@@ -36,4 +51,16 @@ input,textarea{
 textarea{
     width: 300px;
     height: 200px;
+}
+
+.spacer{
+    height:20px;
+}
+
+.form_input>form{
+    display: inline-grid;
+    padding-left:10px;
+}
+.form_input>form label{
+    color: red;
 }

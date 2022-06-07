@@ -20,6 +20,7 @@ class SearchController extends AbstractController
 
     public function search(Request $request, RoomRepository $roomRepository, ReservationRepository $reservationRepository, SessionService $sessionService): Response
     {
+        $sessionService->empty();
         $form = $this->createForm(SearchType::class);
 
         $form->handleRequest($request);
@@ -32,7 +33,6 @@ class SearchController extends AbstractController
 
             // adding form data to the session so that i can give it to the search criteria
             $sessionService->add($data);
-
             $arrivalDate = $data['CheckInDate']->format('Y-m-d');
             $departureDate = $data['CheckOutDate']->format('Y-m-d');
 
@@ -51,7 +51,7 @@ class SearchController extends AbstractController
                 $roomSuggestion = $roomRepository->findAll();
             }
 
-
+            // dd(json_encode($form->getData()));
             return $this->render('front/search/roomsAvailable.html.twig', [
                 'form' => $form->createView(),
                 'rooms' => $roomSuggestion

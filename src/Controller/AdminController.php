@@ -200,7 +200,7 @@ class AdminController extends AbstractController
     }
 
     /**
-     * @Route("/admin/room/{id}/edit", name="admin_editRoom", methods={"GET", "POST"})
+     * @Route("/admin/room/edit/{id}", name="admin_editRoom", methods={"GET", "POST"})
      */
     public function edit(Request $request, Room $room, RoomRepository $roomRepository): Response
     {
@@ -220,7 +220,7 @@ class AdminController extends AbstractController
     }
 
     /**
-     * @Route("/admin/room/{id}", name="admin_deleteRoom", methods={"POST"})
+     * @Route("/admin/room/delete/{id}", name="admin_deleteRoom", methods={"POST"})
      */
     public function delete(Request $request, Room $room, RoomRepository $roomRepository): Response
     {

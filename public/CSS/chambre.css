@@ -1,0 +1,47 @@
+* {
+    box-sizing: border-box;
+  }
+  
+  p {
+    font-size: 20px;
+    font-family: sans-serif;
+    color: #6439a9;
+  }
+  
+  .container {
+    padding: 100px 30px;
+    width: 100%;
+    margin: 0 auto;
+    max-width: 900px;
+  }
+  
+
+  .image-stack{
+    display: flex;
+    position: relative; 
+    grid-template-columns: repeat(12, 1fr);
+    flex-direction: row-reverse;
+    transition: left 2s;
+}
+  
+  .img_chambre1 {
+    grid-column: 4 / -1;
+    grid-row: 1;
+  }
+  
+  .img_chambre1 {
+    grid-row: 1;
+    grid-column: 1  8;
+    padding-top: 20%;
+    z-index: 1; 
+  }
+/*   
+  img {
+    width: 100%;
+    display: block;
+  } */
+
+  img:hover {
+    transform: scale(1.1);
+    width: auto;
+}

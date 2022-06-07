@@ -1,0 +1,30 @@
+{% extends "front/base.html.twig" %}
+{% block title %}
+	Les Chambres
+{% endblock %}
+{% block body %}
+	<link rel="stylesheet" href="{{ asset('CSS/chambre.css') }}"/>
+
+	<h1 class='title'>Beau Decouverte !!!</h1>
+	{# <a href="" class='img_chambre'/>
+													<span class='img_span'></span> #}
+	<div class="container">
+		<div class='image-stack'>
+			<div>
+				<a href='#' class='img_chambre1'>
+					<img src="https://images.unsplash.com/photo-1595576508898-0ad5c879a061?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1074&q=80" alt='img_ch'/>
+				</a>
+			</div>
+
+			<div>
+				<a href='#' class='img_chambre2'>
+					<img src="https://images.unsplash.com/photo-1621293954908-907159247fc8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80" alt='img_ch'/>
+				</a>
+
+			</div>
+
+		</div>
+	</div>
+
+
+{% endblock %}

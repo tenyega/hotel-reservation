@@ -27,3 +27,5 @@ services:
     arguments:
       $publicKey: "%env(STRIPE_PUBLIC_KEY)%"
       $secretKey: "%env(STRIPE_SECRET_KEY)%"
+    properties:
+      _method: GET

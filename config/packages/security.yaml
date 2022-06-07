@@ -18,21 +18,22 @@ security:
     main:
       lazy: true
       provider: app_user_provider
-      # guard:
-      #   authenticators:
-      #     - App\Security\LoginFormAuthenticator
+      guard:
+        authenticators:
+          - App\Security\LoginAuthenticator
       # or we can either use guard LoginFormAuthenticator or our securityController login()
-      form_login:
-        login_path: security_login
-        check_path: security_login
-        enable_csrf: true
-        # username_parameter: login[Email]
-        # password_parameter: login[password]
+      # form_login:
+      #   login_path: security_login
+      #   check_path: security_login
+      #   enable_csrf: true
+
+      #   # username_parameter: login[Email]
+      #   # password_parameter: login[password]
 
       logout:
         path: security_logout
-        # where to redirect after logout
-        # target: app_any_route
+      #   # where to redirect after logout
+      #   target: front_search
 
       # activate different ways to authenticate
       # https://symfony.com/doc/current/security.html#the-firewall
@@ -44,6 +45,7 @@ security:
   # Note: Only the *first* access control that matches will be used
   access_control:
     - { path: ^/admin, roles: ROLE_ADMIN }
+    - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
     # - { path: ^/profile, roles: ROLE_USER }
 
 when@test:
