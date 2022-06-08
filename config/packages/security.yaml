@@ -32,8 +32,7 @@ security:
 
       logout:
         path: security_logout
-      #   # where to redirect after logout
-      #   target: front_search
+        target: front_search
 
       # activate different ways to authenticate
       # https://symfony.com/doc/current/security.html#the-firewall

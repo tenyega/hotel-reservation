@@ -1,0 +1,53 @@
+
+      
+    <body>
+       {% include "front/_navbar.html.twig" %}
+        <div id="carte1" style="height: 600px;">
+        </div>
+        <div id="coords" style="position: absolute; z-index: 3; top: auto; left: auto;"></div>
+          <title>Emplacement de l'hotel</title>
+        <meta charset="utf-8">
+        
+        {% block stylesheets %} 
+        	<link rel="stylesheet" href="{{ asset('CSS/_navbar.css') }}"/>
+            <link rel="stylesheet" href="{{ asset('CSS/myTheme.css') }}"/>
+
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+        integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+        crossorigin=""/>{% endblock %}
+         {% block javascripts %}
+            <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+            integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+            crossorigin=""></script>
+            <script type="text/javascript">
+           
+           
+            const centerview=[48.8584,2.2945];
+            const mymap = L.map('carte1').setView([centerview[0], centerview[1]], 6);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(mymap);
+            const layerGroup = L.layerGroup().addTo(mymap);
+           
+           window.onload=function(e){
+                
+                const query="http://api-adresse.data.gouv.fr/search/?q=10 allee octave mirbeau 78500 sartrouville france";
+                fetch(query,{method: 'get'})
+                .then(r=>r.json())
+                .then(r=>{
+                    layerGroup.clearLayers();
+                    r.features.forEach(element => {
+                        const coords=element.geometry.coordinates;
+                        console.log(element.geometry.coordinates);
+                        L.marker([coords[1],coords[0]]).addTo(layerGroup);
+                    });
+                })
+            }
+
+            </script>
+        {% endblock %}
+
+        
+    </body>
+
+</html>

@@ -10,17 +10,20 @@
 {% block body %}
 
 	{% if app.user %}
-		<h1>Payment with Stripe</h1>
-		<form id="payment-form">
-			<div
-				id="payment-element"><!--Stripe.js injects the Payment Element-->
-			</div>
-			<button id="submit">
-				<div class="spinner hidden" id="spinner"></div>
-				<span id="button-text" class='btn-reserver'>Pay with stripe</span>
-			</button>
-			<div id="payment-message" class="hidden"></div>
-		</form>
+
+		<div class='payment_form'>
+			<h1>Payment with Stripe</h1>
+			<form id="payment-form">
+				<div
+					id="payment-element"><!--Stripe.js injects the Payment Element-->
+				</div>
+				<button id="submit" class='btn-reserver'>
+					<div class="spinner hidden" id="spinner"></div>
+					<span id="button-text" >Pay with stripe</span>
+				</button>
+				<div id="payment-message" class="hidden alertMsg"></div>
+			</form>
+		</div>
 	{% else %}
 		<button class='btn-confirmer' type='submit'>
 			<a href="{{ path('security_login') }}">Login</a>

@@ -29,3 +29,38 @@ body{
 .recap{
     display: flex;
 }
+.description{
+    margin-top: 138px;
+    margin-left: 333px;
+    text-align: center;
+    max-width: 500px;
+    height: auto;
+    padding: 10px;
+    color: white;
+    background-color: black;
+    transform: translateX(-50%) translateY(-50%) skew(5deg);
+
+}
+.payment_form{
+    max-width:900px;
+    padding:20px;
+    margin:0 auto;
+}
+
+.recap_details1{
+    border: 1px solid black;
+    margin-top: 142px;
+    margin-left: 300px;
+    max-width: 500px;
+    transform: translateX(-50%) translateY(-50%) skew(5deg);
+
+}
+
+.recap_details2{
+    border: 1px solid black;
+    margin-top: 142px;
+    margin-left: 167px;
+    max-width: 500px;
+    transform: translateX(-50%) translateY(-50%) skew(5deg);
+
+}

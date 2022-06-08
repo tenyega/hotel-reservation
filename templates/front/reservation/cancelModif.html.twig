@@ -1,0 +1,42 @@
+{% extends "front/base.html.twig" %}
+{% block title %}
+	Cancel
+
+{% endblock %}
+{% block body %}
+	
+		<h1 class='title'>Details de votre reservation annulé
+		</h1>
+		<div class='recap_details2'>
+				<hr>
+				<h1 class='title'>
+					Reservation prise en compte</h1>
+				<p class='title'>
+
+					
+					Date d'arrivée: -
+					<b>{{ oldResa.getCheckInDate() | date('Y-m-d')}}</b><br>
+
+
+					Date de depart:-
+					<b>{{ oldResa.getCheckOutDate()| date('Y-m-d') }}</b><br>
+
+					Charges Total:-
+					<b>{{ oldResa.getTotal()/100 }}&euro;</b><br>
+
+					{% for r in room %}
+						Installation possible:-
+						{{ r.getFacilityPossible() }}<br>
+						-
+						{% if r.getIsSmoking()	%}fumeuse
+						{% else %}
+							non fumeuse
+						{% endif %}<br>
+					
+
+					{% endfor %}
+
+				</p>
+			</div>
+
+{% endblock %}

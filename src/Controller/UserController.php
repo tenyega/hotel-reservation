@@ -84,7 +84,8 @@ class UserController extends AbstractController
      */
     public function gMap()
     {
-        return $this->render('front/map/gMap.html.twig');
+        // return $this->render('front/map/gMap.html.twig');
+        return $this->render('front/map/myMap.html.twig');
     }
 
     /**

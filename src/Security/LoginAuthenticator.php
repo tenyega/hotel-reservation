@@ -3,6 +3,7 @@
 namespace App\Security;
 
 use App\Session\SessionService;
+use Doctrine\DBAL\Driver\Mysqli\Initializer\Secure;
 use PhpParser\Node\Expr\FuncCall;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Security;
@@ -17,6 +18,7 @@ use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\CsrfTokenBadge;
 use Symfony\Component\Security\Http\Authenticator\AbstractLoginFormAuthenticator;
@@ -52,17 +54,27 @@ class LoginAuthenticator extends AbstractGuardAuthenticator
     }
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
+        try {
+            return $userProvider->loadUserByUsername($credentials['email']);
+        } catch (UsernameNotFoundException $e) {
+            throw new AuthenticationException("Cette adresse email n'est pas connue");
+        }
         // here the userprovider is an object which is capable of searching with the help of security.yaml providers in the entity user by its email 
-        return $userProvider->loadUserByUsername($credentials['email']);
     }
 
     public function checkCredentials($credentials, UserInterface $user)
     {
         //here the password is checked 
-        return $this->encoder->isPasswordValid($user, $credentials['password']);
+
+        $isValid =  $this->encoder->isPasswordValid($user, $credentials['password']);
+        if (!$isValid) {
+            throw new AuthenticationException(" Les informations de connexion ne correspondent pas");
+        }
+        return true;
     }
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
     {
+        return $request->attributes->set(Security::AUTHENTICATION_ERROR, $exception);
     }
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $providerKey)
     {

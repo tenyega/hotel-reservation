@@ -42,7 +42,7 @@ calendar.render();
 {% block body %}
 
 	{# <button class="btn-primary" onclick="call()">
-																																																											click</button> #}
+																																																												click</button> #}
 	<div id='calendar'></div>
 	<h1 class='title'>Votre reservation est confirmé</h1>
 	<h2 class='title'>
@@ -81,6 +81,9 @@ calendar.render();
 			</a>
 			<a href="{{ path('front_feedback') }}">
 				<input class='btn-reserver' type="button" value="DONNER UN AVIS">
+			</a>
+			<a href="{{ path('front_map') }}">
+				<input class='btn-reserver' type="button" value="Retrouvez nous sur google map">
 			</a>
 			<hr>
 			<h1 class='title'>A tres bientot !!!</h1>

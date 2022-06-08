@@ -33,6 +33,7 @@ class ReservationController extends AbstractController
     protected $reservationPersister;
     protected $newTotal = 0;
     public $diffTotal = 0;
+    private $oldResa;
     public function __construct(RoomRepository $roomRepository, ReservationPersister $reservationPersister)
     {
         $this->roomRepository = $roomRepository;
@@ -128,7 +129,9 @@ class ReservationController extends AbstractController
     {
 
         $reservation = $reservationRepository->find($id);
-        $oldResa = clone $reservation;
+        // $this->oldResa = clone $reservation;
+        $this->saveOldResa($reservation);
+        $oldResa = $this->getOldResa();
         $roomno = $reservation->getRoomNo();
         $room = $roomRepository->findByExampleField($roomno);
         dump($oldResa);
@@ -137,8 +140,10 @@ class ReservationController extends AbstractController
         $total = $reservation->getTotal();
         $form->handleRequest($request);
 
+
         if ($form->isSubmitted() && $form->isValid()) {
-            dump($reservation);
+
+            //    dd($form);
             $reservation->setStatus(Reservation::STATUS_PENDING);
 
             $checkIn = $form->getData()->getCheckInDate();
@@ -178,6 +183,8 @@ class ReservationController extends AbstractController
 
             ]);
         }
+
+
         return $this->render('front/reservation/update.html.twig', [
             'form' => $form->createView()
         ]);
@@ -197,6 +204,23 @@ class ReservationController extends AbstractController
             'reservation' => $reservation
         ]);
     }
+
+    // /**
+    //  * @Route("/reservation/cancelModif/{resaID}", name="reservation_cancelModif")
+    //  */
+
+    // public function cancelModif($resaID, ReservationRepository $reservationRepository, EntityManagerInterface $em, RoomRepository $roomRepository)
+    // {
+    //     $reservation = $reservationRepository->find($resaID);
+    //     $oldResa = $this->getOldResa();
+    //     dd($oldResa);
+    //     $em->refresh($reservation);
+    //     $room = $roomRepository->find($reservation->getRoomNo());
+    //     return $this->render('front/reservation/cancelModif.html.twig', [
+    //         'oldResa' => $reservation,
+    //         'room' => $room
+    //     ]);
+    // }
 
     /**
      * @Route("/payment/{resaID}/{diffTotal}", name="reservation_payment", priority=1, methods={"GET"})
@@ -231,5 +255,15 @@ class ReservationController extends AbstractController
             'clientSecret' => $paymentIntent->client_secret,
             'stripePublicKey' => $stripeService->getPublicKey()
         ]);
+    }
+
+    public function saveOldResa($reservation)
+    {
+        $this->oldResa = clone $reservation;
+    }
+
+    public function getOldResa()
+    {
+        return $this->oldResa;
     }
 }

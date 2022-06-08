@@ -119,6 +119,7 @@ class AdminController extends AbstractController
 
 
         return $this->render('back/chart/index.html.twig', [
+            'roomNo' => $roomNo,
             'data' => json_encode($dataPoints)
         ]);
     }

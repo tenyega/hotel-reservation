@@ -19,46 +19,50 @@
 													     and consistent behavior across browsers, consider loading using Promises
 													     with https://www.npmjs.com/package/@googlemaps/js-api-loader.
 													    -->
-	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDcjOqgCqWniAb2PGhXIaUJVXMHJgse0hs&callback=initMap&v=weekly" defer></script>
+<!--	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDcjOqgCqWniAb2PGhXIaUJVXMHJgse0hs&callback=initMap&v=weekly" defer></script>
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDV_f1ECz8NFDVSzoqopavdilA6u9hom60&callback=initMap&v=weekly" defer></script> 
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAAYtAAAvIhSdfXtmdk6kIddMyDa2H31XD&callback=initMap&v=weekly" defer></script>-->
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBv4BF9On0syVx9Yu87kux-ty5aWbc&callback=initMap&v=weekly" defer></script>
 
 	<script>
 
-	(function mapCord() {
-navigator.geolocation.getCurrentPosition(function (position) {
-posLat = position.coords.latitude
-console.log(posLat)
-posLng = position.coords.longitude
-console.log(posLng)
+			(function mapCord() {
+					navigator.geolocation.getCurrentPosition(function (position) {
+							posLat = position.coords.latitude
+							console.log(posLat)
+							posLng = position.coords.longitude
+							console.log(posLng)
 
-initMap(posLat,posLng)
-}, function (error) {
-console.log("The Locator was denied. :(")
-})
-})();
-		function initMap(posLat, posLng) {
+							initMap(posLat,posLng)
+							}, function (error) {
+							console.log("The Locator was denied. :(")
+					})
+			})();
+				
+			function initMap(posLat, posLng) {
 
-const myhotel = {
-lat: 48.8588897,
-lng: 2.320041
-};
-
-
-const myLatLng = {
-lat: posLat,
-lng: posLng
-};
+					const myhotel = {
+					lat: 48.8588897,
+					lng: 2.320041
+					};
 
 
-const map = new google.maps.Map(document.getElementById("map"), {
-zoom: 10,
-center: myLatLng
-});
+					const myLatLng = {
+					lat: posLat,
+					lng: posLng
+					};
 
-new google.maps.Marker({position: myhotel, map, title: "Votre Hotel!"});
-new google.maps.Marker({position: myLatLng, map, title: "Votre Position!"});
 
-}
+					const map = new google.maps.Map(document.getElementById("map"), {
+					zoom: 10,
+					center: myLatLng
+					});
 
-window.initMap = initMap;
+					new google.maps.Marker({position: myhotel, map, title: "Votre Hotel!"});
+					new google.maps.Marker({position: myLatLng, map, title: "Votre Position!"});
+
+		}
+
+		window.initMap = initMap;
 	</script>
 {% endblock %}

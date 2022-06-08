@@ -16,6 +16,7 @@
 .btn-reserver {
     background-color: red;
     padding: 5px;
+    margin:5px;
     border-radius: 10px;
     text-align: center;
 }
@@ -44,4 +45,16 @@
     background-image: url("https://images.unsplash.com/photo-1623128201039-faeb81209656?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80");
     background-repeat: no-repeat;
  background-size: cover;
+}
+
+.alertMsg{
+color: white;
+margin: 0 auto;
+text-align: center;
+font-weight:bold;
+border: 1px solid red;
+max-width: 60%;
+align-self: center;
+border-radius: 5px;
+background-color: red;
 }
