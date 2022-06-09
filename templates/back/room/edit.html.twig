@@ -1,17 +1,16 @@
 {% extends 'back/base.html.twig' %}
 {% block title %}
-	<h1 class="title">Editer une Chambre
-	</h1>
+	Editer une Chambre
+
 {% endblock %}
 {% block body %}
-	<h1>Edit Room</h1>
+	<h1 class='title'>Modifier la Chambre</h1>
+	<div style='float:right'>
+		{{ include('back/room/_delete_form.html.twig') }}</div>
+	<link rel="stylesheet" href="{{ asset('CSS/room.css') }}"/>
 
-	{{ include('back/room/_form.html.twig', {'button_label': 'Modifier'}) }}
+	{{ include('back/room/_form.html.twig', {'button_label': 'Modifier', 'error': ""}) }}
 
 	{# <a href="{{ path('admin_room_showAll') }}">Retours a la list</a> #}
-	<a href="{{ path('admin_room_showAll') }}">
-		<input class='btn-reserver' type="button" value="Retours a la list">
-	</a>
 
-	{{ include('back/room/_delete_form.html.twig') }}
 {% endblock %}

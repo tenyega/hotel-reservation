@@ -51,7 +51,7 @@ header.heading div.gauche img {
 
 /******************************************************container*/
 
-div.container {
+div.room_container {
     display: inline-flex;
     align-items: center;
     justify-content: space-between;

@@ -80,18 +80,15 @@ class RoomRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    // public function findRoomsDispo($roomNoReserved)
-    // {
-    //     $roomNoReserved = (int)$roomNoReserved;
-    //     //dd($roomNoReserved);
-    //     return $this->createQueryBuilder('r')
-    //         ->andWhere('r.RoomNo != :val')
-    //         ->setParameter('val', $roomNoReserved)
-    //         ->orderBy('r.RoomNo', 'ASC')
-    //         ->setMaxResults(3)
-    //         ->getQuery()
-    //         ->getResult();
-    // }
+    public function checkRoomNo($roomNo)
+    {
+
+        return $this->createQueryBuilder('r')
+            ->andWhere('r.RoomNo = :val')
+            ->setParameter('val', $roomNo)
+            ->getQuery()
+            ->getResult();
+    }
 
 
     // Here i m getting the details of the room which is booked between the dates mentioned by the client

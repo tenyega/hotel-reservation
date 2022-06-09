@@ -6,7 +6,9 @@
 {% block body %}
 	<h1 class='title'>Ajouter une nouvelle Chambre</h1>
 
+	<link rel="stylesheet" href="{{ asset('CSS/room.css') }}"/>
+
 	{{ include('back/room/_form.html.twig') }}
 
-	<a href="{{ path('admin_room_showAll') }}">Retours a la list</a>
+
 {% endblock %}

@@ -30,52 +30,52 @@ class Room
     private $id;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer",nullable=false)
      */
     private $RoomNo;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer",nullable=false)
      */
     private $Floor;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=false)
      */
     private $MaxCapacity;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=false)
      */
     private $Type;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="boolean", nullable=false)
      */
     private $IsSmoking;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255,nullable=false)
      */
     private $FacilityPossible;
 
     /**
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="float",nullable=false)
      */
     private $price;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=false)
      */
     private $bedding = self::BED_SIMPLE;
 
     /**
-     * @ORM\Column(type="string", length=500)
+     * @ORM\Column(type="string", length=500, nullable=true)
      */
     private $description;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255,nullable=false)
      */
     private $mainPicture;
 

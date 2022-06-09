@@ -66,9 +66,9 @@
 					</li>
 				{% endif %}
 				{% if is_granted('ROLE_USER') == false %}
-					{# <li>
+					<li>
 											<a class='nav-link' href="{{ path('reservation_userDetailForm')}}">Inscription</a>
-										</li> #}
+										</li>
 
 					<li>
 						<a class='nav-link' href="{{ path('security_login')}}">Login</a>

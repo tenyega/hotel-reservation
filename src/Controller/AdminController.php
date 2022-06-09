@@ -179,14 +179,30 @@ class AdminController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $roomRepository->add($room, true);
+            $data = $form->getData();
 
-            return $this->redirectToRoute('app_room_index', [], Response::HTTP_SEE_OTHER);
+            $roomNoExist = $roomRepository->checkRoomNo($data->getRoomNo());
+
+            if (!$roomNoExist) {
+
+                $roomRepository->add($room, true);
+
+                return $this->redirectToRoute('admin_room_showAll', [], Response::HTTP_SEE_OTHER);
+            } else {
+                $data = $form->getData();
+                $form = $this->createForm(RoomType::class, $data);
+                return $this->renderForm('back/room/new.html.twig', [
+                    'room' => $room,
+                    'form' => $form,
+                    'error' => 'Choissiez un autre numero de la chambre '
+                ]);
+            }
         }
 
         return $this->renderForm('back/room/new.html.twig', [
             'room' => $room,
             'form' => $form,
+            'error' => ''
         ]);
     }
 
@@ -203,8 +219,9 @@ class AdminController extends AbstractController
     /**
      * @Route("/admin/room/edit/{id}", name="admin_editRoom", methods={"GET", "POST"})
      */
-    public function edit(Request $request, Room $room, RoomRepository $roomRepository): Response
+    public function edit(Request $request, $id, RoomRepository $roomRepository): Response
     {
+        $room = $roomRepository->find($id);
         $form = $this->createForm(RoomType::class, $room);
         $form->handleRequest($request);
 
@@ -221,13 +238,14 @@ class AdminController extends AbstractController
     }
 
     /**
-     * @Route("/admin/room/delete/{id}", name="admin_deleteRoom", methods={"POST"})
+     * @Route("/admin/room/delete/{id}", name="admin_deleteRoom", methods={"GET"})
      */
-    public function delete(Request $request, Room $room, RoomRepository $roomRepository): Response
+    public function delete($id, RoomRepository $roomRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete' . $room->getId(), $request->request->get('_token'))) {
-            $roomRepository->remove($room, true);
-        }
+        $room = $roomRepository->find($id);
+
+        $roomRepository->remove($room, true);
+
 
         return $this->redirectToRoute('admin_room_showAll', [], Response::HTTP_SEE_OTHER);
     }

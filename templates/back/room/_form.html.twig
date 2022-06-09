@@ -1,4 +1,72 @@
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn-reserver">{{ button_label|default('Sauvegarder') }}</button>
-{{ form_end(form) }}
+{% if error %}
+	<div class='alertMsg'>
+		{{ error }}
+		{# {{ error.message }} #}
+	</div>
+{% endif %}
+<div class='container'>
+	<div class='form_input'>
+		<div>
+			<div>
+				{{ form_start(form) }}
+
+				{{ form_row(form.RoomNo) }}
+			</div>
+			<div>
+				{{ form_row(form.Floor) }}
+			</div>
+			<div>
+				{{ form_row(form.MaxCapacity) }}
+			</div>
+			<div>
+				{{ form_row(form.Type) }}
+			</div>
+			<div>
+				{{ form_row(form.IsSmoking) }}
+			</div>
+			<div>
+				{{ form_row(form.FacilityPossible) }}
+			</div>
+			<div>
+				{{ form_row(form.price) }}
+			</div>
+			<div>
+				{{ form_row(form.bedding) }}
+			</div>
+			<div>
+				{{ form_row(form.description) }}
+			</div>
+			<div>
+				{{ form_row(form.mainPicture) }}
+			</div>
+			<div>
+				{{ form_row(form.otherPicture) }}
+				{{ form_row(form.anotherPicture) }}
+			</div>
+
+			<button class="btn-reserver">{{ button_label|default('Sauvegarder') }}</button>
+			<a href="{{ path('admin_room_showAll') }}">
+				<input class='btn-reserver' type="button" value="Retours a la list">
+			</a>
+
+		</div>
+		<div class='alertMsg'>
+			{{form_errors(form)}}
+			{{form_errors(form.RoomNo)}}
+			{{form_errors(form.Floor)}}
+			{{form_errors(form.MaxCapacity)}}
+			{{form_errors(form.Type)}}
+			{{form_errors(form.IsSmoking)}}
+			{{form_errors(form.FacilityPossible)}}
+			{{form_errors(form.price)}}
+			{{form_errors(form.bedding)}}
+			{{form_errors(form.description)}}
+			{{form_errors(form.mainPicture)}}
+			{{form_errors(form.otherPicture)}}
+			{{form_errors(form.anotherPicture)}}
+
+
+		</div>
+		{{ form_end(form) }}
+	</div>
+</div>

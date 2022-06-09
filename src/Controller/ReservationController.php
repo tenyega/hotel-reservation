@@ -184,7 +184,7 @@ class ReservationController extends AbstractController
             ]);
         }
 
-
+     
         return $this->render('front/reservation/update.html.twig', [
             'form' => $form->createView()
         ]);

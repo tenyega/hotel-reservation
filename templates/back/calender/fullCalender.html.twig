@@ -14,11 +14,11 @@
 		window.onload = function (events) {
                                             const calendarEl = document.querySelector('#calendar')
 
-                                            const events='{{events}}';
+                                             events='{{events}}';
                                             events= events.replace(/(&quot\;)/g,"\"")
                                             const calendar = new FullCalendar.Calendar(calendarEl, {
                                                 initialView: 'dayGridMonth',
-                                                initialDate: '2022-05-01',
+                                                initialDate: '2022-06-01',
                                                 headerToolbar: {
                                                     left: 'prev,next today',
                                                     center: 'title',

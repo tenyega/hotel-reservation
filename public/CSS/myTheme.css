@@ -43,8 +43,9 @@ body{
 }
 .payment_form{
     max-width:900px;
-    padding:20px;
+    padding:12px;
     margin:0 auto;
+    color: white;
 }
 
 .recap_details1{
@@ -63,4 +64,38 @@ body{
     max-width: 500px;
     transform: translateX(-50%) translateY(-50%) skew(5deg);
 
+}
+
+
+.container{
+    /* margin-left: 24%; */
+    margin: 0 auto;
+    /* margin-top: 2%; */
+    background-color: #222;
+   
+    border: 1px solid;
+    border-top-left-radius: 40px 40px;
+    border-bottom-right-radius: 40px 40px;
+    padding: 221px;
+    text-align: center;
+   display: flex;
+   width: 70%;
+   height: 70%;
+}
+
+.form_input{
+    position: absolute; 
+    color: white;
+  width:90%;
+  height: 90%;
+  left: 50%;
+    top: 93%;
+  transform: translateX(-50%) translateY(-50%) skew(10deg);
+}
+
+label.p-FieldLabel.Label.Label--empty{
+    color:white;
+}
+div.p-FieldLabel Label{
+    color:white;
 }

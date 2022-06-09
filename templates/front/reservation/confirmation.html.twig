@@ -42,7 +42,7 @@ calendar.render();
 {% block body %}
 
 	{# <button class="btn-primary" onclick="call()">
-																																																												click</button> #}
+																																																													click</button> #}
 	<div id='calendar'></div>
 	<h1 class='title'>Votre reservation est confirmé</h1>
 	<h2 class='title'>
@@ -50,29 +50,54 @@ calendar.render();
 
 	<hr>
 	<h2 class='title'>Récapitulative</h2>
-	<p class='title'>
-		Reservation ID :-
-		{{  reservation.getID() }}<br>
-		Date d'arrivée: -
-		{{ reservation.getCheckInDate() | date('Y-m-d')}}<br>
+
+	Réservé pour
+	{{ app.user.getFirstName() | upper }}
 
 
-		Date de depart:-
-		{{ reservation.getCheckOutDate()| date('Y-m-d') }}<br>
+	<div style="display:flex; justify-content: space-evenly;">
 
-		Charges Total:-
-		{{ reservation.getTotal()/100 }}&euro;<br>
+		<div class='title'>
+			<hr>
+			<h3 class="title" style='padding-top:10px'>
+				<strong>Reservé le :-</strong>
+				{{ reservation.getBookingDate()| date('Y-m-d') }}<br>
+				<b>Date d'arrivée:-
+				</b>
+				{{ reservation.getCheckInDate()| date('Y-m-d') }}
+				<br>
+				<b>Date de depart:-
+				</b>
+				{{ reservation.getCheckOutDate()| date('Y-m-d') }}</h3>
+			Nombre des Personnes :-
+			{{ reservation.getNoAdult() }}<br>
+			{% if reservation.getNoEnfant() %}
+				Nombre des Enfants :-
 
-		{% for r in room %}
-			Installation possible:-
-			{{ r.getFacilityPossible() }}<br>
-			-
-			{% if r.getIsSmoking()	%}fumeuse
-			{% else %}
-				non fumeuse
-			{% endif %}<br>
-			-Etage:
-			{{ r.getFloor()	}}<br>
+				{{ reservation.getNoEnfant() }}<br>
+			{% endif %}
+			Demande Speciale  :-
+			{{ reservation.getSpecialDemande() }}<br><br>
+
+
+			{% for r in room %}
+
+				{{ r.getType() }}
+				({{ r.getBedding() }}
+				)<br><br></div>
+			<div class='title'>
+				<h5 class='description'>Details de la Chambre :-<br><br>{{ r.getDescription() }}<br><br>
+					Possible options :-
+					{{ r.getFacilityPossible() }}<br><br></h5>
+
+			{% endfor %}
+
+			<hr style='    margin-top: -90px;'>
+			<b>Total :-
+				{{ reservation.getTotal() /100 }}&euro;</b>
+			<br>
+
+			<hr>
 			<a href="{{ path('reservation_update', {id : reservation.getID()}) }}">
 				<input class='btn-reserver' type="button" value="MODIFIER">
 			</a>
@@ -85,11 +110,9 @@ calendar.render();
 			<a href="{{ path('front_map') }}">
 				<input class='btn-reserver' type="button" value="Retrouvez nous sur google map">
 			</a>
-			<hr>
-			<h1 class='title'>A tres bientot !!!</h1>
-		{% endfor %}
 
-	</p>
+		</div>
+	</div>
 
 
 {% endblock %}

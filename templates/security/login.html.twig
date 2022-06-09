@@ -8,42 +8,42 @@
 	<link rel="stylesheet" href="{{ asset('CSS/feedback.css') }}"/>
 
 	{# {% if error %}
-																							<div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-																						{% endif %}
-																						{% set resa = sessionService.getSessionDetails() %}
-																						<link rel="stylesheet" href="{{ asset('CSS/feedback.css') }}"/>
-																						<div class='container'>
-																							<div class='form_input'>
-																								{% if resa[0] %}
-																									{% set resaID = resa[0].getId() %}
-																					
-																					
-																									{# <form action="{{ path('reservation_payment', {'resaID': resaID, 'diffTotal': diffTotal }) }}" method="post"> #}
+																								<div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+																							{% endif %}
+																							{% set resa = sessionService.getSessionDetails() %}
+																							<link rel="stylesheet" href="{{ asset('CSS/feedback.css') }}"/>
+																							<div class='container'>
+																								<div class='form_input'>
+																									{% if resa[0] %}
+																										{% set resaID = resa[0].getId() %}
+																						
+																						
+																										{# <form action="{{ path('reservation_payment', {'resaID': resaID, 'diffTotal': diffTotal }) }}" method="post"> #}
 	{# <form action="{{ path('reservation_payment', {'resaID': resaID, 'diffTotal': diffTotal }) }}" method="post"> #}
 	{# <form action="{{ path('security_login') }}" method="post"> {% include "security/_form_login.html.twig" %}
-																					
-																										<input
-																										type="hidden" name="_target_path" value="{{ path ('reservation_payment', {'resaID': resaID, 'diffTotal':0 }) }}"/>
-																					
-																										{# <input type="hidden" name="_target_path" value="{{ path('reservation_doyou',{'resaID':resaID}) }}"/> #}
+																						
+																											<input
+																											type="hidden" name="_target_path" value="{{ path ('reservation_payment', {'resaID': resaID, 'diffTotal':0 }) }}"/>
+																						
+																											{# <input type="hidden" name="_target_path" value="{{ path('reservation_doyou',{'resaID':resaID}) }}"/> #}
 
 	{# <pre>
-																											{{ dump() }}
-																										</pre>
-																									</form>
-																								{% else %}
-																									{% set i = sessionService.empty() %}
-																									<form action="{{ path('security_login') }}" method="post">
-																										{% include "security/_form_login.html.twig" %}
-																										<input type="hidden" name="_target_path" value="{{ path('front_search') }}"/>
-																										<pre>
-																											{{ dump() }}
-																										</pre>
-																									</form>
-																								{% endif %}
+																												{{ dump() }}
+																											</pre>
+																										</form>
+																									{% else %}
+																										{% set i = sessionService.empty() %}
+																										<form action="{{ path('security_login') }}" method="post">
+																											{% include "security/_form_login.html.twig" %}
+																											<input type="hidden" name="_target_path" value="{{ path('front_search') }}"/>
+																											<pre>
+																												{{ dump() }}
+																											</pre>
+																										</form>
+																									{% endif %}
+																								</div>
 																							</div>
-																						</div>
-																						</form> #}
+																							</form> #}
 
 
 		{% if error %}
@@ -64,4 +64,5 @@
 
 		</div>
 	</div>
+
 {% endblock %}

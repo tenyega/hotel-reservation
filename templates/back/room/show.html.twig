@@ -3,68 +3,40 @@
 	Rooms
 {% endblock %}
 {% block body %}
+	<link rel="stylesheet" href="{{ asset('CSS/room.css') }}"/>
 	<h1 class='title'>Chambre</h1>
+	<div class="room_container">
 
-	<table class="table">
-		<tbody>
-			<tr>
-				<th>Id</th>
-				<td>{{ room.id }}</td>
-			</tr>
-			<tr>
-				<th>RoomNo</th>
-				<td>{{ room.RoomNo }}</td>
-			</tr>
-			<tr>
-				<th>Floor</th>
-				<td>{{ room.Floor }}</td>
-			</tr>
-			<tr>
-				<th>MaxCapacity</th>
-				<td>{{ room.MaxCapacity }}</td>
-			</tr>
-			<tr>
-				<th>Type</th>
-				<td>{{ room.Type }}</td>
-			</tr>
-			<tr>
-				<th>IsSmoking</th>
-				<td>{{ room.IsSmoking ? 'Yes' : 'No' }}</td>
-			</tr>
-			<tr>
-				<th>FacilityPossible</th>
-				<td>{{ room.FacilityPossible }}</td>
-			</tr>
-			<tr>
-				<th>Price</th>
-				<td>{{ room.price }}</td>
-			</tr>
-			<tr>
-				<th>Bedding</th>
-				<td>{{ room.bedding }}</td>
-			</tr>
-			<tr>
-				<th>Description</th>
-				<td>{{ room.description }}</td>
-			</tr>
-			<tr>
-				<th>MainPicture</th>
-				<td>{{ room.mainPicture }}</td>
-			</tr>
-			<tr>
-				<th>OtherPicture</th>
-				<td>{{ room.otherPicture }}</td>
-			</tr>
-			<tr>
-				<th>Anotherpicture</th>
-				<td>{{ room.anotherpicture }}</td>
-			</tr>
-		</tbody>
-	</table>
+		<div class='room_title'>
+			<hr>
+			RoomNo :-{{ room.RoomNo }}<br>
+			Floor  :-{{ room.Floor }}<br>
+			MaxCapacity:-{{ room.MaxCapacity }}<br>
+			Type    :-{{ room.Type }}<br>
+			IsSmoking :-{{ room.IsSmoking ? 'Yes' : 'No' }}
+			<br>
+			FacilityPossible :-{{ room.FacilityPossible }}<br>
 
-	<a href="{{ path('admin_room_showAll') }}">Retours a la list</a>
+		</div>
 
-	<a href="{{ path('admin_editRoom', {'id': room.id}) }}">Modifier</a>
+		<div class='room_title'>
+			<h5 class='room_description'>Description :-
+				{{ room.description }}<br>
+				Price :-{{ room.price }}</h5>
+		</div>
 
-	{{ include('back/room/_delete_form.html.twig') }}
+		<div class='btn_room'>
+			<a href="{{ path('admin_room_showAll') }}">
+				<input class='btn-reserver' type="button" value="Retours a la list">
+			</a>
+
+
+			<a href="{{ path('admin_editRoom', {'id': room.id}) }}">
+				<input class='btn-reserver' type="button" value="Modifier">
+			</a>
+
+
+			{{ include('back/room/_delete_form.html.twig') }}
+		</div>
+	</div>
 {% endblock %}
