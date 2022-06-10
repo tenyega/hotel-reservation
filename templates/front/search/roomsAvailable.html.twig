@@ -7,10 +7,10 @@
 {% block stylesheets %}
 	{{ parent() }}
 	<link href="CSS/ImageSlider.css" rel="stylesheet" type="text/css"/>
+	<link href="CSS/search.css" rel="stylesheet" type="text/css"/>
 {% endblock %}
 
 {% block body %}
-
 	<div class='search-form'>
 		<div>
 
@@ -44,28 +44,25 @@
 		{% if rooms %}
 			{% set turn = 0 %}
 			{% for room in rooms %}
-				<div class=' {% if turn == 1 %} section-top {% endif %}'>
+				<div>
 					<div class='room_container'>
 						{% if turn == 0 %}
-							<div class="slider">
+							<div class="img_slider">
 								<span id="slide-1"></span>
 								<span id="slide-2"></span>
 								<span id="slide-3"></span>
-
-								<div class="image-container">
-									<img src="{{ room.getMainPicture() }}" class="slide" alt='mainPicture'/>
-									<img src="{{ room.getOtherPicture() }}" class="slide" alt='otherPicture'/>
-									<img src="{{ room.getAnotherpicture() }}" class="slide" alt='anotherPicture'/>
+								<div class="image-container-slider">
+									<img src="{{ room.getMainPicture() }}" class="img_slide" width="650" height="450"/>
+									<img src="{{ room.getOtherPicture() }}" class="img_slide" width="650" height="450"/>
+									<img src="{{ room.getAnotherpicture() }}" class="img_slide" width="650" height="450"/>
 								</div>
-
 								<div class="buttons">
 									<a href="#slide-1"></a>
 									<a href="#slide-2"></a>
 									<a href="#slide-3"></a>
-
 								</div>
+								{% set turn = 1 %}
 							</div>
-							{% set turn = 1 %}
 						{% else %}
 							<div class="image-container">
 								<img src="{{ room.getMainPicture() }}" class="slide mainPicture" alt='mainPicture'/>
@@ -79,8 +76,8 @@
 
 								Personnes
 								{{ room.getMaxCapacity() }},
-																																																																																																																																																																																																																																																																																																																																																																																																																																																											
-																																																																																																																																																																																																																																																																																																																																																																																																																																																											Prix
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																										
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																										Prix
 								{{ room.getPrice() }}&euro;
 								<br>
 

@@ -21,7 +21,7 @@ body {
 
 
 /********************************************header */
-
+/* 
 header.heading {
     display: flex;
     padding: 5px;
@@ -46,29 +46,29 @@ header.heading div.droite h1 {
 header.heading div.gauche img {
     width: 50px;
     height: 50px;
-}
+} */
 
 
 /******************************************************container*/
 
 div.room_container {
-    display: inline-flex;
+    display: flex;
     align-items: center;
     justify-content: space-between;
     margin: 20px 100px;
 }
-
+/* 
 .slider {
     width: 406px;
     height: 500px;
-    background-color: yellow;
+    background-color: yellow; */
     /* margin-left: auto;
     margin-right: auto; */
-    margin: 10px auto;
+    /* margin: 10px auto; */
     /* margin-top: 0px; */
-    text-align: center;
+    /* text-align: center;
     overflow: hidden;
-}
+} */
 
 .image-container {
     width: 1014px;
@@ -77,16 +77,20 @@ div.room_container {
     clear: both;
     position: relative;
     transition: left 2s;
+   
 }
+/* .slider_container{
+    display: flex;
+} */
 
-.next-image-container {
+/* .next-image-container {
     width: 2610px;
     background-color: yellow;
     height: 500px;
     clear: both;
     position: relative;
     transition: left 2s;
-}
+} */
 
 .image-container:hover img,
 .image-container:focus img {
@@ -94,25 +98,12 @@ div.room_container {
     width: auto;
 }
 
+
 .image-container img.slide {
-    width: 507px;
+    width: 730px;
     height: 500px;
 }
 
-.image-container img.slide.mainPicture {
-    width: 798px;
-    height: 500px;
-}
-
-.image-container img.slide.robe_blanc {
-    width: 492px;
-    height: 500px;
-}
-
-.image-container img.slide.floral {
-    width: 500px;
-    height: 500px;
-}
 
 .slide {
     float: left;
@@ -121,7 +112,7 @@ div.room_container {
     position: relative;
 }
 
-#slide-1:target~.image-container {
+/* #slide-1:target~.image-container {
     left: 0px;
 }
 
@@ -139,7 +130,7 @@ div.room_container {
 
 #slide-5:target~.image-container {
     left: -2100px;
-}
+} */
 
 div.divDescription {
     position: relative;
@@ -164,7 +155,7 @@ div.divDescription {
 
 .buttons {
     position: relative;
-    top: -26px;
+    top: -1020px;
 }
 
 .buttons a {
@@ -176,48 +167,10 @@ div.divDescription {
 }
 
 
-/************************************** color choice*/
-
-div.choixColeur {
-    margin: 50px;
-    padding: 50px;
-    text-align: center;
-    border: 1px #000 solid;
-    border-radius: 50px;
-}
-
-div.choixColeur div.divCircle {
-    display: grid;
-    margin-top: 36px;
-}
-
-div.choixColeur div.divCircle span.circle1 {
-    border: 18px rgb(207, 228, 21) solid;
-    border-radius: 50%;
-    margin: 10px;
-}
-
-div.choixColeur div.divCircle span.circle2 {
-    border: 18px rgb(238, 21, 21) solid;
-    border-radius: 50%;
-    margin: 10px;
-}
-
-div.choixColeur div.divCircle span.circle3 {
-    border: 18px rgb(15, 221, 12) solid;
-    border-radius: 50%;
-    margin: 10px;
-}
-
-div.choixColeur div.divCircle span.circle4 {
-    border: 18px rgb(19, 12, 221) solid;
-    border-radius: 50%;
-    margin: 10px;
-}
 
 
 /************************************details*/
-
+/* 
 div.details {
     position: relative;
     display: flex;
@@ -256,7 +209,7 @@ div.detailRow p {
     width: 0%;
 } */
 
-div.detailRow>span {
+/* div.detailRow>span {
     width: 50%;
 }
 
@@ -282,7 +235,7 @@ div.detailRow p.imgThumb span input {
     position: absolute;
     top: 106px;
     left: -108px;
-}
+} */ 
 
 
 /******************************************** Media Query*/
@@ -329,3 +282,54 @@ div.detailRow p.imgThumb span input {
 }
 
 @media screen and (min-width:1590) {}
+
+
+.img_slider {
+    /* width: 500px;
+    height: 300px; */
+    width: 650px;
+    height: 450px;
+    background-color: yellow;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 0px;
+    text-align: center;
+    overflow: hidden;
+  }
+  .image-container-slider {
+    width: 1950px;
+    background-color: pink;
+    height: 450px;
+    clear: both;
+    position: relative;
+    -webkit-transition: left 2s;
+    -moz-transition: left 2s;
+    -o-transition: left 2s;
+    transition: left 2s;
+  }
+  .img_slide {
+    float: left;
+    margin: 0px;
+    padding: 0px;
+    position: relative;
+  }
+  #slide-1:target ~ .image-container-slider {
+    left: 0px;
+  }
+  #slide-2:target ~ .image-container-slider {
+    left: -650px;
+  }
+  #slide-3:target ~ .image-container-slider {
+    left: -1300px;
+  }
+  .buttons {
+    position: relative;
+    top: -20px;
+  }
+  .buttons a {
+    display: inline-block;
+    height: 15px;
+    width: 15px;
+    border-radius: 50px;
+    background-color: lightgreen;
+  }
