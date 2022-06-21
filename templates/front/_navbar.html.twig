@@ -50,7 +50,7 @@
 				</li>
 
 				<li>
-					<a class='nav-link' href="#">Bar & Services</a>
+					<a class='nav-link' href="{{ path('room_barService') }}">Bar & Services</a>
 				</li>
 				{% if is_granted('ROLE_USER') %}
 					{% if (is_granted('ROLE_ADMIN') == false) %}
@@ -87,3 +87,5 @@
 	</div>
 
 </nav>
+<link
+		rel="icon" href="Img/logo.png"/>

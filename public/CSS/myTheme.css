@@ -17,9 +17,10 @@ body{
   
         height: 100%;
         margin: 1;
-      
- 
-        
+              
+}
+#carte1{
+    z-index: 0;
 }
 
 .section-top {

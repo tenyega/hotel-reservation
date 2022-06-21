@@ -1,0 +1,127 @@
+.room_detail_container{
+    display: flex;
+  }
+
+.grid_container {
+    display: flex;
+    flex: wrap;
+    color:black;
+    position: relative;
+    font-weight: 700;
+}
+
+.room_detail_slider{
+width: 1100px;
+height: 600px;
+background-color: yellow;
+border-radius: 55px;
+margin-left: auto;
+margin-right: auto;
+margin-top: 0px;
+text-align: center;
+overflow: hidden;
+}
+
+.img_slider:hover, .img_slider:focus{
+    -webkit-transform: scale(1.1);
+  }
+  .image-container-slider {
+    width: 3300px;
+    background-color: pink;
+    height: 600px;
+    clear: both;
+    position: relative;
+    -webkit-transition: left 2s;
+    -moz-transition: left 2s;
+    -o-transition: left 2s;
+    transition: left 2s;
+  }
+  #slide-1:target ~ .image-container-slider {
+    left: 0px;
+  }
+  #slide-2:target ~ .image-container-slider {
+    left: -1100px;
+  }
+  #slide-3:target ~ .image-container-slider {
+    left: -2200px;
+  }
+
+  #slide-4:target ~ .image-container-slider {
+    left: 0px;
+  }
+  #slide-5:target ~ .image-container-slider {
+    left: -1100px;
+  }
+  #slide-6:target ~ .image-container-slider {
+    left: -2200px;
+  }
+  .img_slide {
+    float: left;
+    margin: 0px;
+    padding: 0px;
+    position: relative;
+  }
+
+  .buttons {
+    position: relative;
+    top: -55px;
+  }
+  .buttons a {
+    display: inline-block;
+    height: 15px;
+    width: 15px;
+    border-radius: 50px;
+    background-color: lightgreen;
+  }
+
+  .small_spacer{
+    height: 20px;
+  }
+  .spacer{
+    height:80px;
+  }
+
+  .dir_reverse{
+    flex-direction: row-reverse;
+  }
+
+  .mid_img{
+    margin-top: 20px;
+    position: absolute;
+    top: 817px;
+    background:white;
+    left: 40%;
+    border: 10px solid white;
+    z-index: 3;
+    margin-bottom: 20px;
+    border-radius: 25px;
+  }
+.center_img{
+  border-radius: inherit;
+
+}
+
+.detail{
+  right: 5%;
+  top: 7%;
+  width: 420px;
+  padding: 12px 45px 30px;
+  background: #fff;
+  position: relative;
+  border-radius: 10px;
+}
+.detail1{
+  right: -5%;
+  z-index: 1;
+  top: 7%;
+  width: 420px;
+  padding: 12px 45px 30px;
+  background: #fff;
+  position: relative;
+  border-radius: 10px;
+}
+
+.p_detail{
+  font-size: 1em;
+  font-weight: 100;
+}

@@ -1,0 +1,274 @@
+{% extends "front/base.html.twig" %}
+{% block title %}
+	Les Chambres
+{% endblock %}
+{% block body %}
+	<link rel="stylesheet" href="{{ asset('CSS/chambre.css') }}"/>
+
+	<h1 class='title'>Decouvrir nos Suites</h1>
+	
+	<div class="small_spacer"></div>
+
+	<div class='room_detail_container'>
+		<div class="grid_container">
+			<div class='room_detail_slider'>
+
+				<div class="img_slider">
+					<span id="slide-1"></span>
+					<span id="slide-2"></span>
+					<span id="slide-3"></span>
+					<div class="image-container-slider">
+
+						<img src="https://images.unsplash.com/photo-1498503182468-3b51cbb6cb24?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80" class="img_slide" width="900" height="450"/>
+						<img src="https://images.unsplash.com/photo-1572803090136-5247de70532f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1174&q=80" class="img_slide" width="900" height="450"/>
+						<img src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80" class="img_slide" width="900" height="450"/>
+					</div>
+					<div class="buttons">
+						<a href="#slide-1"></a>
+						<a href="#slide-2"></a>
+						<a href="#slide-3"></a>
+					</div>
+
+				</div>
+			</div>
+			<div class="room_detail">
+				<div class="detail">
+
+					<div class="title_double">
+						<h2>Suite
+						</h2>
+					</div>
+					
+					<div class="icon_grid_container">
+						<div class="icon_cell">
+							<p class='p_detail'>
+								<i>
+								<img src="{{ asset('Img/man.png') }}" width="70" height="70" ></a>
+								</i>
+								<span class='block_display'>X2</span>
+							</p>	
+							<p class='p_detail'>
+								<i>
+								<img src="{{ asset('Img/scale.png') }}" width="70" height="70" ></a>
+								</i>
+								<span class='block_display'>25m
+								<sup>2</sup>
+								</span>
+							</p>
+							<p class='p_detail'>
+								<i>
+								<img src="{{ asset('Img/bed.png') }}" width="70" height="70" ></a>
+								</i>
+								<span> Un Lit Double ou Deux Lit Simple
+								</span>
+							</p>
+						</div>
+					</div>
+
+					<div class='desc'>
+						<p class='p_detail'>	• Plateau de courtoisie &nbsp; &nbsp;
+							• Chaînes du câble ou satellite<br>
+							• Sèche-cheveux &nbsp; &nbsp;
+							• Bureau<br>
+							• Coffre-fort &nbsp; &nbsp;
+							• Chambres insonorisées<br>
+							• Chambres climatisées &nbsp; &nbsp;
+							• Salle de bains avec baignoire ou douche &nbsp;
+							• Mini-bar
+						</p>
+					</div>
+
+					<div class="reservation">
+						<a href="{{ path('front_search') }}" target="_blank" class='icon_cell' >
+							<span class="icon">
+							<i>
+								<img src="{{ asset('Img/calendar.png') }}" width="49" height="49" >
+								</i><span class="txt_resa">Réserver</span>
+							</span>
+							
+						</a>
+					
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="spacer"></div>
+	
+	<div class='room_detail_container'>
+		<div class="grid_container">
+			
+			<div class="room_detail">
+				<div class="detail two">
+
+					<div class="title_double">
+						<h2>Junior Suite
+						</h2>
+					</div>
+					
+					<div class="icon_grid_container">
+						<div class="icon_cell">
+							<p class='p_detail'>
+								<i>
+								<img src="{{ asset('Img/man.png') }}" width="70" height="70" ></a>
+								</i>
+								<span class='block_display'>X2</span>
+							</p>	
+							<p class='p_detail'>
+								<i>
+								<img src="{{ asset('Img/scale.png') }}" width="70" height="70" ></a>
+								</i>
+								<span class='block_display'>22m
+								<sup>2</sup>
+								</span>
+							</p>
+							<p class='p_detail'>
+								<i>
+								<img src="{{ asset('Img/bed.png') }}" width="70" height="70" ></a>
+								</i>
+								<span>Un Grand Lit Double
+								</span>
+							</p>
+						</div>
+					</div>
+
+					<div class='desc'>
+						<p class='p_detail'>	• Plateau de courtoisie &nbsp; &nbsp;
+							• Chaînes du câble ou satellite<br>
+							• Sèche-cheveux &nbsp; &nbsp;
+							• Bureau<br>
+							• Coffre-fort &nbsp; &nbsp;
+							• Chambres insonorisées<br>
+							• Chambres climatisées &nbsp; &nbsp;
+							• Salle de bains avec baignoire ou douche &nbsp;
+							• Mini-bar
+						</p>
+					</div>
+
+					<div class="reservation">
+						<a href="{{ path('front_search') }}" target="_blank" class='icon_cell' >
+							<span class="icon">
+							<i>
+								<img src="{{ asset('Img/calendar.png') }}" width="49" height="49" >
+								</i><span class="txt_resa">Réserver</span>
+							</span>
+							
+						</a>
+					
+					</div>
+				</div>
+			</div>
+			<div class='room_detail_slider'>
+
+				<div class="img_slider">
+					<span id="slide-4"></span>
+					<span id="slide-5"></span>
+					<span id="slide-6"></span>
+					<div class="image-container-slider">
+
+						<img src="https://images.unsplash.com/photo-1559599238-308793637427?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1169&q=80" class="img_slide" width="900" height="450"/>
+						<img src="https://images.unsplash.com/photo-1484101403633-562f891dc89a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1174&q=80" class="img_slide" width="900" height="450"/>
+						<img src="https://images.unsplash.com/photo-1560613654-ea1945efc370?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1074&q=80" class="img_slide" width="900" height="450"/>
+					</div>
+					<div class="buttons">
+						<a href="#slide-4"></a>
+						<a href="#slide-5"></a>
+						<a href="#slide-6"></a>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+	
+	<div class="spacer"></div>
+	
+	<div class='room_detail_container'>
+		<div class="grid_container">
+			<div class='room_detail_slider'>
+
+				<div class="img_slider">
+					<span id="slide-7"></span>
+					<span id="slide-8"></span>
+					<span id="slide-9"></span>
+					<div class="image-container-slider">
+
+						<img src="https://images.unsplash.com/photo-1592839494881-40d0e657099b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1074&q=80" class="img_slide" width="900" height="450"/>
+						<img src="https://images.unsplash.com/photo-1582719508461-905c673771fd?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1025&q=80" class="img_slide" width="900" height="450"/>
+						<img src="https://images.unsplash.com/photo-1611892440504-42a792e24d32?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80" class="img_slide" width="900" height="450"/>
+					</div>
+					<div class="buttons">
+						<a href="#slide-7"></a>
+						<a href="#slide-8"></a>
+						<a href="#slide-9"></a>
+					</div>
+
+				</div>
+			</div>
+			<div class="room_detail">
+				<div class="detail">
+
+					<div class="title_double">
+						<h2>Chambre <br>
+							Triple Deluxe 
+						</h2>
+					</div>
+					
+					<div class="icon_grid_container">
+						<div class="icon_cell">
+							<p class='p_detail'>
+								<i>
+								<img src="{{ asset('Img/man.png') }}" width="70" height="70" ></a>
+								</i>
+								<span class='block_display'>X3</span>
+							</p>	
+							<p class='p_detail'>
+								<i>
+								<img src="{{ asset('Img/scale.png') }}" width="70" height="70" ></a>
+								</i>
+								<span class='block_display'>28m
+								<sup>2</sup>
+								</span>
+							</p>
+							<p class='p_detail'>
+								<i>
+								<img src="{{ asset('Img/bed.png') }}" width="70" height="70" ></a>
+								</i>
+								<span> Un Grand Lit Double et 1 Lit simple <br>
+										Ou 3 lits simple
+								</span>
+							</p>
+						</div>
+					</div>
+
+					<div class='desc'>
+						<p class='p_detail'>	• Plateau de courtoisie &nbsp; &nbsp;
+							• Chaînes du câble ou satellite<br>
+							• Sèche-cheveux &nbsp; &nbsp;
+							• Bureau<br>
+							• Coffre-fort &nbsp; &nbsp;
+							• Chambres insonorisées<br>
+							• Chambres climatisées &nbsp; &nbsp;
+							• Salle de bains avec baignoire ou douche &nbsp;
+							• Mini-bar
+						</p>
+					</div>
+
+					<div class="reservation">
+						<a href="{{ path('front_search') }}" target="_blank" class='icon_cell' >
+							<span class="icon">
+							<i>
+								<img src="{{ asset('Img/calendar.png') }}" width="49" height="49" >
+								</i><span class="txt_resa">Réserver</span>
+							</span>
+							
+						</a>
+					
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

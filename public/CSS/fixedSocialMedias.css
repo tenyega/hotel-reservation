@@ -1,0 +1,64 @@
+.fixedMenuContainer{
+    width: 500px;
+    background-color: aqua;
+}
+.fixedMenu{
+    background-color: #c739409e;
+    border-radius: 10px;
+    border-top-right-radius: 0;
+    position: fixed;
+    width: 69px;
+    padding: 10px;
+    margin-right: 5px;
+    top: 90px;
+    right: 0px;
+    height: auto;
+    display: inline-block;
+    z-index: 10;
+}
+.phoneNo{
+   display: none;
+    width: 187px;
+    background: #c739409e;
+    float: right;
+    padding: 10px;
+    position: absolute;
+    top: 123px;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius:5px;
+    right: 108px;
+    color:black;
+    -webkit-transform: translate3d(40px,0,0);
+    -ms-transform: translate3d(40px,0,0);
+    transform: translate3d(40px,0,0);
+    z-index: -1;
+    -webkit-transition: transform 0.8s,background 0.3s;
+    transition: transform 0.8s,background 0.3s;
+}
+.email{
+    display: none;
+    width: fit-content;
+    background: #c739409e;
+    float: right;
+    padding: 10px;
+    position: absolute;
+    top: 174px;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    right: 108px;
+    color: black;
+    -webkit-transform: translate3d(40px,0,0);
+    -ms-transform: translate3d(40px,0,0);
+    transform: translate3d(40px,0,0);
+    z-index: -1;
+    -webkit-transition: transform 0.8s,background 0.3s;
+    transition: transform 0.8s,background 0.3s;
+}
+
+
+.phoneNoSwipe:hover > span.phoneNo,
+.emailSwipe:hover > span.email { 
+    display: block; 
+    transition:linear;
+    transition-delay: 5s;
+}

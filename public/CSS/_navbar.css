@@ -146,12 +146,44 @@ div.lungta{
         height: 35px;
   
       }
+  
 }
 
 @media(min-width:1397px){
     .lungta_img{
         width: 40px;
     height: 35px;
+    }
+    
+}
+
+@media(min-width:1485px) and (max-width: 1520px){
+    .img_block{
+        margin-left:20px
+    }
+    
+}
+
+@media(min-width:1520px) and (max-width: 1580px){
+  
+    .img_block{
+        margin-left:56px
+    }
+    
+}
+
+@media(min-width:1580px) and (max-width: 1700px){
+   
+    .img_block{
+        margin-left:56px
+    }
+    
+}
+@media(min-width:1700px) {
+   
+    
+    .img_block{
+        margin-left:111px
     }
     
 }

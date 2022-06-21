@@ -2,6 +2,9 @@
       
     <body>
        {% include "front/_navbar.html.twig" %}
+        {% include "front/_fixedSocialMedias.html.twig" %}
+        <link rel="stylesheet" href="{{ asset('CSS/fixedSocialMedias.css') }}"/>
+
         <div id="carte1" style="height: 600px;">
         </div>
         <div id="coords" style="position: absolute; z-index: 3; top: auto; left: auto;"></div>

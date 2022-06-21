@@ -9,11 +9,13 @@
 			{% endblock %}
 		</title>
 		<link rel="icon" href="Img/logo.png"/>
+<link rel="stylesheet" href="{{ asset('CSS/fixedSocialMedias.css') }}"/>
 
 		<link rel="stylesheet" href="{{ asset('CSS/myTheme.css') }}"/>
 		<link rel="stylesheet" href="{{ asset('CSS/_navbar.css') }}"/>
 		<link rel="stylesheet" href="{{ asset('CSS/search.css') }}"/>
 		{% include "./front/_navbar.html.twig" %}
+{% include "./front/_fixedSocialMedias.html.twig" %}
 
 		{# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
 		{% block stylesheets %}
