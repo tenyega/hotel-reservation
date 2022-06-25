@@ -6,17 +6,19 @@
 			{% block title %}Welcome!
 			{% endblock %}
 		</title>
-	<link rel="icon" href="{{ asset('Img/logo.png') }}"/>
+		<link
+		rel="icon" href="{{ asset('Img/logo.png') }}"/>
 
 
 		{# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
 		{% block stylesheets %}
-<link rel="stylesheet" href="{{ asset('CSS/fixedSocialMedias.css') }}"/>
+			<link rel="stylesheet" href="{{ asset('CSS/fixedSocialMedias.css') }}"/>
 			<link rel="stylesheet" href="{{ asset('CSS/myTheme.css') }}"/>
 			<link rel="stylesheet" href="{{ asset('CSS/_navbar.css') }}"/>
+			<link rel="stylesheet" href="{{ asset('CSS/_footer.css') }}"/>
 			<link rel="stylesheet" href="{{ asset('CSS/search.css') }}"/>
 			{% include "./front/_navbar.html.twig" %}
-{% include "./front/_fixedSocialMedias.html.twig" %}
+			{% include "./front/_fixedSocialMedias.html.twig" %}
 
 		{% endblock %}
 
@@ -28,4 +30,7 @@
 			{# <iframe width="100%" height="300" src="https://www.youtube.com/embed/5GNUcni7-us" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe> #}
 		{% endblock %}
 	</body>
+	<footer>
+		{% include "./front/_footer.html.twig" %}
+	</footer>
 </html>

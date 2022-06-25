@@ -1,0 +1,170 @@
+* {
+    box-sizing: border-box;
+    margin: 0px;
+  
+}
+.footer{
+    background-color: rgba(0, 0, 0, 0.751);
+    width: max-content;
+    height: 200px;
+    display: flex;
+}
+.footerLogo{
+    width: 150px;
+    height: 101px;
+    margin-top: 27px;
+    padding-top: 32px;
+    border-radius: 50%;
+    margin-left: 100px;
+
+}
+
+.contact{
+    border-left:1px solid white;
+    width: max-content;
+    color: white;
+    width: 400px;
+    margin: 10px;
+    height:200px;
+    border-right: 1px solid white;
+}
+
+.address{
+   
+    padding-top:20px;
+    text-align: center;
+    line-height: 25px;
+
+}
+
+.footerLink{
+    width: max-content;
+    display: flex;
+    flex-direction: column;
+    color: white;
+    width: 400px;
+    margin: 10px;
+    height:200px;
+    border-right: 1px solid white;
+   
+}
+.footer-nav-link{
+    color: white;
+    font-weight: 400;
+    font-size: 1.2em;
+    text-decoration: none;
+}
+.footer-nav-link:hover,
+.footer-nav-link:focus{
+    color: red;
+}
+
+.official{
+    color: white;
+    padding: 20px;
+}
+.socialMedias{
+    display: grid;
+    margin-left: 20px;
+}
+.founder{
+    width: 429px;
+}
+
+
+@media (min-width: 500px) and (max-width:700px) {
+   .contact{
+    width:100px;
+   }
+  }
+  @media (min-width: 700px) and (max-width:900px) {
+    .footerLogo{
+        margin-left:5px;
+       }
+       .contact{
+        width: 157px;
+    font-size: 10px;
+       }
+       .footerLink{
+        width:135px;
+       }
+       .founder{
+        width:200px;
+       }
+  }
+  
+  @media (min-width: 900px) and (max-width:1100px) {
+    .footerLogo{
+        margin-left:5px;
+       }
+       .contact{
+        width: 226px;
+    font-size: 10px;
+       }
+       .footerLink{
+        width:269px;
+       }
+       .founder{
+        width:200px;
+       }
+  }
+  
+  @media (min-width: 1100px) and (max-width:1180px) {
+    
+    .contact{
+        width: 229px;
+    font-size: 16px;
+       }
+       .footerLink{
+        width: 231px;
+       }
+       .founder{
+        width: 341px;
+       }
+  }
+  
+    
+  @media (min-width: 1180px) and (max-width:1397px) {
+    .contact{
+        width: 231px;
+        font-size: 16px;    
+       }
+    
+  }
+  
+  @media(min-width:1397px){
+    .contact{
+        width:288px;
+       }
+      
+  }
+  
+  @media(min-width:1485px) and (max-width: 1520px){
+    .contact{
+        width:100px;
+       }
+      
+  }
+  
+  @media(min-width:1520px) and (max-width: 1580px){
+    
+    .contact{
+        width:400px;
+       }
+      
+  }
+  
+  @media(min-width:1580px) and (max-width: 1700px){
+     
+    .contact{
+        width:100px;
+       }
+  }
+  @media(min-width:1700px) {
+     
+    .contact{
+        width:100px;
+       }
+      
+  }
+  

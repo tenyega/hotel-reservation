@@ -1,0 +1,45 @@
+<div class='footer'>
+	<div>
+
+		<a class='nav-link' href="{{ path('front_search') }}">
+			<img class='footerLogo' src="{{ asset('./Img/logo.png') }}" alt='logo'/>
+		</a>
+	</div>
+	<div class='contact'>
+		<h1 class='address'>101 rue des paradis
+			<br><br><br><br>
+			75001 Paris<br></h1>
+	</div>
+	<div class='footerLink'>
+		<a class='footer-nav-link' href="{{ path('front_search') }}">Accueil</a>
+		<a class='footer-nav-link' href="{{ path('room_display') }}">Chambre & Suite</a>
+		<a class='footer-nav-link' href="{{ path('room_barService') }}">Bar & Services</a>
+		{% if is_granted('ROLE_USER') == false %}
+
+			<a class='footer-nav-link' href="{{ path('reservation_userDetailForm')}}">Inscription</a>
+
+
+			<a class='footer-nav-link' href="{{ path('security_login')}}">Login</a>
+
+		{% endif %}
+		{% if is_granted('ROLE_USER') %}
+
+			<a class='footer-nav-link' href="{{ path('security_logout')}}">Logout</a>
+
+		{% endif %}
+	</div>
+	<div class='founder'>
+		<h5 class='official'>Site officiale by
+			<br>BASARA MIGMAR DOLMA</h5>
+		<div class='socialMedias'>
+			<a href='https://www.facebook.com/yega23' target='_blank'>
+				<img src="{{ asset('Img/facebook.png') }}" class="img_slide" width="50" height="50"/>
+			</a>
+			<a href='https://www.instagram.com/prince.of.drewangsher/' target='_blank'>
+				<img src="{{ asset('Img/instagram.png') }}" class="img_slide" width="50" height="50"/>
+			</a>
+		</div>
+
+
+	</div>
+</div>

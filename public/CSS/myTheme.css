@@ -2,6 +2,7 @@
 * {
     box-sizing: border-box;
     margin: 0px;
+  
 }
 
 :root {
@@ -100,3 +101,4 @@ label.p-FieldLabel.Label.Label--empty{
 div.p-FieldLabel Label{
     color:white;
 }
+
