@@ -46,7 +46,6 @@ class ReservationPersister
         $reservation = new Reservation;
 
         $room = $this->roomRepository->findByExampleField($roomNo);
-
         $reservation->setBookingDate(new DateTime('now'))
             ->setCheckInDate($reservationDetails['CheckInDate'])
             ->setCheckOutDate($reservationDetails['CheckOutDate'])
@@ -57,7 +56,6 @@ class ReservationPersister
         } else {
             $reservation->setNoEnfant(0);
         }
-
         if ($reservationDetails['CodePromo']) {
             $reservation->setCodePromo($reservationDetails['CodePromo']);
         }
@@ -70,13 +68,9 @@ class ReservationPersister
         $checkOut = new DateTime($reservation->getCheckOutDate()->format('Y-m-d'));
 
         $reservation->setRoomNo($roomNo);
-
         $total = $this->calculTotal($checkIn, $checkOut, $room[0]);
-
         $reservation->setTotal($total);
         $reservation->setStatus(Reservation::STATUS_PENDING);
-
-
         $this->em->persist($reservation);
         $this->em->flush();
 

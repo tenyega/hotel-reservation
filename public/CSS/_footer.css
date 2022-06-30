@@ -8,6 +8,9 @@
     width: max-content;
     height: 200px;
     display: flex;
+    position: absolute;
+    margin-top: 50px;
+
 }
 .footerLogo{
     width: 150px;
@@ -15,7 +18,8 @@
     margin-top: 27px;
     padding-top: 32px;
     border-radius: 50%;
-    margin-left: 100px;
+    margin-right: 35px;
+    margin-left: 65px;
 
 }
 
@@ -30,7 +34,7 @@
 }
 
 .address{
-   
+    font-size: 1.2em;
     padding-top:20px;
     text-align: center;
     line-height: 25px;
@@ -71,11 +75,49 @@
     width: 429px;
 }
 
+@media (max-width: 500px){
+    .footerLogo{
+        margin-left:5px;
+        width: 65px;
+        margin-right: -5px;
+    }
+    .contact{
+        width: 100px;
+    font-size: 10px;
+       }
+       .footerLink{
+        width: 123px;
+    font-size: 15px;
+       }
+       .founder{
+        width:154px;
+       }
+       .socialMedias{
+        display: inline-block;
+       }
 
+}
 @media (min-width: 500px) and (max-width:700px) {
-   .contact{
-    width:100px;
-   }
+    .footerLogo{
+        margin-left:5px;
+        width: 84px;
+        margin-right: -5px;
+    }
+    .contact{
+        width: 100px;
+    font-size: 10px;
+       }
+       .footerLink{
+        width: 123px;
+    font-size: 15px;
+       }
+       .founder{
+        width:154px;
+       }
+       .socialMedias{
+        display: inline-block;
+       }
+
   }
   @media (min-width: 700px) and (max-width:900px) {
     .footerLogo{

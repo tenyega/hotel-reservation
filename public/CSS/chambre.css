@@ -8,6 +8,9 @@
     font-family: sans-serif;
     color: #6439a9;
   }
+  body{
+     height:100%;
+  }
   
   .grid_container {
    display: flex;
@@ -40,7 +43,7 @@
   min-height: 550px;
   margin-top:500px;
   background:black;
-    position: absolute;
+    position: relative;
     margin-bottom: 2em;
     width: -webkit-fill-available;
     z-index:-1;
@@ -48,6 +51,7 @@
     background-repeat: no-repeat;
     -webkit-background-size: cover;
     background-size: cover;
+
 }
 .grid_middle::before,
 .grid_middle1::before{
