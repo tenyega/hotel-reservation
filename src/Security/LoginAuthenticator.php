@@ -57,7 +57,7 @@ class LoginAuthenticator extends AbstractGuardAuthenticator
         try {
             return $userProvider->loadUserByUsername($credentials['email']);
         } catch (UsernameNotFoundException $e) {
-            throw new AuthenticationException("Cette adresse email n'est pas connue");
+            throw new AuthenticationException("Veuillez entrer un email adresse valide");
         }
         // here the userprovider is an object which is capable of searching with the help of security.yaml providers in the entity user by its email 
     }
