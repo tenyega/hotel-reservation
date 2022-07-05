@@ -15,8 +15,15 @@
    
 }
 
+/* To hide the default location of error msg. */
+.form_row ul:first-child{
+    display: none;
+    list-style: none;
+}
+
 .form_row input{
     float: right;
+    display: flex;
 }
 .form_row textarea{
     float: right;
@@ -25,7 +32,9 @@
      margin: 0 auto;
      display: inline-block;
 }
-
+.form_input{
+    display: grid;
+}
 
 .error-msg {
     color: red;

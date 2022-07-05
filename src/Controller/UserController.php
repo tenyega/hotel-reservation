@@ -30,6 +30,7 @@ class UserController extends AbstractController
     {
 
         $user = $security->getUser();
+        $errorMsg = "";
         if (!$user) {
             $user = new User;
             $form = $this->createForm(UserType::class, $user);
@@ -63,10 +64,13 @@ class UserController extends AbstractController
 
 
                     return $this->redirectToRoute('security_login');
+                } else {
+                    $errorMsg = "Email existant";
                 }
             }
             return $this->render('front/reservation/userDetailForm.html.twig', [
-                'form' => $form->createView()
+                'form' => $form->createView(),
+                'errorMsg' => $errorMsg
             ]);
         } else {
             $diffTotal = 0;

@@ -21,10 +21,10 @@
     text-align: center;
 }
 
-.hideError {
+/* .hideError {
     display: none;
     list-style: none;
-}
+} */
 
 .search-form ul:first-child {
     display: none;
