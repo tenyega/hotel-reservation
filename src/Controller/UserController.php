@@ -9,7 +9,9 @@ use App\Entity\Comment;
 use App\Form\CommentFormType;
 use App\Stripe\StripeService;
 use App\Session\SessionService;
+use Doctrine\ORM\EntityManager;
 use App\Repository\UserRepository;
+use App\Event\UserVerificationEvent;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Reservation\ReservationPersister;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,6 +19,7 @@ use Symfony\Component\Security\Core\Security;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
@@ -26,7 +29,7 @@ class UserController extends AbstractController
      * @Route("/userDetail/{roomNo}", name="reservation_userDetailForm", defaults={"roomNo" = null})
      */
 
-    public function userDetailForm($roomNo, UserPasswordHasherInterface $encoder, Security $security, UserRepository $userRepository, Request $request, ReservationPersister $reservationPersister, EntityManagerInterface $em, SessionService $sessionService)
+    public function userDetailForm($roomNo, UserPasswordHasherInterface $encoder, EventDispatcherInterface $dispatcher, Security $security, UserRepository $userRepository, Request $request, ReservationPersister $reservationPersister, EntityManagerInterface $em, SessionService $sessionService)
     {
 
         $user = $security->getUser();
@@ -46,11 +49,13 @@ class UserController extends AbstractController
 
                     $hashedPassword = $encoder->hashPassword($user, $data->getPassword());
                     $user->setPassword($hashedPassword);
+                    $user->setIsConfirmed(false);
 
                     $em->persist($user);
                     $em->flush();
                     $userID = $user->getId();
-
+                    $userVerificationEvent = new UserVerificationEvent($user);
+                    $dispatcher->dispatch($userVerificationEvent, 'verification.success');
 
                     $diffTotal = 0;
                     if ($roomNo) {
@@ -112,5 +117,19 @@ class UserController extends AbstractController
         return $this->render('front/feedback/userFeedback.html.twig', [
             'form' => $form->createView()
         ]);
+    }
+    /**
+     * @Route("/confirmationEmail/{email}", name="front_emailConfirmation")
+     */
+
+    public function emailConfirmation($email, UserRepository $userRepository, EntityManagerInterface $em)
+    {
+        $user = $userRepository->findUserWithEmail($email);
+        if ($user) {
+            $user->setIsConfirmed(true);
+            $em->persist($user);
+            $em->flush();
+            return $this->render('front/email/emailConfirmation.html.twig');
+        }
     }
 }

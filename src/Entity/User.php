@@ -6,7 +6,9 @@ use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Stripe\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
@@ -61,6 +63,11 @@ class User implements UserInterface
      */
     private $reservations;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isConfirmed;
+
 
     public function __construct()
     {
@@ -93,7 +100,9 @@ class User implements UserInterface
      */
     public function getUsername(): string
     {
-        return (string) $this->Email;
+       
+            return (string) $this->Email;
+       
     }
     /**
      * @see UserInterface
@@ -234,6 +243,18 @@ class User implements UserInterface
                 $reservation->setUserID(null);
             }
         }
+
+        return $this;
+    }
+
+    public function isIsConfirmed(): ?bool
+    {
+        return $this->isConfirmed;
+    }
+
+    public function setIsConfirmed(bool $isConfirmed): self
+    {
+        $this->isConfirmed = $isConfirmed;
 
         return $this;
     }

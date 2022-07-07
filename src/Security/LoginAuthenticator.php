@@ -2,6 +2,7 @@
 
 namespace App\Security;
 
+use App\Repository\UserRepository;
 use App\Session\SessionService;
 use Doctrine\DBAL\Driver\Mysqli\Initializer\Secure;
 use PhpParser\Node\Expr\FuncCall;
@@ -29,11 +30,13 @@ class LoginAuthenticator extends AbstractGuardAuthenticator
 
     protected $encoder;
     protected $sessionService;
+    protected $userRepository;
 
-    public function __construct(UserPasswordEncoderInterface $encoder, SessionService $sessionService)
+    public function __construct(UserPasswordEncoderInterface $encoder, UserRepository $userRepository, SessionService $sessionService)
     {
         $this->encoder = $encoder;
         $this->sessionService = $sessionService;
+        $this->userRepository = $userRepository;
     }
     public function supports(Request $request)
     {
@@ -54,8 +57,16 @@ class LoginAuthenticator extends AbstractGuardAuthenticator
     }
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
+        /** @var User */
+        $user = $userProvider->loadUserByUsername($credentials['email']);
+        $isConfirmedUser = ($this->userRepository->find($user->getId()))->isIsConfirmed();
+
         try {
-            return $userProvider->loadUserByUsername($credentials['email']);
+            if ($isConfirmedUser) {
+                return $userProvider->loadUserByUsername($credentials['email']);
+            } else {
+                throw new AuthenticationException("Veuillez confirmer votre adresse email en cliquant sur le lien envoyer par mail");
+            }
         } catch (UsernameNotFoundException $e) {
             throw new AuthenticationException("Veuillez entrer un email adresse valide");
         }

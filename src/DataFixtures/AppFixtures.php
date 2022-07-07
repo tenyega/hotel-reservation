@@ -43,7 +43,8 @@ class AppFixtures extends Fixture
             ->setFirstName("Monsieur")
             ->setLastName('Admin')
             ->setAddress("10 rue de la formateur, paris 75015")
-            ->setPhone('123456');
+            ->setPhone('123456')
+            ->setIsConfirmed(true);
         $this->em->persist($admin);
         $this->em->flush();
 
@@ -56,7 +57,8 @@ class AppFixtures extends Fixture
                 ->setEmail("user$c@gmail.com")
                 ->setPhone($faker->phoneNumber())
                 ->setAddress($faker->address())
-                ->setPassword($hashedPassword);
+                ->setPassword($hashedPassword)
+                ->setIsConfirmed($faker->boolean(70));
             $users[] = $user;
             $this->em->persist($user);
 
