@@ -52,6 +52,7 @@ body{
     background-size: cover;
 
 }
+
 .grid_middle::before,
 .grid_middle1::before{
   content: "";
@@ -100,12 +101,12 @@ body{
 
 .grid_middle:hover,
 .grid_middle:focus{
-  z-index:  3 !important;
+  z-index:  10 !important;
   background: black;
 }
 .grid_middle1:hover,
 .grid_middle1:focus{
-  z-index:  3 !important;
+  z-index:  10 !important;
   background: black;
 }
 

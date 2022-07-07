@@ -42,7 +42,7 @@ calendar.render();
 {% block body %}
 
 	{# <button class="btn-primary" onclick="call()">
-																																																													click</button> #}
+																																																															click</button> #}
 	<div id='calendar'></div>
 	<h1 class='title'>Votre reservation est confirmé</h1>
 	<h2 class='title'>
@@ -76,9 +76,10 @@ calendar.render();
 
 				{{ reservation.getNoEnfant() }}<br>
 			{% endif %}
-			Demande Speciale  :-
-			{{ reservation.getSpecialDemande() }}<br><br>
-
+			{% if reservation.getSpecialDemande() %}
+				Demande Speciale  :-
+				{{ reservation.getSpecialDemande() }}<br><br>
+			{% endif %}
 
 			{% for r in room %}
 
@@ -93,7 +94,7 @@ calendar.render();
 			{% endfor %}
 
 			<hr style='    margin-top: -90px;'>
-			<b>Total :-
+			<b>Totale :-
 				{{ reservation.getTotal() /100 }}&euro;</b>
 			<br>
 

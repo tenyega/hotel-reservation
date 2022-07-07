@@ -10,60 +10,66 @@
 	{{ app.user.getFirstName() | upper }}
 	{% if reservations %}
 		{% for r in reservations %}
-		<div style="display:flex; justify-content: space-evenly;">
+			<div style="display:flex; justify-content: space-evenly;">
 
-			<div class='title' >
-				<hr>
-			<h3 class="title" style='padding-top:10px'>	<strong>Reservé le :-</strong>
-				{{ r.getBookingDate()| date('Y-m-d') }}<br>
-				<b>Date d'arrivée:- </b>
-				{{ r.getCheckInDate()| date('Y-m-d') }} <br>
-				<b>Date de depart:- </b>
-				{{ r.getCheckOutDate()| date('Y-m-d') }}</h3>
-				Nombre des Personnes :-
-				{{ r.getNoAdult() }}<br>
-				{% if r.getNoEnfant() %}
-				Nombre des Enfants :-
-			
-				{{ r.getNoEnfant() }}<br>
-				{% endif %}
-				Demande Speciale  :-
-				{{ r.getSpecialDemande() }}<br><br>
+				<div class='title'>
+					<hr>
+					<h3 class="title" style='padding-top:10px'>
+						<strong>Reservé le :-</strong>
+						{{ r.getBookingDate()| date('Y-m-d') }}<br>
+						<b>Date d'arrivée:-
+						</b>
+						{{ r.getCheckInDate()| date('Y-m-d') }}
+						<br>
+						<b>Date de depart:-
+						</b>
+						{{ r.getCheckOutDate()| date('Y-m-d') }}</h3>
+					Nombre des Personnes :-
+					{{ r.getNoAdult() }}<br>
+					{% if r.getNoEnfant() %}
+						Nombre des Enfants :-
+
+						{{ r.getNoEnfant() }}<br>
+					{% endif %}
+					{% if r.getSpecialDemande() %}
+						Demande Speciale  :-
+						{{ r.getSpecialDemande() }}<br><br>
+					{% endif %}
 
 
-			
-			
+					{% for room in rooms %}
 
-				{% for room in rooms %}
-					
-					{{ room.getType() }} ({{ room.getBedding() }} )<br><br></div>
-				<div class='title' >	
-					<h5 class='description'>Details de la Chambre :-<br><br>{{ room.getDescription() }}<br><br>
-					Possible options :-
-					{{ room.getFacilityPossible() }}<br><br></h5>
+						{{ room.getType() }}
+						({{ room.getBedding() }}
+						)<br><br></div>
+					<div class='title'>
+						<h5 class='description'>Details de la Chambre :-<br><br>{{ room.getDescription() }}<br><br>
+							Option possible :-
+							{{ room.getFacilityPossible() }}<br><br></h5>
 
-				{% endfor %}
+					{% endfor %}
 
-				<hr style='    margin-top: -90px;'>
-				<b>Total :-
-				{{ r.getTotal() /100 }}&euro;</b>
-				<br>
+					<hr style='    margin-top: -90px;'>
+					<b>Totale :-
+						{{ r.getTotal() /100 }}&euro;</b>
+					<br>
 
-				<hr>
-				<a href="{{ path('reservation_update', {id : r.getID()}) }}">
-					<input class='btn-reserver' type="button" value="MODIFIER">
-				</a>
-				<a href="{{ path('reservation_cancel', {id : r.getID()}) }}">
-					<input class='btn-reserver' type="button" value="ANNULER">
-				</a>
-				<a href="{{ path('front_feedback') }}">
-					<input class='btn-reserver' type="button" value="DONNER UN AVIS">
-				</a>
-				<a href="{{ path('front_map') }}">
-					<input class='btn-reserver' type="button" value="Retrouvez nous sur google map">
-				</a>
-		
-		</div></div>	
+					<hr>
+					<a href="{{ path('reservation_update', {id : r.getID()}) }}">
+						<input class='btn-reserver' type="button" value="MODIFIER">
+					</a>
+					<a href="{{ path('reservation_cancel', {id : r.getID()}) }}">
+						<input class='btn-reserver' type="button" value="ANNULER">
+					</a>
+					<a href="{{ path('front_feedback') }}">
+						<input class='btn-reserver' type="button" value="DONNER UN AVIS">
+					</a>
+					<a href="{{ path('front_map') }}">
+						<input class='btn-reserver' type="button" value="Retrouvez nous sur google map">
+					</a>
+
+				</div>
+			</div>
 		{% endfor %}
 	{% endif %}
 

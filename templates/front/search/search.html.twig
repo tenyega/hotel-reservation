@@ -1,11 +1,11 @@
 {% extends 'front/base.html.twig' %}
 
-{% block title %}SEARCH
+{% block title %}Rechercher
 {% endblock %}
 
 {% block body %}
 
-	<h1 class='title'>Welcome To My Hotel Reservation System
+	<h1 class='title'>Bienvenue dans notre System de Reservation
 	</h1>
 	<div class='main_container'>
 		<div class='search-tag'>
@@ -51,11 +51,11 @@
 				<table>
 					<thead>
 						<tr>
-							<th>Room No</th>
-							<th>Floor</th>
+							<th>Numero de la chambre</th>
+							<th>Etage</th>
 							<th>Capacité Maximal</th>
 							<th>Type</th>
-							<th>Is Smoking</th>
+							<th>Fumeuse ?</th>
 							<th>Facilité possible</th>
 						</tr>
 					</thead>
@@ -79,9 +79,9 @@
 
 								<td>
 									{% if room.getIsSmoking() %}
-										yes
+										Oui
 									{% else %}
-										No
+										Non
 									{% endif %}
 								</td>
 								<td>

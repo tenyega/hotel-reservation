@@ -10,20 +10,20 @@
 
 		<div class='room_title'>
 			<hr>
-			RoomNo :-{{ room.RoomNo }}<br>
-			Floor  :-{{ room.Floor }}<br>
-			MaxCapacity:-{{ room.MaxCapacity }}<br>
+			Numéro de la chambre  :-{{ room.RoomNo }}<br>
+			Etage  :-{{ room.Floor }}<br>
+			Capacité Maximale:-{{ room.MaxCapacity }}<br>
 			Type    :-{{ room.Type }}<br>
-			IsSmoking :-{{ room.IsSmoking ? 'Yes' : 'No' }}
+			Chambre fumeuse ? :-{{ room.IsSmoking ? 'Oui' : 'Non' }}
 			<br>
-			FacilityPossible :-{{ room.FacilityPossible }}<br>
+			Facilité possible :-{{ room.FacilityPossible }}<br>
 
 		</div>
 
 		<div class='room_title'>
-			<h5 class='room_description'>Description :-
+			<h5 class='room_description'>Déscription :-
 				{{ room.description }}<br>
-				Price :-{{ room.price }}</h5>
+				Prix :-{{ room.price }}</h5>
 		</div>
 
 		<div class='btn_room'>
