@@ -41,6 +41,15 @@ textarea{
     color: red;
 }
 
+.form_row ul:first-child{
+  display: none;
+}
+
+.feedback{
+  position: absolute;
+  top: 111%;
+  left: 40%;
+}
 .balloon1 {
     background-image: url(https://i.imgur.com/QJZPw2X.png);
     width: 180px;

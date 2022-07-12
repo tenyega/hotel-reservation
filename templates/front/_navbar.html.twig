@@ -55,7 +55,7 @@
 				{% if is_granted('ROLE_USER') %}
 					{% if (is_granted('ROLE_ADMIN') == false) %}
 						<li>
-							<a class='nav-link' href="{{ path('reservation_show') }}">Mes Reservation</a>
+							<a class='nav-link' href="{{ path('reservation_show') }}">Mes Reservations</a>
 						</li>
 					{% endif %}
 				{% endif %}
@@ -67,8 +67,8 @@
 				{% endif %}
 				{% if is_granted('ROLE_USER') == false %}
 					<li>
-											<a class='nav-link' href="{{ path('reservation_userDetailForm')}}">Inscription</a>
-										</li>
+						<a class='nav-link' href="{{ path('reservation_userDetailForm')}}">Inscription</a>
+					</li>
 
 					<li>
 						<a class='nav-link' href="{{ path('security_login')}}">Login</a>
@@ -87,5 +87,4 @@
 	</div>
 
 </nav>
-<link
-		rel="icon" href="Img/logo.png"/>
+<link rel="icon" href="Img/logo.png"/>

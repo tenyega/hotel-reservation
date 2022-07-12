@@ -42,7 +42,7 @@ body{
   min-height: 550px;
   margin-top:500px;
   background:black;
-    position: relative;
+    /* position: relative; */
     margin-bottom: 2em;
     width: -webkit-fill-available;
     z-index:-1;
@@ -101,12 +101,12 @@ body{
 
 .grid_middle:hover,
 .grid_middle:focus{
-  z-index:  10 !important;
+  z-index:  3 !important;
   background: black;
 }
 .grid_middle1:hover,
 .grid_middle1:focus{
-  z-index:  10 !important;
+  z-index:  3 !important;
   background: black;
 }
 

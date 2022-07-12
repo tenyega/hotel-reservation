@@ -65,7 +65,8 @@ class UserEmailVerificationSubscriber implements EventSubscriberInterface
             ->text("demande d'inscription  pour " . $userVerificationEvent->getOurUser()->getEmail())
             ->htmlTemplate('front/emails/verification_success.html.twig')
             ->context([
-                'url' => "http://localhost/final%20project/hotel/public/confirmationEmail/" . $userVerificationEvent->getOurUser()->getEmail()
+                'url' => "http://localhost/final%20project/hotel/public/confirmationEmail/" . $userVerificationEvent->getOurUser()->getEmail(),
+                'userEmail' => $userVerificationEvent->getOurUser()->getEmail()
             ])
 
             ->subject("Confirmation de votre email");
