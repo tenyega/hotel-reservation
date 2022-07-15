@@ -30,6 +30,15 @@
     border-top-left-radius: 40px 40px;
     border-bottom-right-radius: 40px 40px;
 }
+.updateBG{
+    background-image: url(https://images.unsplash.com/photo-1597634285596-01fd1bffe116?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1074&q=80);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.update{
+    margin-top: 220px;
+    margin-left:280px;
+}
 
 .new{
     display: flex;
@@ -37,7 +46,7 @@
     transform: translateX(0%) translateY(-31%) skew(10deg);
 }
 
-input, select#search_NoAdult,select#search_NoEnfant, textarea#search_SpecialDemande {
+input, select#search_NoAdult,select#search_NoEnfant, textarea#search_SpecialDemande, select#reservation_NoAdult, select#reservation_NoEnfant, textarea#reservation_SpecialDemande{
     width: 180px;
 }
 .btn-reserver {
