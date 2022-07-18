@@ -42,24 +42,11 @@ class SessionService
         // $cart = $request->getSession()->get('cart', []);
         $cart = $this->getSession();
 
-
-
-
         //key=>value and here its id=>value
         // 3.if exist  see the id already available in pannier  
-        //4. if yes then add the quantiy only 
-        //5.if not then add the product with quantity =1
-        // if (array_key_exists($id, $cart)) {
-        //     $cart[$id]++;
-        // } else {
-        //     $cart[$id] = 1;
-        // }
-
+        //4. if yes then add the data only 
 
         $cart[0] = $data;
-
-
-
 
         //6.save the table and update the session
         //$request->getSession()->set('cart', $cart);
@@ -89,10 +76,6 @@ class SessionService
 
         foreach ($this->getSession() as $fieldName => $value) {
 
-
-            // $detailedCart = [
-            //     'value' => $value
-            // ];
             $detailedCart = $value;
         }
         if ($detailedCart) {

@@ -94,6 +94,7 @@ class RoomRepository extends ServiceEntityRepository
     // Here i m getting the details of the room which is booked between the dates mentioned by the client
     public function getRoomsReserved($arrivalDate, $departureDate)
     {
+        // r stands for room and r1 stands for the entity reservation. 
         return $this->createQueryBuilder('r')
             ->select('r', 'r1')
             ->from('App\Entity\Reservation', 'r1')

@@ -39,16 +39,20 @@ class ReservationController extends AbstractController
         $this->roomRepository = $roomRepository;
         $this->reservationPersister = $reservationPersister;
     }
+
     /**
      * @Route("/reservation", name="reservation_show")
      */
-    public function show(ReservationRepository $reservationRepository, Request $request): Response
+    public function show(ReservationRepository $reservationRepository): Response
     {
+        // this route is to show the reservation of the logged user
         /** @var User */
         $user = $this->getUser();
         if ($user) {
+            // getting all the reservation of this logged user with status PAID and the checkin date after today's date. 
             $reservations = $reservationRepository->findByExampleField($user->getId());
-            //  dd($reservation);
+
+
             foreach ($reservations as $r) {
                 $rooms = $this->roomRepository->findByExampleField($r->getRoomNo());
             }
@@ -68,50 +72,15 @@ class ReservationController extends AbstractController
     /**
      * @Route("/reservation/confirmation/{id}", name="reservation_confirmation")
      */
-    public function confirmation($id, ReservationRepository $reservationRepository, RoomRepository $roomRepository, UserRepository $userRepository, SessionService $sessionService, EntityManagerInterface $em, EventDispatcherInterface $dispatcher)
+    public function confirmation($id, ReservationRepository $reservationRepository, RoomRepository $roomRepository, EntityManagerInterface $em, EventDispatcherInterface $dispatcher)
     {
-
-        // /**  @var Reservation */
-        // $reservationDetails = $sessionService->getSessionDetails();
-
-        // $reservation = new Reservation;
-        // $user = $userRepository->find('336');
-        // $payment = $paymentRepository->find('279');
-        // /** @var Room */
-        // $room = $this->roomRepository->findByExampleField($roomNo);
-
-        // //dd($reservationDetails['CheckInDate']);
-        // // dd($reservationDetails[0]['value']['arrivalDate']);
-        // $reservation->setBookingDate(new DateTime('now'))
-        //     ->setCheckInDate($reservationDetails['CheckInDate'])
-        //     ->setCheckOutDate($reservationDetails['CheckOutDate'])
-        //     ->setUserID($user)
-        //     ->setNoAdult($reservationDetails['NoAdult']);
-        // if ($reservationDetails['NoEnfant']) {
-        //     $reservation->setNoEnfant($reservationDetails['NoEnfant']);
-        // } else {
-        //     $reservation->setNoEnfant(0);
-        // }
-
-        // if ($reservationDetails['CodePromo']) {
-        //     $reservation->setCodePromo($reservationDetails['CodePromo']);
-        // }
-        // if ($reservationDetails['SpecialDemande']) {
-        //     $reservation->setSpecialDemande($reservationDetails['SpecialDemande']);
-        // }
-
-        // $reservation->setRoomNo($roomNo);
-
-        // $reservation->setPayment($payment);
-
-
+        // this route is called only after the payment is successful so the status of the reservation is changed to PAID here.
         $reservation = $reservationRepository->find($id);
         $roomNo = $reservation->getRoomNo();
         $reservation->setStatus(Reservation::STATUS_PAID);
         $em->persist($reservation);
         $em->flush();
         $room = $roomRepository->findByExampleField($roomNo);
-        // dd($room);
 
         $reservationEvent = new ReservationConfirmationEvent($reservation);
         $dispatcher->dispatch($reservationEvent, 'reservation.success');
@@ -134,7 +103,7 @@ class ReservationController extends AbstractController
         $oldResa = $this->getOldResa();
         $roomno = $reservation->getRoomNo();
         $room = $roomRepository->findByExampleField($roomno);
-        dump($oldResa);
+
         $form = $this->createForm(ReservationType::class, $reservation);
 
         $total = $reservation->getTotal();
@@ -143,24 +112,23 @@ class ReservationController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            //    dd($form);
+
             $reservation->setStatus(Reservation::STATUS_PENDING);
 
             $checkIn = $form->getData()->getCheckInDate();
             $checkOut = $form->getData()->getCheckOutDate();
             $myRoom = $room[0];
-            // dd($reservation);
+
             $this->newTotal = $this->reservationPersister->calculTotal($checkIn, $checkOut, $myRoom);
             $this->diffTotal = $this->newTotal - $total;
-            dump($this->diffTotal);
+
             $reservation->setTotal($this->newTotal);
 
-            // dd($this->newTotal);
+
             $resaID = $reservation->getId();
             $em->flush();
 
-            dump($total);
-            dump($this->newTotal);
+
             if ($total < $this->newTotal) {
                 return $this->render('front/reservation/modificationConfirmation.html.twig', [
                     'resaID' => $resaID,
@@ -169,11 +137,6 @@ class ReservationController extends AbstractController
                     'room' => $room,
                     'oldResa' => $oldResa
                 ]);
-                // return $this->redirectToRoute('reservation_payment', [
-                //     'resaID' => $resaID,
-                //     'reservation' => $reservation,
-                //     'diffTotal' => $this->diffTotal
-                // ]);
             } else {
                 return $this->render('front/reservation/demandeRemboursement.html.twig');
             }
@@ -184,11 +147,13 @@ class ReservationController extends AbstractController
             ]);
         }
 
-     
+
         return $this->render('front/reservation/update.html.twig', [
             'form' => $form->createView()
         ]);
     }
+
+
     /**
      * @Route("/reservation/cancel/{id}", name="reservation_cancel")
      */
@@ -205,50 +170,25 @@ class ReservationController extends AbstractController
         ]);
     }
 
-    // /**
-    //  * @Route("/reservation/cancelModif/{resaID}", name="reservation_cancelModif")
-    //  */
 
-    // public function cancelModif($resaID, ReservationRepository $reservationRepository, EntityManagerInterface $em, RoomRepository $roomRepository)
-    // {
-    //     $reservation = $reservationRepository->find($resaID);
-    //     $oldResa = $this->getOldResa();
-    //     dd($oldResa);
-    //     $em->refresh($reservation);
-    //     $room = $roomRepository->find($reservation->getRoomNo());
-    //     return $this->render('front/reservation/cancelModif.html.twig', [
-    //         'oldResa' => $reservation,
-    //         'room' => $room
-    //     ]);
-    // }
 
     /**
      * @Route("/payment/{resaID}/{diffTotal}", name="reservation_payment", priority=1, methods={"GET"})
      */
 
 
-    public function payment($resaID, $diffTotal, ReservationRepository $reservationRepository, StripeService $stripeService, EntityManagerInterface $em, SessionService $sessionService, UserRepository $userRepository)
+    public function payment($resaID, $diffTotal, ReservationRepository $reservationRepository, StripeService $stripeService)
     {
 
-        // dump($diffTotal);
-        // dd($sessionService->getSessionDetails());
 
         $reservation = $reservationRepository->find($resaID);
-        $resaTotal = $reservation->getTotal();
-        dump($resaTotal);
-        dump($this->newTotal);
+
         $total = $reservation->getTotal();
         if ($diffTotal) {
-            $paymentIntent = $stripeService->getPaymentIntent($diffTotal, $reservation);
-            dump($this->newTotal);
+            $paymentIntent = $stripeService->getPaymentIntent($diffTotal);
         } else {
-            $paymentIntent = $stripeService->getPaymentIntent($total, $reservation);
-            dump($total);
+            $paymentIntent = $stripeService->getPaymentIntent($total);
         }
-
-
-
-        // $paymentIntent = $stripeService->getPaymentIntent($reservation->getTotal(), $reservation);
 
         return $this->render('front/payment/payment.html.twig', [
             'reservation' => $reservation,

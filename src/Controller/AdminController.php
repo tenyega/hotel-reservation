@@ -32,9 +32,10 @@ class AdminController extends AbstractController
      * @Route("/admin/chart/{roomNo}", name="admin_chart_index")
      * @IsGranted("ROLE_ADMIN", message="Vous devez etre administrateur du site pour pouvoir acceder !!!")
      */
-    public function index($roomNo, ChartBuilderInterface $chartBuilder, ReservationRepository $reservationRepository)
+    // this route is for the display of the charts for the room occupency rate per room 
+    public function index($roomNo, ReservationRepository $reservationRepository)
     {
-
+        // this method  is to find the reservations of a particular room which are of the status PAID.
         $reservations = $reservationRepository->findAllByRoomNo($roomNo);
 
         function daysCalcul($checkIn, $checkOut)
@@ -42,14 +43,15 @@ class AdminController extends AbstractController
             if ($checkIn == $checkOut) {
                 return 1;
             } else {
-                return (date_diff($checkIn, $checkOut)->d + 1); // here 1 is to take into account both the checkin and check out date
+                return (date_diff($checkIn, $checkOut)->d + 1); // here 1 is to take into account both the checkin and check out date, taking into account the days of the date by using ->d
             }
         }
         $dataPoints = [];
+
         $janDiff = $febDiff = $marDiff = $aprilDiff = $mayDiff = $juneDiff = $julyDiff = $augDiff = $septDiff = $octDiff = $novDiff = $decDiff = 0;
 
         foreach ($reservations as $key => $reservation) {
-            $resaMonth = date("m", strtotime($reservation->getCheckInDate()->format('Y-m-d'))); // to get the month in integer
+            $resaMonth = date("m", strtotime($reservation->getCheckInDate()->format('Y-m-d'))); // to get the reservation month in integer
             $checkIn = $reservation->getCheckInDate();
             $checkOut = $reservation->getCheckOutDate();
 
@@ -104,6 +106,7 @@ class AdminController extends AbstractController
                     break;
             }
         }
+        // adding the arrays to an array.  so our dataPoints will be an array of an array. 2D array
         $dataPoints[] = array('label' => 'Janvier', 'y' => $janDiff);
         $dataPoints[] = array('label' => 'fevrier', 'y' => $febDiff);
         $dataPoints[] = array('label' => 'Mars', 'y' => $marDiff);
@@ -120,9 +123,11 @@ class AdminController extends AbstractController
 
         return $this->render('back/chart/index.html.twig', [
             'roomNo' => $roomNo,
-            'data' => json_encode($dataPoints)
+            'data' => json_encode($dataPoints) // encoding it to an object
         ]);
     }
+
+
     /**
      * @Route("/admin/calender/{roomNo}", name="admin_calender")
      * @IsGranted("ROLE_ADMIN", message="Vous devez etre administrateur du site pour pouvoir acceder !!!")
@@ -130,9 +135,12 @@ class AdminController extends AbstractController
     public function fullCalender($roomNo, ReservationRepository $reservationRepository, UserRepository $userRepository)
     {
         $events = [];
+        // brings all the reservation with this room no. 
         $reservations = $reservationRepository->findByRoomNo($roomNo);
         foreach ($reservations as $r) {
+            // coz i need the Last name of the person who has done the reservation
             $user = $userRepository->find($r->getUserID());
+            // P1D is done to add one day so that i can add the checkout Date also (inclusive CheckoutDate)
             $interval = new DateInterval('P1D');
 
             if ($r->getCheckInDate()->format('Y-m-d') == $r->getCheckOutDate()->format('Y-m-d')) {
@@ -141,7 +149,7 @@ class AdminController extends AbstractController
                 $events[] = array('title' => $user->getLastName(), 'start' => ($r->getCheckInDate())->format('Y-m-d'), 'end' => ($r->getCheckOutDate()->add($interval))->format('Y-m-d'));
             }
         }
-        dump(json_encode($events));
+
 
         // events: [
         //     {
@@ -164,6 +172,7 @@ class AdminController extends AbstractController
      */
     public function showAll(RoomRepository $roomRepository): Response
     {
+        // this route is to show all the rooms available
         return $this->render('back/room/index.html.twig', [
             'rooms' => $roomRepository->findAll(),
         ]);
@@ -181,6 +190,7 @@ class AdminController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
 
+            // here the room no entered by the admin is checked to verify if its a unique room no 
             $roomNoExist = $roomRepository->checkRoomNo($data->getRoomNo());
 
             if (!$roomNoExist) {
@@ -211,6 +221,7 @@ class AdminController extends AbstractController
      */
     public function show(Room $room): Response
     {
+        // this route is to show the details of one particular room no. 
         return $this->render('back/room/show.html.twig', [
             'room' => $room,
         ]);

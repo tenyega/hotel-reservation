@@ -26,10 +26,12 @@
            
            
             const centerview=[48.8584,2.2945];
-            const mymap = L.map('carte1').setView([centerview[0], centerview[1]], 6);
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            }).addTo(mymap);
+            const mymap = L.map('carte1').setView([centerview[0], centerview[1]], 10);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', 
+            // {
+            // attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            // }
+            ).addTo(mymap);
             const layerGroup = L.layerGroup().addTo(mymap);
            
            window.onload=function(e){
@@ -41,8 +43,8 @@
                     layerGroup.clearLayers();
                     r.features.forEach(element => {
                         const coords=element.geometry.coordinates;
-                        console.log(element.geometry.coordinates);
                         L.marker([coords[1],coords[0]]).addTo(layerGroup);
+                         L.marker([48.8584,2.2945]).addTo(layerGroup);
                     });
                 })
             }

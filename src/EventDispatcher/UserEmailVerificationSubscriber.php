@@ -41,24 +41,6 @@ class UserEmailVerificationSubscriber implements EventSubscriberInterface
     public function sendVerifiedEmail(UserVerificationEvent $userVerificationEvent)
     {
 
-        // $email = new TemplatedEmail();
-        // $email->from(new Address("contact@gmail.com", "Admin de site Doenkhang"))
-        //     ->to("tenyega23@yahoo.com")
-        //     ->text("demande d'inscription  pour " . $userVerificationEvent->getOurUser()->getEmail())
-        //     ->html("<h1>Merci de clicquer sur le lien dessous pour confirmer votre email adresse </h1>
-
-        //     <a href='{{ path('front_emailConfirmation',{'email': $userVerificationEvent->getOurUser()->getEmail() } }}'></a>
-        //                         ")
-        //     ->context([
-        //         'user' => $userVerificationEvent->getOurUser()->getEmail()
-        //     ])
-
-        //     ->subject("Confirmation votre email");
-
-        // // 4. send a mail mailer Interface 
-        // $this->mailer->send($email);
-
-
         $email = new TemplatedEmail();
         $email->from(new Address("contact@mail.com", "Admin de site Doenkhang"))
             ->to($userVerificationEvent->getOurUser()->getEmail())
@@ -71,7 +53,7 @@ class UserEmailVerificationSubscriber implements EventSubscriberInterface
 
             ->subject("Confirmation de votre email");
 
-        // 4. send a mail mailer Interface 
+       
         $this->mailer->send($email);
     }
 }

@@ -20,6 +20,7 @@ class RoomController extends AbstractController
 
     public function displayRooomsPicture()
     {
+        // this route is to display the room accueil page with two blocks. 
         return $this->render('front/room/displayRoomsPicture.html.twig');
     }
 
@@ -28,7 +29,7 @@ class RoomController extends AbstractController
      */
     public function room(RoomRepository $roomRepository)
     {
-
+        // this is to display the particular room details with its size and bedding
         return $this->render('front/room/room.html.twig', []);
     }
     /**
@@ -36,16 +37,16 @@ class RoomController extends AbstractController
      */
     public function barService(RoomRepository $roomRepository)
     {
-
+        // this is to display the bar & service accueil
         return $this->render('front/room/barService.html.twig', []);
     }
 
-      /**
+    /**
      * @Route("/room/suites", name="room_suites")
      */
     public function suites(RoomRepository $roomRepository)
     {
-
+        // this is to display the bar & service page with details 
         return $this->render('front/room/suites.html.twig', []);
     }
 }

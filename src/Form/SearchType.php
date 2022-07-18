@@ -24,7 +24,7 @@ use Symfony\Component\Validator\Constraints\GreaterThanOrEqual;
 
 class SearchType extends AbstractType
 {
-    protected $formfactory;
+    protected $formfactory; // i didnt use the formfactory
 
     public function __construct(FormFactoryInterface $formfactory)
     {
@@ -107,92 +107,6 @@ class SearchType extends AbstractType
                 ],
                 'required' => false
             ]);
-        //---------------------------------------------------- NEED to check this in case of modification
-
-        // });
-
-        // $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
-
-        //     $form = $event->getForm();
-
-
-        //     $reservation = $event->getData();
-        //     $checkin = $reservation->getCheckInDate();
-
-        //     if ($reservation->getId() != null) {
-        //         $form->add('arrivalDate', DateType::class, [
-        //             'widget' => 'single_text',
-        //             'label' => false,
-        //             'placeholder' => "Date d'arrivée",
-        //             'required' => false,
-        //             'constraints' => [
-        //                 new NotBlank(['message' => "Date d'arrivée ne peut pas etre vide"]),
-        //                 new GreaterThanOrEqual([
-        //                     'value' => (new DateTime('today'))->format('Y-m-d'),
-        //                     'message' => "Date d'arrive ne doit pas etre avant la date aujoudhui"
-        //                 ]),
-        //             ],
-        //             'data' => $checkin
-
-        //         ])
-        //             ->add("departureDate", DateType::class, [
-        //                 'widget' => 'single_text',
-        //                 'label' => false,
-        //                 'required' => false,
-        //                 'constraints' => [
-        //                     new NotBlank(['message' => "Date de depart ne peut pas etre vide"]),
-        //                     new GreaterThanOrEqual([
-        //                         'propertyPath' => 'parent.all[arrivalDate].data',
-        //                         'message' => "Date de depart doit etre apres date d'arrivée"
-        //                     ]),
-        //                 ],
-        //                 'data' => $reservation->getCheckOutDate()
-        //             ]);
-        //     } else {
-        //         $form->add('arrivalDate', DateType::class, [
-        //             'widget' => 'single_text',
-        //             'label' => false,
-        //             'placeholder' => "Date d'arrivée",
-        //             'required' => false,
-        //             'constraints' => [
-        //                 new NotBlank(['message' => "Date d'arrivée ne peut pas etre vide"]),
-        //                 new GreaterThanOrEqual([
-        //                     'value' => (new DateTime('today'))->format('Y-m-d'),
-        //                     'message' => "Date d'arrive ne doit pas etre avant la date aujoudhui"
-        //                 ]),
-        //             ],
-
-
-        //         ])
-        //             ->add("departureDate", DateType::class, [
-        //                 'widget' => 'single_text',
-        //                 'label' => false,
-        //                 'required' => false,
-        //                 'constraints' => [
-        //                     new NotBlank(['message' => "Date de depart ne peut pas etre vide"]),
-        //                     new GreaterThanOrEqual([
-        //                         'propertyPath' => 'parent.all[arrivalDate].data',
-        //                         'message' => "Date de depart doit etre apres date d'arrivée"
-        //                     ]),
-        //                 ]
-        //             ]);
-        //     }
-
-
-
-        //     // if ($reservation->getId() === null) {
-        //     //     $form->add('category', EntityType::class, [
-        //     //         'label' => 'Category de produit',
-        //     //         'placeholder' => '--Choisir une category--',
-        //     //         'class' => Category::class,
-        //     //         'choice_label' => function (Category $category) {
-        //     //             return strtoupper($category->getName());
-        //     //         }
-        //     //     ]);
-        //     // }
-
-
-        // });
     }
 
     public function configureOptions(OptionsResolver $resolver): void

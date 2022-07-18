@@ -81,18 +81,18 @@ class ReservationRepository extends ServiceEntityRepository
 
 
 
-    public function findReservation($arrivalDate, $departureDate)
-    {
-        // dd('inside reservationReposit');
-        return $this->createQueryBuilder('r')
-            ->andWhere(':val NOT BETWEEN r.CheckInDate  AND r.CheckOutDate')
-            ->andWhere(':val2 NOT BETWEEN r.CheckInDate  AND r.CheckOutDate')
-            ->setParameter('val', $arrivalDate)
-            ->setParameter('val2', $departureDate)
-            ->setMaxResults(3)
-            ->getQuery()
-            ->getResult();
-    }
+    // public function findReservation($arrivalDate, $departureDate)
+    // {
+    //     //not using this method
+    //     return $this->createQueryBuilder('r')
+    //         ->andWhere(':val NOT BETWEEN r.CheckInDate  AND r.CheckOutDate')
+    //         ->andWhere(':val2 NOT BETWEEN r.CheckInDate  AND r.CheckOutDate')
+    //         ->setParameter('val', $arrivalDate)
+    //         ->setParameter('val2', $departureDate)
+    //         ->setMaxResults(3)
+    //         ->getQuery()
+    //         ->getResult();
+    // }
 
     public function findAllByRoomNo($roomNo)
     {

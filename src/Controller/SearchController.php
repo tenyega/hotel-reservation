@@ -18,7 +18,7 @@ class SearchController extends AbstractController
      * @Route("/", name="front_search", methods={"GET","POST"})
      */
 
-    public function search(Request $request, RoomRepository $roomRepository, ReservationRepository $reservationRepository, SessionService $sessionService): Response
+    public function search(Request $request, RoomRepository $roomRepository, SessionService $sessionService): Response
     {
         $sessionService->empty();
         $form = $this->createForm(SearchType::class);
@@ -29,7 +29,6 @@ class SearchController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
-            //dd($data);
 
             // adding form data to the session so that i can give it to the search criteria
             $sessionService->add($data);
@@ -46,12 +45,11 @@ class SearchController extends AbstractController
 
                 // so finally the rooms which are available are filtered here. 
                 $roomSuggestion = $roomRepository->findRoomSuggestions($roomsAlreadyReserved);
-                dump($roomSuggestion);
             } else {
                 $roomSuggestion = $roomRepository->findAll();
             }
 
-            // dd(json_encode($form->getData()));
+
             return $this->render('front/search/roomsAvailable.html.twig', [
                 'form' => $form->createView(),
                 'rooms' => $roomSuggestion

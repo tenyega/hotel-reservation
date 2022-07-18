@@ -42,7 +42,7 @@ class UserController extends AbstractController
 
             if ($form->isSubmitted() && $form->isValid()) {
                 $data = $form->getData();
-                // dd($data->getUserIdentifier());
+
                 $userExist = $userRepository->checkUser($data->getUserIdentifier());
                 if (!$userExist) {
                     $user->setRoles(['ROLE_USER']);
@@ -63,7 +63,7 @@ class UserController extends AbstractController
                         $resaID = $reservation->getId();
 
                         $sessionService->add(array($reservation));
-                        // dd($sessionService->getSessionDetails());
+
                         return $this->redirectToRoute('security_login');
                     }
 
@@ -124,6 +124,9 @@ class UserController extends AbstractController
 
     public function emailConfirmation($email, UserRepository $userRepository, EntityManagerInterface $em)
     {
+
+        // this route is called from the email received by the user in their email via link 
+        // this route just changes the isConfirmed to true ones the user clicks on the link provided in the email.
         $user = $userRepository->findUserWithEmail($email);
         if ($user) {
             $user->setIsConfirmed(true);

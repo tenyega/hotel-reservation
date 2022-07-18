@@ -50,11 +50,9 @@ class ReservationConfirmationSubscriber implements EventSubscriberInterface
         // }
         // $userEmail = $currentUser->getEmail();
 
-        // //2. get the commande  PurchaseSuccessEvent has the purchase
-        // $reservation = $reservationConfirmationEvent->getReservation();
+        // //2. get the reservation
         // //3. write a mail nouveau templateEmail
-        // $email = new TemplatedEmail();
-        // // $email->to(new Address($userEmail, $currentUser->getFullName()))
+      
         $email = new TemplatedEmail();
         $email->from(new Address("contact@mail.com", "information du mail"))
             ->to("tenyega23@yahoo.com")
@@ -71,7 +69,7 @@ class ReservationConfirmationSubscriber implements EventSubscriberInterface
         // 4. send a mail mailer Interface 
         $this->mailer->send($email);
 
-        //  dd($email);
+       
         $this->logger->notice('Email envoyé pour la commande no ' . $reservationConfirmationEvent->getReservation()->getId());
     }
 }

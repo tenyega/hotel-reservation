@@ -41,11 +41,11 @@ class InvoiceGenerator
         // Instantiate Dompdf with our options
         $dompdf = new Dompdf($pdfOptions);
 
-        // Retrieve the HTML generated in our twig file
 
         $reservation = $this->reservationRepository->find($resaID);
         $room = $this->roomRepository->findByExampleField($reservation->getRoomNo());
 
+        // Retrieve the HTML generated in our twig file
         $html = $this->twig->render('front/invoice/index.html.twig', [
             'title' => "INVOICE",
             'reservation' => $reservation,
@@ -67,6 +67,7 @@ class InvoiceGenerator
         // In this case, we want to write the file in the public directory
         $publicDirectory = getcwd();
         // e.g /var/www/project/public/mypdf.pdf
+        
         $pdfFilepath =  $publicDirectory . '/Invoice.pdf';
 
         // Write file to the desired path
