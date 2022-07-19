@@ -75,6 +75,8 @@ class ReservationRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('r')
             ->andWhere('r.RoomNo = :val')
             ->setParameter('val', $roomNo)
+            ->andWhere('r.status= :val2')
+            ->setParameter('val2', Reservation::STATUS_PAID)
             ->getQuery()
             ->getResult();
     }
